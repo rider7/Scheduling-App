@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.ViewController.CustomersController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.CustomersController">
+   <children>
+      <VBox layoutX="24.0" layoutY="28.0" prefHeight="339.0" prefWidth="550.0">
+         <children>
+            <HBox prefHeight="183.0" prefWidth="550.0">
+               <children>
+                  <TableView prefHeight="183.0" prefWidth="596.0">
+                    <columns>
+                      <TableColumn id="info" prefWidth="75.0" text="Info" />
+                        <TableColumn prefWidth="75.0" text="Column X">
+                           <graphic>
+                              <TextField id="edit_info" />
+                           </graphic></TableColumn>
+                    </columns>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ComboBox id="country_combo" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
+                  <ComboBox id="division_combo" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label layoutX="24.0" layoutY="6.0" text="Customer" />
+   </children>
 </AnchorPane>

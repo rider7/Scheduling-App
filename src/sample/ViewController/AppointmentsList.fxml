@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.AppointmentsList">
+   <children>
+      <VBox layoutX="-2.0" layoutY="100.0" prefHeight="200.0" prefWidth="600.0">
+         <children>
+            <TableView id="table_list" prefHeight="200.0" prefWidth="544.0">
+              <columns>
+                <TableColumn id="appointment_id" prefWidth="50.0" text="Appt_ID" />
+                <TableColumn id="title" prefWidth="57.0" text="Title" />
+                  <TableColumn id="description" prefWidth="71.0" text="Desc" />
+                  <TableColumn id="location" prefWidth="59.0" text="Location" />
+                  <TableColumn id="contact" prefWidth="54.0" text="Contact" />
+                  <TableColumn id="type" prefWidth="45.0" text="Type" />
+                  <TableColumn id="start" prefWidth="51.0" text="Start" />
+                  <TableColumn id="end" prefWidth="45.0" text="End" />
+                  <TableColumn id="customer_id" prefWidth="75.0" text="Customer ID" />
+              </columns>
+            </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <RadioButton id="appt_filter" mnemonicParsing="false" text="Month/Week" />
+                  <Button id="edit_button" mnemonicParsing="false" text="Edit" />
+                  <Button id="new_button" mnemonicParsing="false" text="New" />
+                  <Button id="delete_button" mnemonicParsing="false" text="Delete" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets right="10.0" top="10.0" />
+   </padding>
+</AnchorPane>
