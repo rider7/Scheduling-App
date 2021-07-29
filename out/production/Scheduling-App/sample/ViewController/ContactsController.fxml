@@ -39,7 +39,7 @@
                      <ComboBox id="division_combo" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
                  </children>
              </HBox>
-             <Button id="edit_button" mnemonicParsing="false" text="Edit" />
+             <Button id="edit_button" mnemonicParsing="false" text="Save" />
           </children>
       </VBox>
    </children>

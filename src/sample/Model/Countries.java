@@ -2,14 +2,14 @@ package sample.Model;
 
 import java.util.Date;
 
-public class Divisions {
+public class Countries {
     //Attributes
-    int Division_ID; //PK
-    int Country_ID; //FK
-    String Division;
+    int Country_ID; //PK
+    String Country;
     Date Create_Date;
     Date Created_By;
     Date Last_Update;
-    Date Last_Updated_By;
+    Date Last_Update_By;
+
 
 }
