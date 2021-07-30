@@ -19,11 +19,12 @@ public class Customers {
     String Last_Update;
     String Last_Updated_By;
 
-    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
+    //Moved this ObservableList to the CustomersList controller
+    /*public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
             new Customers(4,35, "Steve Jobs", "fake street",
                     "23453", "234323432", "2021-07-22 03:26:56", "2021-07-22 03:26:09",
                     "2021-07-22 03:26:10", "gary")
-    );
+    );*/
 
     public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, String create_Date, String created_By, String last_Update, String last_Updated_By) {
         Customer_ID = customer_ID;
@@ -117,8 +118,8 @@ public class Customers {
     public void setLast_Updated_By(String last_Updated_By) {
         Last_Updated_By = last_Updated_By;
     }
-
-    public static ObservableList<Customers> getAllCustomers(){
+// Moved the below method to the CustomersList controller
+/*   public static ObservableList<Customers> getAllCustomers(){
         return myCustomers;
-    }
+    } */
 }

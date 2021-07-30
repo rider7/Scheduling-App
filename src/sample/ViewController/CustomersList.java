@@ -8,15 +8,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import sample.Model.Customers;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sample.Utilities.DBConnection;
+import sample.Utilities.Query;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class CustomersList implements Initializable {
@@ -48,16 +53,13 @@ public class CustomersList implements Initializable {
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
 
-
-//    private ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
-//            new Customers(4,35, "Steve Jobs", "fake street",
-//                    "23453", "234323432", "2021-07-22 03:26:56", "2021-07-22 03:26:09",
-//                    "2021-07-22 03:26:10", "gary")
-//    );
+    public CustomersList() throws SQLException {
+        //customerListSet();
+    }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-        System.out.println("initialize method");
+    public void initialize (URL url, ResourceBundle resourceBundle){
+
         //Sets the column for customers
         customerID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("Customer_ID"));
         divisionID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("Division_ID"));
@@ -70,17 +72,46 @@ public class CustomersList implements Initializable {
         lastUpdate.setCellValueFactory(new PropertyValueFactory<Customers, String>("Last_Update"));
         lastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Customers, String>("Last_Updated_By"));
 
-        //Sets the tableview myCustomerList with the items from myCustomers ObservableList
-        myCustomerList.setItems(Customers.getAllCustomers());
-        //customerID.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        //Sets the items on the myCustomerList table from the Observable list for customers via the getAllCustomers() method call
+            myCustomerList.setItems(getAllCustomers());
 
 
-//        myCustomers.add(new Customers(4,35, "Steve Jobs", "fake street",
-//                "23453", "234323432", "2021-07-22 03:26:56", "2021-07-22 03:26:09",
-//                "2021-07-22 03:26:10", "gary"));
-//
-//        myCustomerList.setItems(myCustomers);
     }
+
+    public static ResultSet myConnection() throws SQLException {
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Pass conn object to statement
+        Query.setStatement(conn); //Create statement object
+        Statement statement = Query.getStatement(); //Get Statement reference
+
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM customers"; //SQL statement
+        statement.execute(selectStatement); //Execute statement (returns true)
+        ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+        System.out.println("Got customer table!");
+        System.out.println(statement.execute(selectStatement));
+        return myResultSet;
+    }
+
+
+    //Forward scroll ResultSet
+//        while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
+//        System.out.println(user.getText());
+//        System.out.println(password.getText());
+//    }
+
+
+    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
+            new Customers(4,35, "Steve Jobs", "fake street",
+                    "23453", "234323432", "2021-07-22 03:26:56", "2021-07-22 03:26:09",
+                    "2021-07-22 03:26:10", "gary")
+    );
+    public static ObservableList<Customers> getAllCustomers(){
+
+        return myCustomers;
+    }
+
     public void backToMainController(ActionEvent event) throws IOException {
         stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
@@ -89,13 +120,4 @@ public class CustomersList implements Initializable {
     }
 }
 
-//    //ListView reference
-//    @FXML
-//    private ListView<String> myListView;
-//
-//
-//    //Create observable List
-//    @FXML
-//    ObservableList<String> customerList = FXCollections.observableArrayList("Apples","Bananas","carrots");
-//
-//    myListView.setAll();
+
