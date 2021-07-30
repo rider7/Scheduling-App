@@ -31,6 +31,8 @@ public class UsersController implements Initializable {
     Stage stage;
     Parent scene;
 
+    boolean userMatched = false;
+
     @FXML
     private TextField user;
 
@@ -38,18 +40,26 @@ public class UsersController implements Initializable {
     private TextField password;
 
     @FXML
-    public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException {
+    public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
-        boolean userMatched = false;
+
         //Forward scroll ResultSet
         while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
-                System.out.println("USER MATCH YEEEEEEEE!");
                 userMatched = true;
+                System.out.println("USER MATCH YEEEEEEEE!");
+
+
             }
         }
         if (!userMatched){
             System.out.println("Sorry username or password is incorrect. Are you sure you created an account?");
+        }
+        if(userMatched) { //If the user/password is matched in the db then user can navigate the application
+            stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("CustomersList.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
         }
 
         System.out.println(user.getText());
@@ -81,9 +91,10 @@ public class UsersController implements Initializable {
     }
 
     public void backToMainController(ActionEvent event) throws IOException {
-        stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+            stage = (Stage) ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
     }
+
 }
