@@ -77,7 +77,6 @@ public class UsersController implements Initializable {
     public ResultSet myConnection() throws SQLException {
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
-        //Move all the sql as an event handler into the fxml controller
         //Pass conn object to statement
         Query.setStatement(conn); //Create statement object
         Statement statement = Query.getStatement(); //Get Statement reference

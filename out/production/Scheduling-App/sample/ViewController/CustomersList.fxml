@@ -8,10 +8,18 @@
    <children>
       <VBox layoutX="75.0" layoutY="100.0" prefHeight="200.0" prefWidth="448.0">
          <children>
-            <TableView id="customer_list" prefHeight="200.0" prefWidth="283.0">
+            <TableView id="customer_list" fx:id="myCustomerList" prefHeight="200.0" prefWidth="283.0">
               <columns>
-                <TableColumn id="customer_name" prefWidth="124.0" text="Customer Name" />
-                <TableColumn id="appointment_title" prefWidth="126.0" text="Appointment Title" />
+                <TableColumn id="customer_id" fx:id="customerID" prefWidth="124.0" text="Customer ID" />
+                  <TableColumn id="division_id" fx:id="divisionID" prefWidth="124.0" text="Division ID" />
+                  <TableColumn id="customer_name" fx:id="customerName" prefWidth="124.0" text="customer_name" />
+                  <TableColumn id="address" fx:id="address" prefWidth="124.0" text="address" />
+                  <TableColumn id="postal_code" fx:id="postalCode" prefWidth="124.0" text="postal_code" />
+                  <TableColumn id="phone" fx:id="phone" prefWidth="124.0" text="phone" />
+                  <TableColumn id="create_date" fx:id="createDate" prefWidth="124.0" text="create_date" />
+                  <TableColumn id="created_by" fx:id="createdBy" prefWidth="124.0" text="created_by" />
+                  <TableColumn id="last_update" fx:id="lastUpdate" prefWidth="124.0" text="last_update" />
+                  <TableColumn id="last_updated_by" fx:id="lastUpdatedBy" prefWidth="124.0" text="last_updated_by" />
               </columns>
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
