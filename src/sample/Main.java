@@ -18,7 +18,7 @@ public class Main extends Application {
     //Starting or primary fxml view when the application first runs
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ViewController/UsersController.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("ViewController/MainController.fxml"));
         primaryStage.setTitle("It Works");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
@@ -40,23 +40,23 @@ public class Main extends Application {
         ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
 
         //Forward scroll ResultSet
-        while(myResultSet.next()){ //next() method returns true so while it equals true the loop will be active, looping through all records
-            int countryID = myResultSet.getInt("Country_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
-            String countryName = myResultSet.getString("Country");
-            LocalDate createDate = myResultSet.getDate("Create_Date").toLocalDate(); //Need toLocalDate() method to convert Date to LocalDate
-            LocalTime createTime = myResultSet.getTime("Create_Date").toLocalTime(); //Need toLocalTime to convert to Local Time
-            String createdBy = myResultSet.getString("Created_By");
-            LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
-            //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
-            String updatedBy = myResultSet.getString("Last_Updated_By");
-
-            System.out.println("Country ID: " + countryID);
-            System.out.println("Country Name: " + countryName);
-            System.out.println("createDate: " + createDate + createTime);
-            System.out.println("createdBy: " + createdBy);
-            System.out.println("updateDate: " + updateDate);
-
-        }
+//        while(myResultSet.next()){ //next() method returns true so while it equals true the loop will be active, looping through all records
+//            int countryID = myResultSet.getInt("Country_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+//            String countryName = myResultSet.getString("Country");
+//            LocalDate createDate = myResultSet.getDate("Create_Date").toLocalDate(); //Need toLocalDate() method to convert Date to LocalDate
+//            LocalTime createTime = myResultSet.getTime("Create_Date").toLocalTime(); //Need toLocalTime to convert to Local Time
+//            String createdBy = myResultSet.getString("Created_By");
+//            LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+//            //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+//            String updatedBy = myResultSet.getString("Last_Updated_By");
+//
+//            System.out.println("Country ID: " + countryID);
+//            System.out.println("Country Name: " + countryName);
+//            System.out.println("createDate: " + createDate + createTime);
+//            System.out.println("createdBy: " + createdBy);
+//            System.out.println("updateDate: " + updateDate);
+//
+//        }
 
         launch(args);
         DBConnection.closeConnection();
