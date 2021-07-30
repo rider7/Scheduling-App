@@ -27,6 +27,7 @@ public class DBConnection {
 
     private static final String password = "53688675267"; //Password
 
+    //Method to start the connection
     public static Connection startConnection(){
         System.out.println("Trying to connect!");
         try {
@@ -37,5 +38,16 @@ public class DBConnection {
             System.out.println(e.getMessage());
         }
         return conn;
+    }
+
+    //Method to close the connection
+    public static void closeConnection(){
+        try{
+        conn.close();
+        System.out.println("Connection closed!");
+
+        } catch(SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

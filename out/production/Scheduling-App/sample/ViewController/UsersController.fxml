@@ -3,13 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.UsersController">
    <children>
       <VBox layoutX="250.0" layoutY="83.0" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <TextField id="user" text="Enter User" />
-            <TextField id="password" text="Enter Password" />
+            <TextField id="user" fx:id="user" promptText="Enter User" />
+            <TextField id="password" fx:id="password" promptText="Enter Password" />
          </children>
       </VBox>
       <Label layoutX="181.0" layoutY="83.0" text="User:" />
