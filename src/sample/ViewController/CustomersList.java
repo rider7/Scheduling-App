@@ -96,11 +96,17 @@ public class CustomersList implements Initializable {
 
 
     //Forward scroll ResultSet
-//        while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
-//        System.out.println(user.getText());
-//        System.out.println(password.getText());
-//    }
-
+//        while(myResultSet.next()){ //next() method returns true so while it equals true the loop will be active, looping through all records
+//            int countryID = myResultSet.getInt("Country_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+//            String countryName = myResultSet.getString("Country");
+//            LocalDate createDate = myResultSet.getDate("Create_Date").toLocalDate(); //Need toLocalDate() method to convert Date to LocalDate
+//            LocalTime createTime = myResultSet.getTime("Create_Date").toLocalTime(); //Need toLocalTime to convert to Local Time
+//            String createdBy = myResultSet.getString("Created_By");
+//            LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+//            //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+//            String updatedBy = myResultSet.getString("Last_Updated_By");
+//
+//            System.out.println("Country ID: " + countryID);
 
     public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
             new Customers(4,35, "Steve Jobs", "fake street",
