@@ -3,7 +3,9 @@ package sample.Model;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.ViewController.CustomersList;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Customers {
@@ -14,19 +16,19 @@ public class Customers {
     String Address;
     String Postal_Code;
     String Phone;
-    String Create_Date;
+    LocalDateTime Create_Date;
     String Created_By;
-    String Last_Update;
+    LocalDateTime Last_Update;
     String Last_Updated_By;
 
     //Moved this ObservableList to the CustomersList controller
-    /*public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
+    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
             new Customers(4,35, "Steve Jobs", "fake street",
-                    "23453", "234323432", "2021-07-22 03:26:56", "2021-07-22 03:26:09",
-                    "2021-07-22 03:26:10", "gary")
-    );*/
+                    "23453", "234323432", null, "steve",
+                    null, "gary")
+    );
 
-    public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, String create_Date, String created_By, String last_Update, String last_Updated_By) {
+    public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
         Customer_ID = customer_ID;
         Division_ID = division_ID;
         Customer_Name = customer_Name;
@@ -87,11 +89,11 @@ public class Customers {
         Phone = phone;
     }
 
-    public String getCreate_Date() {
+    public LocalDateTime getCreate_Date() {
         return Create_Date;
     }
 
-    public void setCreate_Date(String create_Date) {
+    public void setCreate_Date(LocalDateTime create_Date) {
         Create_Date = create_Date;
     }
 
@@ -103,11 +105,11 @@ public class Customers {
         Created_By = created_By;
     }
 
-    public String getLast_Update() {
+    public LocalDateTime getLast_Update() {
         return Last_Update;
     }
 
-    public void setLast_Update(String last_Update) {
+    public void setLast_Update(LocalDateTime last_Update) {
         Last_Update = last_Update;
     }
 
@@ -118,6 +120,13 @@ public class Customers {
     public void setLast_Updated_By(String last_Updated_By) {
         Last_Updated_By = last_Updated_By;
     }
+
+    public static void addCustomer(Customers newCustomer){
+        myCustomers.add(newCustomer); }
+
+        public static void updateCustomer(Customers selectedCustomers){
+        myCustomers.set(0,selectedCustomers);
+        }
 // Moved the below method to the CustomersList controller
 /*   public static ObservableList<Customers> getAllCustomers(){
         return myCustomers;

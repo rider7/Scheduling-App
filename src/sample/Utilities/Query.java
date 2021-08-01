@@ -1,6 +1,7 @@
 package sample.Utilities;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -17,4 +18,12 @@ public class Query {
     public static Statement getStatement(){
         return statement;
     }
+
+
+    //Return Statement Object
+    public static Statement getTestStatement(int a, int b){
+        return statement;
+    }
 }
+
+

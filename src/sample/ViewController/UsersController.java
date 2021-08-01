@@ -56,6 +56,8 @@ public class UsersController implements Initializable {
             System.out.println("Sorry username or password is incorrect. Are you sure you created an account?");
         }
         if(userMatched) { //If the user/password is matched in the db then user can navigate the application
+            myResultSet.close();
+            DBConnection.closeConnection();
             stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("CustomersList.fxml"));
             stage.setScene(new Scene(scene));
@@ -65,6 +67,8 @@ public class UsersController implements Initializable {
         System.out.println(user.getText());
         System.out.println(password.getText());
         System.out.println("Login button clicked!");
+        myResultSet.close();
+        DBConnection.closeConnection();
 
     }
 
