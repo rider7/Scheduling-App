@@ -27,6 +27,8 @@ import java.time.LocalTime;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import static sample.Utilities.TextFileOutput.myFileOutput;
+
 public class UsersController implements Initializable {
     Stage stage;
     Parent scene;
@@ -42,7 +44,8 @@ public class UsersController implements Initializable {
     @FXML
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
-
+        String username = user.getText();
+        myFileOutput(username);
         //Forward scroll ResultSet
         while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!

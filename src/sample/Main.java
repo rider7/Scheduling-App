@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +27,7 @@ public class Main extends Application {
     }
 
     //Main entry into the application
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -62,6 +64,12 @@ public class Main extends Application {
 
         launch(args);
         DBConnection.closeConnection();
+
+        //Filename and user variable
+        String filename="loginactivity.txt";
+
+        //Create and Open file
+        FileWriter outputFile=new FileWriter(filename, true);
     }
 
 }
