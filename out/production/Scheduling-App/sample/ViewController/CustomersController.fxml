@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -9,15 +10,46 @@
          <children>
             <HBox prefHeight="183.0" prefWidth="550.0">
                <children>
-                  <TableView prefHeight="183.0" prefWidth="596.0">
-                    <columns>
-                      <TableColumn id="info" prefWidth="75.0" text="Info" />
-                        <TableColumn prefWidth="75.0" text="Column X">
-                           <graphic>
-                              <TextField id="edit_info" />
-                           </graphic></TableColumn>
-                    </columns>
-                  </TableView>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+                           <children>
+                              <Label minWidth="-Infinity" text="Customer Name:" />
+                              <TextField />
+                           </children>
+                           <padding>
+                              <Insets right="100.0" />
+                           </padding>
+                        </HBox>
+                        <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+                           <children>
+                              <Label minWidth="-Infinity" text="Address:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+                           <children>
+                              <Label minWidth="-Infinity" text="Postal Code:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label minWidth="-Infinity" text="Phone Number:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label minWidth="-Infinity" text="Customer Name" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets right="100.0" />
+                     </padding>
+                  </VBox>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -28,6 +60,6 @@
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="24.0" layoutY="6.0" text="Customer" />
+      <Label layoutX="24.0" layoutY="6.0" lineSpacing="100.0" text="New Customer" />
    </children>
 </AnchorPane>

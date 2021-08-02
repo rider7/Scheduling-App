@@ -15,13 +15,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Main extends Application {
 
     //Starting or primary fxml view when the application first runs
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ViewController/MainController.fxml"));
+        //Set language
+        //Locale.setDefault(new Locale("fr"));
+        Locale locale = new Locale("en");
+        //System.out.println(Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
+        Parent root = FXMLLoader.load(getClass().getResource("ViewController/MainController.fxml"), bundle);
         primaryStage.setTitle("It Works");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
@@ -29,9 +35,7 @@ public class Main extends Application {
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
-        //Set language
-        Locale.setDefault(new Locale("en"));
-        System.out.println(Locale.getDefault());
+
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
