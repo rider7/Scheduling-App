@@ -14,6 +14,8 @@ import sample.Utilities.Query;
 import java.io.IOException;
 import java.sql.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -37,7 +39,9 @@ public class UsersController {
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
         String username = user.getText();
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String formatLocalDateTime = dtf.format(now);
 
         //Forward scroll ResultSet
         while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
@@ -62,7 +66,7 @@ public class UsersController {
         }
 
 
-        myFileOutput(username,attempt);
+        myFileOutput(username,attempt,formatLocalDateTime);
 
         System.out.println(user.getText());
         System.out.println(password.getText());
