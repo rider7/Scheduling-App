@@ -34,6 +34,7 @@ public class UsersController implements Initializable {
     Parent scene;
 
     boolean userMatched = false;
+    String attempt = "Fail";
 
     @FXML
     private TextField user;
@@ -45,11 +46,12 @@ public class UsersController implements Initializable {
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
         String username = user.getText();
-        myFileOutput(username);
+
         //Forward scroll ResultSet
         while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
                 userMatched = true;
+                attempt = "Success";
                 System.out.println("USER MATCH YEEEEEEEE!");
 
 
@@ -66,6 +68,9 @@ public class UsersController implements Initializable {
             stage.setScene(new Scene(scene));
             stage.show();
         }
+
+
+        myFileOutput(username,attempt);
 
         System.out.println(user.getText());
         System.out.println(password.getText());

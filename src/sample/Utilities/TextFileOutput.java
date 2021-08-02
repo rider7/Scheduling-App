@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 public class TextFileOutput {
 
 
-    public static void myFileOutput(String username) throws IOException {
+    public static void myFileOutput(String username, String attempt) throws IOException {
         //Filename and user variable
         String filename = "loginactivity.txt", user;
 
@@ -16,9 +16,11 @@ public class TextFileOutput {
 
         //Create and Open file
         PrintWriter outputFile = new PrintWriter(myFileWriter);
+
+
             user=username;
-            outputFile.println(user);
-            System.out.println("FileOutput: "+ user);
+            outputFile.println("Username: " + user + " - Attempt: " + attempt);
+            System.out.println("Username: " + user + " - Attempt: " + attempt);
 
         //Close file
         outputFile.close();
