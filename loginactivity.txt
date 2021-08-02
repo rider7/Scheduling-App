@@ -5,3 +5,4 @@ Username: sdfgsdfg - Attempt: Fail
 Username: test - Attempt: Success
 Username: asdf - Attempt: Fail - Date and Time Stamp: 08-01-2021 23:51:55
 Username: test - Attempt: Success - Date and Time Stamp: 08-01-2021 23:52:09
+Username:  - Attempt: Fail - Date and Time Stamp: 08-02-2021 00:12:51

@@ -14,6 +14,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Locale;
 
 public class Main extends Application {
 
@@ -28,6 +29,9 @@ public class Main extends Application {
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
+        //Set language
+        Locale.setDefault(new Locale("en"));
+        System.out.println(Locale.getDefault());
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();

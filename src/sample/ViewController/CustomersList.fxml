@@ -24,7 +24,7 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <Button id="edit_button" mnemonicParsing="false" text="Edit" />
+                    <Button id="update_button" mnemonicParsing="false" text="Update" />
                     <Button id="new_button" mnemonicParsing="false" text="New" />
                     <Button id="delete_button" mnemonicParsing="false" text="Delete" />
                 </children>
