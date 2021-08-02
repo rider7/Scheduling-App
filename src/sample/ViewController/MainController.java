@@ -24,6 +24,7 @@ public class MainController {
         scene = FXMLLoader.load(getClass().getResource("UsersController.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+        UsersController.getTimeZone();
     }
 
     public void goToCustomerList(ActionEvent event) throws IOException {

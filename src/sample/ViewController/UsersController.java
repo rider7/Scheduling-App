@@ -3,35 +3,26 @@ package sample.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sample.Main;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
 import java.io.IOException;
 import java.sql.*;
 
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ResourceBundle;
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import sample.Utilities.DBConnection;
-import sample.Utilities.Query;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import static sample.Utilities.TextFileOutput.myFileOutput;
 
-public class UsersController implements Initializable {
+public class UsersController {
     Stage stage;
     Parent scene;
+
 
     boolean userMatched = false;
     String attempt = "Fail";
@@ -80,11 +71,19 @@ public class UsersController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    private Label myTimeZone;
+    public static void getTimeZone(){
 
+        //Get Calendar instance
+        Calendar now = Calendar.getInstance();
 
+        //Get current timezone using get timezone method of calendar class
+        TimeZone timezone = now.getTimeZone();
+        System.out.print(timezone.getDisplayName());
     }
+
+
 
     public ResultSet myConnection() throws SQLException {
         //Establish connection before launch and assign it to the Connection reference variable named conn

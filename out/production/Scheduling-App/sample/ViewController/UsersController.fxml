@@ -14,7 +14,7 @@
       </VBox>
       <Label layoutX="181.0" layoutY="83.0" text="User:" />
       <Label layoutX="181.0" layoutY="109.0" text="Password:" />
-      <Label layoutX="181.0" layoutY="166.0" text="Zone ID:" />
+      <Label fx:id="timeZone" layoutX="181.0" layoutY="166.0" />
       <Button fx:id="backToReality" layoutX="40.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMainController" text="Back" />
    </children>
 </AnchorPane>
