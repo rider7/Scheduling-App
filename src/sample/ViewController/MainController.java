@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class MainController {
         scene = FXMLLoader.load(getClass().getResource("UsersController.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
-        UsersController.getTimeZone();
+
     }
 
     public void goToCustomerList(ActionEvent event) throws IOException {

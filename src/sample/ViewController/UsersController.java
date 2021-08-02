@@ -38,6 +38,7 @@ public class UsersController {
         ResultSet myResultSet = myConnection();
         String username = user.getText();
 
+
         //Forward scroll ResultSet
         while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
@@ -72,15 +73,24 @@ public class UsersController {
     }
 
     @FXML
-    private Label myTimeZone;
-    public static void getTimeZone(){
+    public Label myTimeZone;
+
+    String myTimeZoneString = getTimeZone();
+
+    @FXML private void initialize(){
+        myTimeZone.setText("Time Zone: " + myTimeZoneString);
+    }
+
+    public static String getTimeZone(){
 
         //Get Calendar instance
         Calendar now = Calendar.getInstance();
 
         //Get current timezone using get timezone method of calendar class
         TimeZone timezone = now.getTimeZone();
-        System.out.print(timezone.getDisplayName());
+
+        //System.out.print(timezone.getDisplayName());
+        return timezone.getDisplayName();
     }
 
 
