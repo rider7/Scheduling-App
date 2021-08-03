@@ -22,7 +22,7 @@ public class Main extends Application {
 
     //Starting or primary fxml view when the application first runs
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         //Set language
         //Locale.setDefault(new Locale("fr"));
         Locale locale = new Locale("en");
@@ -43,6 +43,7 @@ public class Main extends Application {
 
         //Select Statement
         String selectStatement = "SELECT * FROM countries";
+
         //Insert Statement
         String insertStatement = "INSERT INTO countries (Country, Create_Date, Created_By, Last_Updated_By) VALUES(?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
@@ -53,7 +54,7 @@ public class Main extends Application {
         String deleteStatement = "DELETE FROM countries WHERE country = ?";
 
         //Create prepared statement object for selectStatement
-        //Query.setPreparedStatement(conn, selectStatement);
+        Query.setPreparedStatement(conn, selectStatement);
 
         //Create prepared statement object for insertStatement
         //Query.setPreparedStatement(conn, insertStatement);
@@ -62,15 +63,15 @@ public class Main extends Application {
         //Query.setPreparedStatement(conn, updateStatement);
 
         //Create prepared statement object for deleteStatement
-        Query.setPreparedStatement(conn, deleteStatement);
+        //Query.setPreparedStatement(conn, deleteStatement);
 
         //Prepared statement reference
         PreparedStatement preparedStatement = Query.getPreparedStatement();
 
         String Country = "Test";
-        String Create_Date ="2020-03-28 00:00:00";
-        String Created_By ="me";
-        String Last_Updated_By ="me again";
+        String Create_Date = "2020-03-28 00:00:00";
+        String Created_By = "me";
+        String Last_Updated_By = "me again";
 
         //Get keyboard input
 //        Scanner keyboard = new Scanner(System.in);
@@ -78,27 +79,50 @@ public class Main extends Application {
 //        countryName = keyboard.nextLine();
 
         //Key-value mapping to set the prepared statement
-        preparedStatement.setString(1,Country);
+        //preparedStatement.setString(1,Country);
         //preparedStatement.setString(2,Create_Date);
         //preparedStatement.setString(3,Created_By);
         //preparedStatement.setString(4,Last_Updated_By);
 
-       preparedStatement.execute(); //Execute prepared statement
+        preparedStatement.execute(); //Execute prepared statement
 
-        //Check rows affected
-        if(preparedStatement.getUpdateCount()>0) System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-        else System.out.println("No change!");
+        ResultSet myResultSet = preparedStatement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+//
+//
+//
+//                //Forward scroll ResultSet
+        while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records
+            int countryID = myResultSet.getInt("Country_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+            String countryName = myResultSet.getString("Country");
+            LocalDate createDate = myResultSet.getDate("Create_Date").toLocalDate(); //Need toLocalDate() method to convert Date to LocalDate
+            LocalTime createTime = myResultSet.getTime("Create_Date").toLocalTime(); //Need toLocalTime to convert to Local Time
+            String createdBy = myResultSet.getString("Created_By");
+            LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+            //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+            String updatedBy = myResultSet.getString("Last_Updated_By");
 
-        launch(args);
-        DBConnection.closeConnection();
+            System.out.println("Country ID: " + countryID);
+            System.out.println("Country Name: " + countryName);
+            System.out.println("createDate: " + createDate + createTime);
+            System.out.println("createdBy: " + createdBy);
+            System.out.println("updateDate: " + updateDate);
+        }
+            //Check rows affected
+            if (preparedStatement.getUpdateCount() > 0)
+                System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+            else System.out.println("No change!");
 
-        //Filename and user variable
-        String filename="loginactivity.txt";
+            launch(args);
+            DBConnection.closeConnection();
 
-        //Create and Open file
-        FileWriter outputFile=new FileWriter(filename, true);
+            //Filename and user variable
+            String filename = "login_activity.txt";
+
+            //Create and Open file
+            FileWriter outputFile = new FileWriter(filename, true);
+        }
     }
-}
+
 
 //Raw SQL Insert Statement
 //String insertStatement ="INSERT INTO countries(Country, Create_Date, Created_By, Last_Update, Last_Updated_By)" //table name countries and columns in parenthesis
@@ -140,3 +164,34 @@ public class Main extends Application {
 //        } else{
 //            System.out.println("No Change");
 //        };
+
+//Move all the sql as an event handler into the fxml controller
+//Pass conn object to statement
+//        Query.setStatement(conn); //Create statement object
+//                Statement statement = Query.getStatement(); //Get Statement reference
+//
+//                //Select all records from countries table
+//                String selectStatement = "SELECT * FROM countries"; //SQL statement
+//                statement.execute(selectStatement); //Execute statement (returns true)
+//                ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+//
+//
+//
+//                //Forward scroll ResultSet
+//                while(myResultSet.next()){ //next() method returns true so while it equals true the loop will be active, looping through all records
+//                int countryID = myResultSet.getInt("Country_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+//                String countryName = myResultSet.getString("Country");
+//                LocalDate createDate = myResultSet.getDate("Create_Date").toLocalDate(); //Need toLocalDate() method to convert Date to LocalDate
+//                LocalTime createTime = myResultSet.getTime("Create_Date").toLocalTime(); //Need toLocalTime to convert to Local Time
+//                String createdBy = myResultSet.getString("Created_By");
+//                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+//                //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+//                String updatedBy = myResultSet.getString("Last_Updated_By");
+
+//            System.out.println("Country ID: " + countryID);
+//            System.out.println("Country Name: " + countryName);
+//            System.out.println("createDate: " + createDate + createTime);
+//            System.out.println("createdBy: " + createdBy);
+//            System.out.println("updateDate: " + updateDate);
+
+               // }

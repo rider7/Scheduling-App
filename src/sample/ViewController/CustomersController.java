@@ -2,9 +2,13 @@ package sample.ViewController;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import sample.Model.Users;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javafx.application.Application;
@@ -15,6 +19,7 @@ import javafx.stage.Stage;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import javax.swing.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
@@ -27,62 +32,85 @@ import java.util.Scanner;
 
 public class CustomersController {
 
+    //FXML Buttons and Labels
+    @FXML
+    TextField customerName;
+    @FXML
+    TextField address;
+    @FXML
+    TextField phoneNumber;
+    @FXML
+    TextField postalCode;
     @FXML
     Button saveCustomerButton;
+    @FXML
+    ComboBox cBoxCountries;
+    @FXML
+    ComboBox cBoxDivisions;
+
+
+    //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
+
+    public enum comboBoxCountries{
+        US, UK, France, Japan, Canada
+    }
+
+    public enum comboBoxDivisions{
+        Alabama,Alaska,Arizona,Arkansas
+    }
+
+    @FXML
+    public void initialize() {
+        cBoxCountries.getItems().clear();
+        cBoxCountries.getItems().addAll(comboBoxCountries.values());
+        cBoxDivisions.getItems().clear();
+        cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
+
+    }
+
     @FXML
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {
         System.out.println("Save Customer Button Works!");
 
-//        //Establish connection before launch and assign it to the Connection reference variable named conn
-//        Connection conn = DBConnection.startConnection();
-//
-//        //Select Statement
-//        String selectStatement = "SELECT * FROM countries";
-//        //Insert Statement
-//        String insertStatement = "INSERT INTO countries (Country, Create_Date, Created_By, Last_Updated_By) VALUES(?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
-//
-//        //Update statement
-//        String updateStatement = "UPDATE countries SET Country = ? WHERE Created_By = ?";
-//
-//        //Delete statement
-//        String deleteStatement = "DELETE FROM countries WHERE country = ?";
-//
-//        //Create prepared statement object for selectStatement
-//        //Query.setPreparedStatement(conn, selectStatement);
-//
-//        //Create prepared statement object for insertStatement
-//        //Query.setPreparedStatement(conn, insertStatement);
-//
-//        //Create prepared statement object for updateStatement
-//        //Query.setPreparedStatement(conn, updateStatement);
-//
-//        //Create prepared statement object for deleteStatement
-//        Query.setPreparedStatement(conn, deleteStatement);
-//
-//        //Prepared statement reference
-//        PreparedStatement preparedStatement = Query.getPreparedStatement();
-//
-//        String Country = "Test";
-//        String Create_Date = "2020-03-28 00:00:00";
-//        String Created_By = "me";
-//        String Last_Updated_By = "me again";
-//
-//        //Get keyboard input
-////        Scanner keyboard = new Scanner(System.in);
-////        System.out.println("Enter your country name: ");
-////        countryName = keyboard.nextLine();
-//
-//        //Key-value mapping to set the prepared statement
-//        preparedStatement.setString(1, Country);
-//        //preparedStatement.setString(2,Create_Date);
-//        //preparedStatement.setString(3,Created_By);
-//        //preparedStatement.setString(4,Last_Updated_By);
-//
-//        preparedStatement.execute(); //Execute prepared statement
+        String newCustomerName = customerName.getText();
+        String newAddress = address.getText();
+        String newPhoneNumber = phoneNumber.getText();
+        String newPostalCode= postalCode.getText();
+        String newUser = UsersController.getMyNewUser();
+        System.out.println(newCustomerName + newAddress + newPhoneNumber + newPostalCode + newUser);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+
+        //Insert Statement
+        String insertStatement = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, insertStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+
+//        String Customer_Name = newCustomerName;
+//        String Address = newAddress;
+//        String Postal_Code = newPhoneNumber;
+//        String Phone = "me again";
+
+
+        //Key-value mapping to set the prepared statement
+        preparedStatement.setString(1,newCustomerName);
+        preparedStatement.setString(2,newAddress);
+        preparedStatement.setString(3,newPhoneNumber);
+        preparedStatement.setString(4,newPostalCode);
+        preparedStatement.setInt(5,5);
+        preparedStatement.setString(6,newUser);
+        preparedStatement.setString(7,newUser);
+
+        preparedStatement.execute(); //Execute prepared statement
 //
 //        //Check rows affected
-//        if (preparedStatement.getUpdateCount() > 0)
-//            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-//        else System.out.println("No change!");
+        if (preparedStatement.getUpdateCount() > 0)
+            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+        else System.out.println("No change!");
     }
 }

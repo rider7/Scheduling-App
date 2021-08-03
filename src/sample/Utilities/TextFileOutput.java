@@ -8,7 +8,7 @@ public class TextFileOutput {
 
     public static void myFileOutput(String username, String attempt, String ldt) throws IOException {
         //Filename and user variable
-        String filename = "loginactivity.txt", user;
+        String filename = "login_activity.txt", user;
 
         //Create FileWriter object
         FileWriter myFileWriter = new FileWriter(filename, true);

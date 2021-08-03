@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.Model.Users;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
@@ -22,9 +23,10 @@ import java.util.TimeZone;
 import static sample.Utilities.TextFileOutput.myFileOutput;
 
 public class UsersController {
+
     Stage stage;
     Parent scene;
-
+    public static String myNewUser;
 
     boolean userMatched = false;
     String attempt = "Fail";
@@ -39,6 +41,8 @@ public class UsersController {
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
         String username = user.getText();
+        myNewUser=user.getText();
+        System.out.println("In Action: " + myNewUser);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String formatLocalDateTime = dtf.format(now);
@@ -64,7 +68,6 @@ public class UsersController {
             stage.setScene(new Scene(scene));
             stage.show();
         }
-
 
         myFileOutput(username,attempt,formatLocalDateTime);
 
@@ -135,4 +138,8 @@ public class UsersController {
             stage.show();
     }
 
+    public static String getMyNewUser(){
+        System.out.println("In getMyNewUserMethod: " + myNewUser);
+        return myNewUser;
+    }
 }

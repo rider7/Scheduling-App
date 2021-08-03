@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.CustomersController">
    <children>
       <VBox layoutX="24.0" layoutY="28.0" prefHeight="339.0" prefWidth="550.0">
@@ -15,7 +17,7 @@
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Customer Name:" />
-                              <TextField />
+                              <TextField fx:id="customerName" />
                            </children>
                            <padding>
                               <Insets right="100.0" />
@@ -24,27 +26,22 @@
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Address:" />
-                              <TextField />
+                              <TextField fx:id="address" />
                            </children>
                         </HBox>
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Postal Code:" />
-                              <TextField />
+                              <TextField fx:id="postalCode" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Phone Number:" />
-                              <TextField />
+                              <TextField fx:id="phoneNumber" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                           <children>
-                              <Label minWidth="-Infinity" text="Customer Name" />
-                              <TextField />
-                           </children>
-                        </HBox>
+
                      </children>
                      <padding>
                         <Insets right="100.0" />
@@ -54,13 +51,13 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ComboBox id="country_combo" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
-                  <ComboBox id="division_combo" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
+                  <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country"/>
+                  <ComboBox id="division_combo" fx:id="cBoxDivisions" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
                </children>
             </HBox>
             <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save" />
          </children>
       </VBox>
-      <Label layoutX="24.0" layoutY="6.0" lineSpacing="100.0" text="New Customer" />
+      <Label layoutX="24.0" layoutY="6.0" lineSpacing="100.0" text="Create A New Customer" />
    </children>
 </AnchorPane>
