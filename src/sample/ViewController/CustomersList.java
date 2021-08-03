@@ -209,6 +209,10 @@ public class CustomersList implements Initializable {
             // If they click Cancel they return to the application
         }
     }
+
+    public void getSelectedCustomer(){
+
+    }
 }
 
 

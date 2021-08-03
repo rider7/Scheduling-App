@@ -132,8 +132,5 @@ public class Customers {
         public static void updateCustomer(Customers selectedCustomers){
         myCustomers.set(0,selectedCustomers);
         }
-// Moved the below method to the CustomersList controller
-/*   public static ObservableList<Customers> getAllCustomers(){
-        return myCustomers;
-    } */
+
 }
