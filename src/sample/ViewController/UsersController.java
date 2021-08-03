@@ -114,6 +114,20 @@ public class UsersController {
         return myResultSet;
     }
 
+    public ResultSet myPreparedStatement() throws SQLException{
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Pass conn object to statement
+        Query.setStatement(conn); //Create statement object
+        Statement statement = Query.getPreparedStatement(); //Get Statement reference
+
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM users"; //SQL statement
+        statement.execute(selectStatement); //Execute statement (returns true)
+        ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+        return myResultSet;
+    }
+
     public void backToMainController(ActionEvent event) throws IOException {
             stage = (Stage) ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
