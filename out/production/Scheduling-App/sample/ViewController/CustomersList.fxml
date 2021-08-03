@@ -26,7 +26,7 @@
                 <children>
                     <Button id="update_button" mnemonicParsing="false" text="Update" />
                     <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="New" />
-                    <Button id="delete_button" mnemonicParsing="false" text="Delete" />
+                    <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete" />
                 </children>
                <VBox.margin>
                   <Insets top="10.0" />

@@ -124,6 +124,11 @@ public class Customers {
     public static void addCustomer(Customers newCustomer){
         myCustomers.add(newCustomer); }
 
+    public static boolean deleteCustomer(Customers selectedCustomer){
+        myCustomers.remove(selectedCustomer);
+        return true;
+    };
+
         public static void updateCustomer(Customers selectedCustomers){
         myCustomers.set(0,selectedCustomers);
         }

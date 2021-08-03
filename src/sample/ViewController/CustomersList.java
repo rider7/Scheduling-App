@@ -8,9 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.Model.Customers;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,13 +17,11 @@ import sample.Utilities.Query;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomersList implements Initializable {
@@ -68,6 +64,8 @@ public class CustomersList implements Initializable {
     private Button backToReality;
     @FXML
     private Button goToCustomerButton;
+    @FXML
+    private Button deleteCustomersButton;
 
 
     @Override
@@ -163,6 +161,53 @@ public class CustomersList implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    public void onActionDeleteCustomer(ActionEvent event) throws SQLException{
+    //Establish connection before launch and assign it to the Connection reference variable named conn
+    Connection conn = DBConnection.startConnection();
+
+    //Delete statement
+    String deleteStatement = "DELETE FROM customers WHERE customer_id = ?";
+
+   //Create prepared statement object for deleteStatement
+    Query.setPreparedStatement(conn, deleteStatement);
+   //Prepared statement reference
+    PreparedStatement preparedStatement = Query.getPreparedStatement();
+    //Create instance of Customers that is selected from tableview myCustomerList
+    Customers deleteSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
+    //assign the customer_id of the deleteSelectedCustomer instance to the local variable Customer_Id to be used in the sql delete statement above
+    int Customer_ID = deleteSelectedCustomer.getCustomer_ID();
+
+        //Key-value mapping to set the prepared statement
+        preparedStatement.setInt(1,Customer_ID);
+
+    preparedStatement.execute(); //Execute prepared statement
+        //Delete the customer from tableview as well
+        Customers.deleteCustomer(deleteSelectedCustomer);
+        System.out.println("Customer Deleted!");
+    }
+    //Method to delete Customers from list but not database
+    @FXML
+    private void customersDeleteButtonHandler(ActionEvent event) {
+        // Creating Alert window and dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Delete Customer");
+        alert.setContentText("Are you sure you want to delete the selected customer?");
+
+        //Delete confirm button options
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // Select the customer
+            Customers deleteSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
+            //Delete the customer
+            Customers.deleteCustomer(deleteSelectedCustomer);
+            System.out.println("Customer Deleted!");
+        } else {
+            // If they click Cancel they return to the application
+        }
     }
 }
 
