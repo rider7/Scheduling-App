@@ -47,7 +47,7 @@ public class Main extends Application {
         String insertStatement = "INSERT INTO countries (Country, Create_Date, Created_By, Last_Updated_By) VALUES(?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Update statement
-        String updateStatement = "UPDATE countries SET Country = ? WHERE Country = ?";
+        String updateStatement = "UPDATE countries SET Country = ? WHERE Created_By = ?";
 
         //Delete statement
         String deleteStatement = "DELETE FROM countries WHERE country = ?";
@@ -56,18 +56,18 @@ public class Main extends Application {
         //Query.setPreparedStatement(conn, selectStatement);
 
         //Create prepared statement object for insertStatement
-        Query.setPreparedStatement(conn, insertStatement);
+        //Query.setPreparedStatement(conn, insertStatement);
 
         //Create prepared statement object for updateStatement
         //Query.setPreparedStatement(conn, updateStatement);
 
         //Create prepared statement object for deleteStatement
-        //Query.setPreparedStatement(conn, deleteStatement);
+        Query.setPreparedStatement(conn, deleteStatement);
 
         //Prepared statement reference
         PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-        String Country = "US";
+        String Country = "Test";
         String Create_Date ="2020-03-28 00:00:00";
         String Created_By ="me";
         String Last_Updated_By ="me again";
@@ -79,9 +79,9 @@ public class Main extends Application {
 
         //Key-value mapping to set the prepared statement
         preparedStatement.setString(1,Country);
-        preparedStatement.setString(2,Create_Date);
-        preparedStatement.setString(3,Created_By);
-        preparedStatement.setString(4,Last_Updated_By);
+        //preparedStatement.setString(2,Create_Date);
+        //preparedStatement.setString(3,Created_By);
+        //preparedStatement.setString(4,Last_Updated_By);
 
        preparedStatement.execute(); //Execute prepared statement
 

@@ -28,6 +28,7 @@ public class MainController {
 
     }
 
+    @FXML
     public void goToCustomerList(ActionEvent event) throws IOException {
 
         stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();

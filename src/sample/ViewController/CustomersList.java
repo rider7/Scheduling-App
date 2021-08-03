@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -23,11 +24,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CustomersList implements Initializable {
     Stage stage;
-    Parent scene;
+    Parent root;
+
+    //Set language resource bundle
+    //Locale.setDefault(new Locale("fr"));
+    Locale locale = new Locale("en");
+    //System.out.println(Locale.getDefault());
+    ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
     //TableView field
     @FXML
@@ -54,9 +63,12 @@ public class CustomersList implements Initializable {
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
 
-    public CustomersList() throws SQLException {
+    //FXML Buttons
+    @FXML
+    private Button backToReality;
+    @FXML
+    private Button goToCustomerButton;
 
-    }
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -131,10 +143,25 @@ public class CustomersList implements Initializable {
         return Customers.myCustomers;
     }
 
-    public void backToMainController(ActionEvent event) throws IOException {
-        stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
-        stage.setScene(new Scene(scene));
+    @FXML
+    private void goToCustomerController(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "CustomersController.fxml"),bundle);
+        Stage stage = (Stage) goToCustomerButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void backToMainController(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "MainController.fxml"),bundle);
+        Stage stage = (Stage) backToReality.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
     }
 }
