@@ -147,9 +147,11 @@ public class CustomersList implements Initializable {
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
         //assign the customer_id of the updateSelectedCustomer instance to the local variable Customer_Id to be used passed to CustomersController for populating fields
-        int Customer_ID = updateSelectedCustomer.getCustomer_ID();
+        //int Customer_ID = updateSelectedCustomer.getCustomer_ID();
         //Call getCustomerListID method to pass variable to CustomersController
-        CustomersController.getCustomerListID(Customer_ID);
+        //CustomersController.getCustomerListID(Customer_ID)
+        //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
+        CustomersController.getCustomerData(updateSelectedCustomer);
 
         Parent root = FXMLLoader.load(getClass().
                 getResource(

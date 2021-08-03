@@ -51,6 +51,10 @@ public class CustomersController {
 
 //Attributes
     public static int customerID;
+    public static String customersNameString;
+    public static String addressString;
+    public static String phoneString;
+    public static String postalCodeString;
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
@@ -65,9 +69,10 @@ public class CustomersController {
     @FXML
     public void initialize() {
         if (customerID > 0) {
-            customerName.setText("BRANDON");
-
-
+            customerName.setText(customersNameString);
+            address.setText(addressString);
+            phoneNumber.setText(phoneString);
+            postalCode.setText(postalCodeString);
 
         } else {
             cBoxCountries.getItems().clear();
@@ -124,6 +129,14 @@ public class CustomersController {
         else System.out.println("No change!");
     }
 
+    public static void getCustomerData(Customers customer){
+        customerID = customer.getCustomer_ID();
+        customersNameString = customer.getCustomer_Name();
+        addressString = customer.getAddress();
+        phoneString = customer.getPhone();
+        postalCodeString = customer.getPostal_Code();
+        System.out.println(customerID);
+    };
     public static void getCustomerListID(int customerId){
         customerID = customerId;
         System.out.println(customerID);
