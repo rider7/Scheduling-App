@@ -141,6 +141,24 @@ public class CustomersList implements Initializable {
         return Customers.myCustomers;
     }
 
+
+    @FXML
+    private void goToCustomerUpdate(ActionEvent event) throws IOException {
+        //Create instance of Customers that is selected from tableview myCustomerList
+        Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
+        //assign the customer_id of the updateSelectedCustomer instance to the local variable Customer_Id to be used passed to CustomersController for populating fields
+        int Customer_ID = updateSelectedCustomer.getCustomer_ID();
+        //Call getCustomerListID method to pass variable to CustomersController
+        CustomersController.getCustomerListID(Customer_ID);
+
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "CustomersController.fxml"),bundle);
+        Stage stage = (Stage) goToCustomerButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     private void goToCustomerController(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().

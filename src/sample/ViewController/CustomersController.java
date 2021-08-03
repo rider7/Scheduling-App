@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import sample.Model.Customers;
 import sample.Model.Users;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
@@ -48,6 +49,8 @@ public class CustomersController {
     @FXML
     ComboBox cBoxDivisions;
 
+//Attributes
+    public static int customerID;
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
@@ -61,10 +64,17 @@ public class CustomersController {
 
     @FXML
     public void initialize() {
-        cBoxCountries.getItems().clear();
-        cBoxCountries.getItems().addAll(comboBoxCountries.values());
-        cBoxDivisions.getItems().clear();
-        cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
+        if (customerID > 0) {
+            customerName.setText("BRANDON");
+
+
+
+        } else {
+            cBoxCountries.getItems().clear();
+            cBoxCountries.getItems().addAll(comboBoxCountries.values());
+            cBoxDivisions.getItems().clear();
+            cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
+        }
 
     }
 
@@ -113,4 +123,9 @@ public class CustomersController {
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");
     }
+
+    public static void getCustomerListID(int customerId){
+        customerID = customerId;
+        System.out.println(customerID);
+    };
 }

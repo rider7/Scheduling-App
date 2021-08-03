@@ -24,7 +24,7 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <Button id="update_button" mnemonicParsing="false" text="Update" />
+                    <Button id="update_button" fx:id="goToCustomerUpdate" mnemonicParsing="false" onAction="#goToCustomerUpdate" text="Update" />
                     <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="New" />
                     <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete" />
                 </children>
