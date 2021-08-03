@@ -122,13 +122,11 @@ public class CustomersList implements Initializable {
                 LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
-
+                //Create new instance of Customers called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
                 Customers newCustomer = new Customers(customerID,divisionID,customerName,address,postalCode,phone,createDate,createdBy,updateDate,updatedBy);
-
+                //Call addCustomer method with newCustomer instance passed to add to the observableList
                 Customers.addCustomer(newCustomer);
                 Customers.updateCustomer(newCustomer);
-                System.out.println("Country ID: " + customerName);
-
             }
         }
         catch(Exception e){
@@ -146,10 +144,6 @@ public class CustomersList implements Initializable {
     private void goToCustomerUpdate(ActionEvent event) throws IOException {
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
-        //assign the customer_id of the updateSelectedCustomer instance to the local variable Customer_Id to be used passed to CustomersController for populating fields
-        //int Customer_ID = updateSelectedCustomer.getCustomer_ID();
-        //Call getCustomerListID method to pass variable to CustomersController
-        //CustomersController.getCustomerListID(Customer_ID)
         //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
         CustomersController.getCustomerData(updateSelectedCustomer);
 
@@ -209,26 +203,7 @@ public class CustomersList implements Initializable {
         System.out.println("Customer Deleted!");
     }
     //Method to delete Customers from list but not database
-    @FXML
-    private void customersDeleteButtonHandler(ActionEvent event) {
-        // Creating Alert window and dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Delete Customer");
-        alert.setContentText("Are you sure you want to delete the selected customer?");
 
-        //Delete confirm button options
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            // Select the customer
-            Customers deleteSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
-            //Delete the customer
-            Customers.deleteCustomer(deleteSelectedCustomer);
-            System.out.println("Customer Deleted!");
-        } else {
-            // If they click Cancel they return to the application
-        }
-    }
 
     public void getSelectedCustomer(){
 

@@ -4,8 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.CustomersController">
    <children>
       <VBox layoutX="24.0" layoutY="28.0" prefHeight="339.0" prefWidth="550.0">
@@ -51,13 +49,22 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country"/>
+                  <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
                   <ComboBox id="division_combo" fx:id="cBoxDivisions" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
                </children>
             </HBox>
             <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save" />
          </children>
       </VBox>
-      <Label layoutX="24.0" layoutY="6.0" lineSpacing="100.0" text="Create A New Customer" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Label lineSpacing="100.0" text="Create A New Customer" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -32,6 +32,9 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class CustomersController {
+    Locale locale = new Locale("en");
+    //System.out.println(Locale.getDefault());
+    ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
     //FXML Buttons and Labels
     @FXML
@@ -44,6 +47,8 @@ public class CustomersController {
     TextField postalCode;
     @FXML
     Button saveCustomerButton;
+    @FXML
+    Button backToReality;
     @FXML
     ComboBox cBoxCountries;
     @FXML
@@ -137,8 +142,15 @@ public class CustomersController {
         postalCodeString = customer.getPostal_Code();
         System.out.println(customerID);
     };
-    public static void getCustomerListID(int customerId){
-        customerID = customerId;
-        System.out.println(customerID);
-    };
+
+    @FXML
+    private void backToMainController(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "MainController.fxml"),bundle);
+        Stage stage = (Stage) backToReality.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

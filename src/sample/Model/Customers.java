@@ -23,7 +23,7 @@ public class Customers {
 
     //Moved this ObservableList to the CustomersList controller
     public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
-            new Customers(4,35, "Steve Jobs", "fake street",
+            new Customers(3,35, "Steve Jobs", "fake street",
                     "23453", "234323432", null, "steve",
                     null, "gary")
     );
@@ -130,7 +130,7 @@ public class Customers {
     };
 
         public static void updateCustomer(Customers selectedCustomers){
-        myCustomers.set(0,selectedCustomers);
+        myCustomers.set(0,selectedCustomers); //BUG: index of 0 used each time customer updated. possible issue.
         }
 
 }
