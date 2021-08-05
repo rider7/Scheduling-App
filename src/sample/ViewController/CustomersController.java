@@ -127,8 +127,8 @@ public class CustomersController {
         preparedStatement.setString(7,newUser);
 
         preparedStatement.execute(); //Execute prepared statement
-//
-//        //Check rows affected
+
+        //Check rows affected
         if (preparedStatement.getUpdateCount() > 0)
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");

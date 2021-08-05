@@ -25,7 +25,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <RadioButton id="appt_filter" fx:id="myAppointmentSort" mnemonicParsing="false" text="Month/Week" />
-                  <Button id="edit_button" mnemonicParsing="false" text="Edit" />
+                  <Button id="edit_button" fx:id="goToAppointmentUpdate" onAction="#goToAppointmentUpdate" mnemonicParsing="false" text="Update" />
                   <Button id="new_button" fx:id="goToAppointmentButton" mnemonicParsing="false" onAction="#goToAppointmentsController" text="New" />
                   <Button id="delete_button" fx:id="onActionDeleteAppointmentButton" onAction="#onActionDeleteAppointment" mnemonicParsing="false" text="Delete" />
                </children>

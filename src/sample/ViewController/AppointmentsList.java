@@ -73,6 +73,8 @@ public class AppointmentsList implements Initializable {
     @FXML
     private  RadioButton myAppointmentSort;
 
+    public static String myNewAppt;
+
     @FXML
     public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
         //Establish connection before launch and assign it to the Connection reference variable named conn
@@ -201,9 +203,25 @@ public class AppointmentsList implements Initializable {
         }
     }
 
-//    public void myAppointmentSort(){
-//        myAppointmentSort.getSelectedToggle();
-//    }
 
+    public static String getMyNewAppointments(){
+        System.out.println("In getMyNewApptMethod: " + myNewAppt);
+        return myNewAppt;
+    }
 
+    @FXML
+    private void goToAppointmentUpdate(ActionEvent event) throws IOException {
+        //Create instance of Appointments that is selected from tableview myAppointmentList
+        Appointments updateSelectedAppointment = myAppointmentsList.getSelectionModel().getSelectedItem();
+        //Call method to pass updatedSelectedAppointment object to AppointmentsController for use in populating data fields
+        AppointmentsController.getAppointmentData(updateSelectedAppointment);
+
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "AppointmentsController.fxml"),bundle);
+        Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

@@ -174,4 +174,8 @@ public class Appointments {
     public void setLast_Updated_By(String last_Updated_By) {
         Last_Updated_By = last_Updated_By;
     }
+
+    public static void updateAppointment(Appointments selectedAppointments){
+        myAppointments.set(0,selectedAppointments); //BUG: index of 0 used each time customer updated. possible issue.
+    }
 }

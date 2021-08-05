@@ -101,7 +101,7 @@ public class CustomersList implements Initializable {
         Query.setStatement(conn); //Create statement object
         Statement statement =  Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE); //Get Statement reference
 
-        //Select all records from countries table
+        //Select all records from customers table
         String selectStatement = "SELECT * FROM customers"; //SQL statement
 
         try {

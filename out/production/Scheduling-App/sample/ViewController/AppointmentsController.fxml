@@ -81,7 +81,12 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Label lineSpacing="100.0" text="Create A New Customer" />
+            <Button fx:id="createNewAppt" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="Back">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Label lineSpacing="100.0" text="Create A New Appointment" />
          </children>
       </HBox>
    </children>
