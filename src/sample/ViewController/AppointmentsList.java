@@ -7,9 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.Model.Appointments;
@@ -19,10 +17,7 @@ import sample.Utilities.Query;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -46,7 +41,7 @@ public class AppointmentsList implements Initializable {
     @FXML
     private TableColumn<Appointments, String> description;
     @FXML
-    private TableColumn<Appointments, String> location;
+    private TableColumn<Appointments, String> myLocation;
     @FXML
     private TableColumn<Appointments, String> type;
     @FXML
@@ -74,11 +69,57 @@ public class AppointmentsList implements Initializable {
     @FXML
     private Button goToAppointmentButton;
     @FXML
-    private Button deleteAppointmentsButton;
+    private Button onActionDeleteAppointmentButton;
+    @FXML
+    private  RadioButton myAppointmentSort;
 
-    public static ObservableList<Appointments> getAllAppointments(){
+    @FXML
+    public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
 
-        return Appointments.myAppointments;
+        //Delete statement
+        String deleteStatement = "DELETE FROM appointments WHERE appointment_id = ?";
+
+        //Create prepared statement object for deleteStatement
+        Query.setPreparedStatement(conn, deleteStatement);
+        //Prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+        //Create instance of Appointments that is selected from tableview myAppointmentList
+        Appointments deleteSelectedAppointment = myAppointmentsList.getSelectionModel().getSelectedItem();
+        //assign the appointment_ID of the deleteSelectedAppointment instance to the local variable Appointment_ID to be used in the sql delete statement above
+        int Appointment_ID = deleteSelectedAppointment.getAppointment_ID();
+        String type = deleteSelectedAppointment.getType();
+        System.out.println(Appointment_ID);
+        //Key-value mapping to set the prepared statement
+        preparedStatement.setInt(1,Appointment_ID);
+
+        preparedStatement.execute(); //Execute prepared statement
+        //Delete the appointment from tableview as well
+        Appointments.deleteAppointment(deleteSelectedAppointment);
+        System.out.println("Appointment Deleted!" + " Appointment ID: " + Appointment_ID + "Appointment Type: " + type);
+    }
+
+    @FXML
+    private void goToAppointmentsController(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "AppointmentsController.fxml"),bundle);
+        Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void backToMainController(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "MainController.fxml"),bundle);
+        Stage stage = (Stage) backToReality.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
@@ -95,7 +136,7 @@ public class AppointmentsList implements Initializable {
         appointmentID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Appointment_ID"));
         title.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Title"));
         description.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Description"));
-        location.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Location"));
+        myLocation.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Location"));
         type.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Type"));
         start.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Start"));
         end.setCellValueFactory(new PropertyValueFactory<Appointments, String>("End"));
@@ -110,6 +151,12 @@ public class AppointmentsList implements Initializable {
         //Sets the items on the myCustomerList table from the Observable list for appointments via the getAllAppointments() method call
         myAppointmentsList.setItems(getAllAppointments());
     }
+
+    public static ObservableList<Appointments> getAllAppointments(){
+
+        return Appointments.myAppointments;
+    }
+
     public static void myConnection() throws SQLException {
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -154,37 +201,9 @@ public class AppointmentsList implements Initializable {
         }
     }
 
+//    public void myAppointmentSort(){
+//        myAppointmentSort.getSelectedToggle();
+//    }
 
 
-
-
-
-
-
-
-
-
-
-
-    @FXML
-    private void goToAppointmentsController(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().
-                getResource(
-                        "AppointmentsController.fxml"),bundle);
-        Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    private void backToMainController(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().
-                getResource(
-                        "MainController.fxml"),bundle);
-        Stage stage = (Stage) backToReality.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
 }

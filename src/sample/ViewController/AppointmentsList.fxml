@@ -14,7 +14,7 @@
                 <TableColumn id="appointment_id" fx:id="appointmentID" prefWidth="50.0" text="Appt_ID" />
                 <TableColumn id="title" fx:id="title" prefWidth="57.0" text="Title" />
                   <TableColumn id="description" fx:id="description" prefWidth="71.0" text="Desc" />
-                  <TableColumn id="location" fx:id="location" prefWidth="59.0" text="Location" />
+                  <TableColumn id="myLocation" fx:id="myLocation" prefWidth="59.0" text="Location" />
                   <TableColumn id="type" fx:id="type" prefWidth="45.0" text="Type" />
                   <TableColumn id="start" fx:id="start" prefWidth="51.0" text="Start" />
                   <TableColumn id="end" fx:id="end" prefWidth="45.0" text="End" />
@@ -24,10 +24,10 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <RadioButton id="appt_filter" mnemonicParsing="false" text="Month/Week" />
+                  <RadioButton id="appt_filter" fx:id="myAppointmentSort" mnemonicParsing="false" text="Month/Week" />
                   <Button id="edit_button" mnemonicParsing="false" text="Edit" />
                   <Button id="new_button" fx:id="goToAppointmentButton" mnemonicParsing="false" onAction="#goToAppointmentsController" text="New" />
-                  <Button id="delete_button" mnemonicParsing="false" text="Delete" />
+                  <Button id="delete_button" fx:id="onActionDeleteAppointmentButton" onAction="#onActionDeleteAppointment" mnemonicParsing="false" text="Delete" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" top="10.0" />

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,12 +19,18 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import static sample.Utilities.TextFileOutput.myFileOutput;
 
 public class UsersController {
-
+    //Set language resource bundle
+    //Locale.setDefault(new Locale("fr"));
+    Locale locale = new Locale("en");
+    //System.out.println(Locale.getDefault());
+    ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
     Stage stage;
     Parent scene;
     public static String myNewUser;
@@ -37,6 +44,8 @@ public class UsersController {
     @FXML
     private TextField password;
 
+    @FXML
+    private Button backToReality;
     @FXML
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
         ResultSet myResultSet = myConnection();
@@ -132,10 +141,13 @@ public class UsersController {
     }
 
     public void backToMainController(ActionEvent event) throws IOException {
-            stage = (Stage) ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("MainController.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "MainController.fxml"),bundle);
+        Stage stage = (Stage) backToReality.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static String getMyNewUser(){

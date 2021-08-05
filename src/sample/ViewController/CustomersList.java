@@ -202,7 +202,6 @@ public class CustomersList implements Initializable {
         Customers.deleteCustomer(deleteSelectedCustomer);
         System.out.println("Customer Deleted!");
     }
-    //Method to delete Customers from list but not database
 
 
     public void getSelectedCustomer(){
