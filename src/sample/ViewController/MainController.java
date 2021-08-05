@@ -23,6 +23,9 @@ public class MainController {
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
     Stage stage;
     Parent scene;
+    @FXML
+    public Button editApptScene;
+
 
     @FXML
     public void goToUserLogin(ActionEvent event) throws IOException {

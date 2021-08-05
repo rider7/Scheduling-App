@@ -37,7 +37,7 @@ public class Main extends Application {
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
             launch(args);
-
+        //() -> System.out.println("Zero parameter lambda");
             //Filename and user variable
             String filename = "login_activity.txt";
 
