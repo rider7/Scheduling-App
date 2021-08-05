@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
+import sample.Utilities.TextFile;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Main extends Application {
+public class Main extends Application{
 
     //Starting or primary fxml view when the application first runs
     @Override
@@ -36,12 +38,20 @@ public class Main extends Application {
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
-            launch(args);
-        //() -> System.out.println("Zero parameter lambda");
+
+            //Lambda
+
+
             //Filename and user variable
             String filename = "login_activity.txt";
 
             //Create and Open file
             FileWriter outputFile = new FileWriter(filename, true);
+
+        //Lambda expression test
+        TextFile myFile = (int x)->System.out.println(2*x);
+        myFile.myMessage(3);
+
+        launch(args);
         }
     }

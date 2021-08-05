@@ -3,19 +3,18 @@ package sample.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import sample.Utilities.TextFile;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class MainController {
+public class MainController{
     //Set language
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -61,4 +60,8 @@ public class MainController {
 
     public void goToReports(ActionEvent event) {
     }
+
+
+
+
 }
