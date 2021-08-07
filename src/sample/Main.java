@@ -26,7 +26,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Set language
-        //Locale.setDefault(new Locale("fr"));
+        Locale.setDefault(new Locale("en"));
         Locale locale = new Locale("en");
         //System.out.println(Locale.getDefault());
         ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
@@ -38,10 +38,6 @@ public class Main extends Application{
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
-
-            //Lambda
-
-
             //Filename and user variable
             String filename = "login_activity.txt";
 

@@ -31,6 +31,7 @@ public class UsersController {
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
+
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
     Stage stage;
@@ -52,10 +53,17 @@ public class UsersController {
     private Button backToReality;
     @FXML
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
+        // declaring object of Locale
+        Locale locale;
+
+        // calling the getDefault method
+        locale = Locale.getDefault();
+        String localeString = locale.toString();
+
         ResultSet myResultSet = myConnection();
         String username = user.getText();
         myNewUser=user.getText();
-        System.out.println("In Action: " + myNewUser);
+        //System.out.println("In Action: " + myNewUser);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String formatLocalDateTime = dtf.format(now);
@@ -65,16 +73,26 @@ public class UsersController {
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
                 userMatched = true;
                 attempt = "Success";
-                JOptionPane.showMessageDialog(frame,"Successful Login!");
-                System.out.println("Successful Login!");
+                if(localeString.equals("fr")){ //Logic used if user is a match to display a dialog box either in English or French based on the default locale
+                    //System.out.println("FRENCHIE");
+                    JOptionPane.showMessageDialog(frame, "Connexion réussie!");}
+                else{
+                    //System.out.println("ENGLISH");
+                    JOptionPane.showMessageDialog(frame,"Successful Login!");}
 
+                // printing the locale
+                //System.out.println(locale);
 
             }
         }
-        if (!userMatched){
-            JOptionPane.showMessageDialog(frame,"Sorry, your User ID and Password do not match. Please try again.");
+        if (!userMatched){ //Logic used if user is not a match to display a dialog box either in English or French based on the default locale
+            if(localeString.equals("fr")){
+                //System.out.println("FRENCHIE");
+                JOptionPane.showMessageDialog(frame, "Désolé, votre identifiant et votre mot de passe ne correspondent pas. Veuillez réessayer.");}
+            else{
+                //System.out.println("ENGLISH");
+                JOptionPane.showMessageDialog(frame,"Sorry, your User ID and Password do not match. Please try again.");}
 
-            System.out.println("Sorry username or password is incorrect. Are you sure you created an account?");
         }
         if(userMatched) { //If the user/password is matched in the db then user can navigate the application
             myResultSet.close();
@@ -89,7 +107,7 @@ public class UsersController {
 
         System.out.println(user.getText());
         System.out.println(password.getText());
-        System.out.println("Login button clicked!");
+        //System.out.println("Login button clicked!");
         myResultSet.close();
         DBConnection.closeConnection();
 
@@ -97,11 +115,17 @@ public class UsersController {
 
     @FXML
     public Label myTimeZone;
+    @FXML
+    public Label textTimeZone;
 
     String myTimeZoneString = getTimeZone();
 
     @FXML private void initialize(){
-        myTimeZone.setText("Time Zone: " + myTimeZoneString);
+        //Set language resource bundle
+        Locale.setDefault(new Locale("en"));
+        Locale locale = new Locale("en");
+
+        myTimeZone.setText(myTimeZoneString);
     }
 
     public static String getTimeZone(){
