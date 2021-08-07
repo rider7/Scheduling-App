@@ -12,7 +12,7 @@
             <Button fx:id="login" mnemonicParsing="false" onAction="#onActionVerifyUser" onKeyPressed="#onActionVerifyUser" text="Login" />
          </children>
       </VBox>
-      <Label layoutX="181.0" layoutY="83.0" text="User:" />
+      <Label layoutX="181.0" layoutY="83.0" text="User ID:" />
       <Label layoutX="181.0" layoutY="109.0" text="Password:" />
       <Label fx:id="myTimeZone" layoutX="181.0" layoutY="166.0" text="No Timezone Found" />
       <Button fx:id="backToReality" layoutX="40.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMainController" text="Back" />

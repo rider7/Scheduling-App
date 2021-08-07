@@ -13,6 +13,8 @@ import sample.Model.Users;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.*;
 
@@ -33,6 +35,8 @@ public class UsersController {
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
     Stage stage;
     Parent scene;
+    //Object instance created for dialog box
+    JFrame frame;
     public static String myNewUser;
 
     boolean userMatched = false;
@@ -61,12 +65,15 @@ public class UsersController {
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
                 userMatched = true;
                 attempt = "Success";
-                System.out.println("USER MATCH YEEEEEEEE!");
+                JOptionPane.showMessageDialog(frame,"Successful Login!");
+                System.out.println("Successful Login!");
 
 
             }
         }
         if (!userMatched){
+            JOptionPane.showMessageDialog(frame,"Sorry, your User ID and Password do not match. Please try again.");
+
             System.out.println("Sorry username or password is incorrect. Are you sure you created an account?");
         }
         if(userMatched) { //If the user/password is matched in the db then user can navigate the application
