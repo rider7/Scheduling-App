@@ -38,6 +38,8 @@ public class CustomersController {
 
     //FXML Buttons and Labels
     @FXML
+    TextField customerID;
+    @FXML
     TextField customerName;
     @FXML
     TextField address;
@@ -55,11 +57,12 @@ public class CustomersController {
     ComboBox cBoxDivisions;
 
 //Attributes
-    public static int customerID;
+    public static int customerIDString;
     public static String customersNameString;
     public static String addressString;
     public static String phoneString;
     public static String postalCodeString;
+    public static int divisionIDString;
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
@@ -73,13 +76,15 @@ public class CustomersController {
 
     @FXML
     public void initialize() {
-        if (customerID > 0) {
+        if (Integer.valueOf(customerIDString) > 0) {
+            customerID.setText(Integer.toString(customerIDString));
             customerName.setText(customersNameString);
             address.setText(addressString);
             phoneNumber.setText(phoneString);
             postalCode.setText(postalCodeString);
+            //comboBoxDivisions.setText(divisionIDString); *********Remove Enums
 
-        } else {
+        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
             cBoxCountries.getItems().clear();
             cBoxCountries.getItems().addAll(comboBoxCountries.values());
             cBoxDivisions.getItems().clear();
@@ -92,6 +97,7 @@ public class CustomersController {
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {
         System.out.println("Save Customer Button Works!");
 
+        String newCustomerID = customerID.getText();
         String newCustomerName = customerName.getText();
         String newAddress = address.getText();
         String newPhoneNumber = phoneNumber.getText();
@@ -103,7 +109,7 @@ public class CustomersController {
         Connection conn = DBConnection.startConnection();
 
         //Insert Statement
-        String insertStatement = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+        String insertStatement = "INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Create prepared statement object for insertStatement
         Query.setPreparedStatement(conn, insertStatement);
@@ -118,13 +124,14 @@ public class CustomersController {
 
 
         //Key-value mapping to set the prepared statement
-        preparedStatement.setString(1,newCustomerName);
-        preparedStatement.setString(2,newAddress);
-        preparedStatement.setString(3,newPhoneNumber);
-        preparedStatement.setString(4,newPostalCode);
-        preparedStatement.setInt(5,5);
-        preparedStatement.setString(6,newUser);
+        preparedStatement.setInt(1,Integer.valueOf(newCustomerID));
+        preparedStatement.setString(2,newCustomerName);
+        preparedStatement.setString(3,newAddress);
+        preparedStatement.setString(4,newPhoneNumber);
+        preparedStatement.setString(5,newPostalCode);
+        preparedStatement.setInt(6,5);
         preparedStatement.setString(7,newUser);
+        preparedStatement.setString(8,newUser);
 
         preparedStatement.execute(); //Execute prepared statement
 
@@ -135,12 +142,13 @@ public class CustomersController {
     }
 
     public static void getCustomerData(Customers customer){
-        customerID = customer.getCustomer_ID();
+        customerIDString = customer.getCustomer_ID();
         customersNameString = customer.getCustomer_Name();
         addressString = customer.getAddress();
         phoneString = customer.getPhone();
         postalCodeString = customer.getPostal_Code();
-        System.out.println(customerID);
+        divisionIDString = customer.getDivision_ID();
+        System.out.println(customerIDString);
     };
 
     @FXML

@@ -14,6 +14,15 @@
                      <children>
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
+                              <Label minWidth="-Infinity" text="Customer ID:" />
+                              <TextField fx:id="customerID" editable="false" />
+                           </children>
+                           <padding>
+                              <Insets right="100.0" />
+                           </padding>
+                        </HBox>
+                        <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+                           <children>
                               <Label minWidth="-Infinity" text="Customer Name:" />
                               <TextField fx:id="customerName" />
                            </children>
