@@ -38,11 +38,11 @@ public class Main extends Application{
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
-            //Filename and user variable
-            String filename = "login_activity.txt";
+        //Filename and user variable
+        String filename = "login_activity.txt";
 
-            //Create and Open file
-            FileWriter outputFile = new FileWriter(filename, true);
+        //Create and Open file
+        FileWriter outputFile = new FileWriter(filename, true);
 
         //Lambda expression test
         TextFile myFile = (int x)->System.out.println(2*x);
