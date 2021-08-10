@@ -182,19 +182,49 @@ public class CustomersList implements Initializable {
     //Establish connection before launch and assign it to the Connection reference variable named conn
     Connection conn = DBConnection.startConnection();
 
-    //Delete statement
+    //SELECT statements
+        String selectApptStatement = "SELECT * FROM appointments WHERE customer_id=?"; //SQL statement
+    //Delete statements
     String deleteStatement = "DELETE FROM customers WHERE customer_id = ?";
+    String deleteApptStatement = "DELETE FROM appointments WHERE customer_id = ?";
+
+    //Create instance of Customers that is selected from tableview myCustomerList
+        Customers deleteSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
+        //assign the customer_id of the deleteSelectedCustomer instance to the local variable Customer_Id to be used in the sql delete statement above
+        int Customer_ID = deleteSelectedCustomer.getCustomer_ID();
+    //Create prepared statement object for selecting appointments
+    Query.setPreparedStatement(conn, selectApptStatement);
+    //Prepared statement reference
+    PreparedStatement preparedApptStatement = Query.getPreparedStatement();
+        //Key-value mapping to set the prepared statement based on customer id
+        preparedApptStatement.setInt(1,Customer_ID);
+        //Execute prepared statement
+        preparedApptStatement.execute();
+        ResultSet apptResultSet =preparedApptStatement.getResultSet();
+        System.out.println(apptResultSet);
+        while(apptResultSet.next()){ //Loop through the select appointment by id results and delete each one
+            int customerID = apptResultSet.getInt("Customer_ID");
+            if(Customer_ID ==customerID){
+                //Create prepared statement object for deleteStatement
+                Query.setPreparedStatement(conn, deleteApptStatement);
+                //Prepared statement reference
+                PreparedStatement preparedDeleteStatement = Query.getPreparedStatement();
+                //Key-value mapping to set the prepared statement
+                preparedDeleteStatement.setInt(1,customerID);
+                preparedDeleteStatement.execute(); //Execute prepared statement
+               System.out.println("In Appt delete while loop " + customerID + "********" + Customer_ID);
+            }else{
+                return;
+            }
+        }
 
    //Create prepared statement object for deleteStatement
     Query.setPreparedStatement(conn, deleteStatement);
    //Prepared statement reference
     PreparedStatement preparedStatement = Query.getPreparedStatement();
-    //Create instance of Customers that is selected from tableview myCustomerList
-    Customers deleteSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
-    //assign the customer_id of the deleteSelectedCustomer instance to the local variable Customer_Id to be used in the sql delete statement above
-    int Customer_ID = deleteSelectedCustomer.getCustomer_ID();
 
-        //Key-value mapping to set the prepared statement
+
+    //Key-value mapping to set the prepared statement
         preparedStatement.setInt(1,Customer_ID);
 
     preparedStatement.execute(); //Execute prepared statement
