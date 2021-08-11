@@ -1,5 +1,6 @@
 package sample.ViewController;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -66,13 +67,14 @@ public class CustomersController {
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
-    public enum comboBoxCountries{
-        US, UK, France, Japan, Canada
-    }
-
-    public enum comboBoxDivisions{
-        Alabama,Alaska,Arizona,Arkansas
-    }
+//    public enum comboBoxCountries{
+//        US, UK, France, Japan, Canada
+//    }
+//
+//    public enum comboBoxDivisions{
+//        Alabama,Alaska,Arizona,Arkansas
+//    }
+    ObservableList<String> countryComboBox;
 
     @FXML
     public void initialize() {
@@ -82,13 +84,13 @@ public class CustomersController {
             address.setText(addressString);
             phoneNumber.setText(phoneString);
             postalCode.setText(postalCodeString);
-            //comboBoxDivisions.setText(divisionIDString); *********Remove Enums
+            cBoxDivisions.setValue(divisionIDString);
 
-        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
-            cBoxCountries.getItems().clear();
-            cBoxCountries.getItems().addAll(comboBoxCountries.values());
-            cBoxDivisions.getItems().clear();
-            cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
+//        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
+//            cBoxCountries.getItems().clear();
+//            cBoxCountries.getItems().addAll(comboBoxCountries.values());
+//            cBoxDivisions.getItems().clear();
+//            cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
         }
 
     }
@@ -109,7 +111,7 @@ public class CustomersController {
         Connection conn = DBConnection.startConnection();
 
         //Insert Statement
-        String insertStatement = "INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+        String insertStatement = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Create prepared statement object for insertStatement
         Query.setPreparedStatement(conn, insertStatement);
@@ -124,14 +126,14 @@ public class CustomersController {
 
 
         //Key-value mapping to set the prepared statement
-        preparedStatement.setInt(1,Integer.valueOf(newCustomerID));
-        preparedStatement.setString(2,newCustomerName);
-        preparedStatement.setString(3,newAddress);
-        preparedStatement.setString(4,newPhoneNumber);
-        preparedStatement.setString(5,newPostalCode);
-        preparedStatement.setInt(6,5);
+        //preparedStatement.setInt(1,Integer.valueOf(newCustomerID));
+        preparedStatement.setString(1,newCustomerName);
+        preparedStatement.setString(2,newAddress);
+        preparedStatement.setString(3,newPhoneNumber);
+        preparedStatement.setString(4,newPostalCode);
+        preparedStatement.setInt(5,5);
+        preparedStatement.setString(6,newUser);
         preparedStatement.setString(7,newUser);
-        preparedStatement.setString(8,newUser);
 
         preparedStatement.execute(); //Execute prepared statement
 

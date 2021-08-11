@@ -58,8 +58,18 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
-                  <ComboBox id="division_combo" fx:id="cBoxDivisions" prefHeight="25.0" prefWidth="389.0" promptText="Division" />
+                  <HBox prefHeight="100.0" prefWidth="310.0">
+                     <children>
+                        <Label text="Country" />
+                        <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="254.0">
+                     <children>
+                        <Label text="Division" />
+                        <ComboBox id="division_combo" fx:id="cBoxDivisions" prefHeight="25.0" prefWidth="175.0" promptText="Division" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
             <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save" />
