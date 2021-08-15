@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import sample.Model.Countries;
 import sample.Model.Customers;
+import sample.Model.Divisions;
 import sample.Model.Users;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
@@ -64,12 +66,17 @@ public class CustomersController {
     public static String phoneString;
     public static String postalCodeString;
     public static int divisionIDString;
+    public static String countryString;
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
-//    public enum comboBoxCountries{
-//        US, UK, France, Japan, Canada
-//    }
+    public enum Test{
+        US("U.S"), UK("UK"), Canada("Canada");
+    public final String country;
+        Test(String s) {
+            this.country = s;
+        }
+    };
 //
 //    public enum comboBoxDivisions{
 //        Alabama,Alaska,Arizona,Arkansas
@@ -85,6 +92,9 @@ public class CustomersController {
             phoneNumber.setText(phoneString);
             postalCode.setText(postalCodeString);
             cBoxDivisions.setValue(divisionIDString);
+            cBoxCountries.getItems().clear();
+            cBoxCountries.getItems().addAll(Test.values());
+            cBoxCountries.setValue(countryString);
 
 //        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
 //            cBoxCountries.getItems().clear();
@@ -150,7 +160,17 @@ public class CustomersController {
         phoneString = customer.getPhone();
         postalCodeString = customer.getPostal_Code();
         divisionIDString = customer.getDivision_ID();
-        System.out.println(customerIDString);
+        //System.out.println(customerIDString);
+    };
+
+    public static int getDivisionData(Customers customer){
+        divisionIDString = customer.getDivision_ID();
+        //System.out.println(divisionIDString);
+        return divisionIDString;
+    };
+
+    public static void getCountryData(String country){
+        countryString = country;
     };
 
     @FXML

@@ -1,6 +1,5 @@
 package sample.ViewController;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +19,6 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomersList implements Initializable {
@@ -141,11 +138,14 @@ public class CustomersList implements Initializable {
 
 
     @FXML
-    private void goToCustomerUpdate(ActionEvent event) throws IOException {
+    private void goToCustomerUpdate(ActionEvent event) throws IOException, SQLException {
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
         CustomersController.getCustomerData(updateSelectedCustomer);
+        //Call method to pass country id
+        getCountry();
+        //CustomersController.getCountryData(updateSelectedCountries);
 
         Parent root = FXMLLoader.load(getClass().
                 getResource(
@@ -223,7 +223,6 @@ public class CustomersList implements Initializable {
    //Prepared statement reference
     PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-
     //Key-value mapping to set the prepared statement
         preparedStatement.setInt(1,Customer_ID);
 
@@ -234,8 +233,40 @@ public class CustomersList implements Initializable {
     }
 
 
-    public void getSelectedCustomer(){
+    public void getCountry() throws SQLException {
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Select all records from customers table
+        String selectCountryStatement = "SELECT COUNTRY_ID FROM first_level_divisions WHERE Division_ID = ?"; //SQL statement
+        //Create prepared statement object for selecting appointments
+        Query.setPreparedStatement(conn, selectCountryStatement);
+        //Prepared statement reference
+        PreparedStatement preparedDivisionStatement = Query.getPreparedStatement();
+        //Create instance of Customers that is selected from tableview myCustomerList
+        Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
+        //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
+        int myDivisionID = CustomersController.getDivisionData(updateSelectedCustomer);
+        System.out.println("Division ID = " + myDivisionID);
+        //Key-value mapping to set the prepared statement based on customer id
+        preparedDivisionStatement.setInt(1, myDivisionID);
 
+        try {
+            //System.out.println("Try statement");
+            preparedDivisionStatement.execute(); //Execute statement (returns true)
+            ResultSet myResultSet = preparedDivisionStatement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            myResultSet.next();
+            int countryID = myResultSet.getInt("COUNTRY_ID");
+            //System.out.println("My Country ID: " + countryID);
+            if(countryID == 1  ){
+                CustomersController.getCountryData("U.S");
+            } else if (countryID == 2) {
+                CustomersController.getCountryData("UK");
+                //System.out.println("UK");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
 
