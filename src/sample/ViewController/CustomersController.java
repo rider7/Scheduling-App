@@ -70,17 +70,14 @@ public class CustomersController {
 
     //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
 
-    public enum Test{
+    public enum comboBoxCountries{
         US("U.S"), UK("UK"), Canada("Canada");
     public final String country;
-        Test(String s) {
+        comboBoxCountries(String s) {
             this.country = s;
         }
     };
-//
-//    public enum comboBoxDivisions{
-//        Alabama,Alaska,Arizona,Arkansas
-//    }
+
     ObservableList<String> countryComboBox;
 
     @FXML
@@ -93,12 +90,12 @@ public class CustomersController {
             postalCode.setText(postalCodeString);
             cBoxDivisions.setValue(divisionIDString);
             cBoxCountries.getItems().clear();
-            cBoxCountries.getItems().addAll(Test.values());
+            cBoxCountries.getItems().addAll(comboBoxCountries.values());
             cBoxCountries.setValue(countryString);
 
-//        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
-//            cBoxCountries.getItems().clear();
-//            cBoxCountries.getItems().addAll(comboBoxCountries.values());
+       } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
+            cBoxCountries.getItems().clear();
+            cBoxCountries.getItems().addAll(comboBoxCountries.values());
 //            cBoxDivisions.getItems().clear();
 //            cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
         }
