@@ -68,8 +68,7 @@ public class CustomersController {
     public static int divisionIDString;
     public static String countryString;
 
-    //String comboBoxCountries [] = {"US","France","Japan","Canada","UT"};
-
+    //Enums
     public enum comboBoxCountries{
         US("U.S"), UK("UK"), Canada("Canada");
     public final String country;
