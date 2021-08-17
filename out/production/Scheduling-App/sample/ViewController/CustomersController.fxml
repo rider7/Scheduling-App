@@ -61,7 +61,7 @@
                   <HBox prefHeight="100.0" prefWidth="310.0">
                      <children>
                         <Label text="Country" />
-                        <ComboBox id="country_combo" fx:id="cBoxCountries" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
+                        <ComboBox id="country_combo" fx:id="cBoxCountries" onAction="#comboBoxCountryAction" prefHeight="21.0" prefWidth="261.0" promptText="Country" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="254.0">

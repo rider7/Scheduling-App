@@ -78,7 +78,41 @@ public class CustomersController {
         }
     };
 
-    ObservableList<String> countryComboBox;
+    public enum comboBoxDivision1{
+        Alabama("Alabama"),Arizona("Arizona"),Arkansas("Arkansas"),California("California"),Colorado("Colorado"),Connecticut("Connecticut"),Delaware("Delaware"),
+        DistrictofColumbia("District of Columbia"),Florida("Florida"),Georgia("Georgia"),Idaho("Idaho"),Illinois("Illinois"),Indiana("Indiana"),Iowa("Iowa"),Kansas("Kansas"),
+        Kentucky("Kentucky"),Louisiana("Louisiana"),Maine("Maine"),Maryland("Maryland"),Massachusetts("Massachusetts"),Michigan("Michigan"),Minnesota("Minnesota"),
+        Mississippi("Mississippi"),Missouri("Missouri"),Montana("Montana"),Nebraska("Nebraska"),Nevada("Nevada"),NewHampshire("New Hampshire"),NewJersey("New Jersey"),
+        NewMexico("New Mexico"),NewYork("New York"),NorthCarolina("North Carolina"),NorthDakota("North Dakota"),Ohio("Ohio"),Oklahoma("Oklahoma"),Oregon("Oregon"),
+        Pennsylvania("Pennsylvania"),RhodeIsland("Rhode Island"),SouthCarolina("South Carolina"),SouthDakota("South Dakota"),Tennessee("Tennessee"),Texas("Texas"),
+        Utah("Utah"),Vermont("Vermont"),Virginia("Virginia"),Washington("Washington"),WestVirginia("West Virginia"),Wisconsin("Wisconsin"),Wyoming("Wyoming"),Hawaii("Hawaii"),Alaska("Alaska");
+
+        public final String division;
+        comboBoxDivision1(String s) {
+            this.division = s;
+        }
+    };
+
+    public enum comboBoxDivision2{
+        England("England"),Wales("Wales"),Scotland("Scotland"),NorthernIreland("Northern Ireland");
+
+        public final String division;
+        comboBoxDivision2(String s) {
+            this.division = s;
+        }
+    };
+
+    public enum comboBoxDivision3{
+        NorthwestTerritories("Northwest Territories"),Alberta("Alberta"),BritishColumbia("British Columbia"),Manitoba("Manitoba"),NewBrunswick("New Brunswick"),NovaScotia("Nova Scotia"),PrinceEdwardIsland("Prince Edward Island"),
+        Ontario("Ontario"),Québec("Québec"),Saskatchewan("Saskatchewan"),Nunavut("Nunavut"),Yukon("Yukon"),NewfoundlandandLabrador("Newfoundland and Labrador");
+
+        public final String division;
+        comboBoxDivision3(String s) {
+            this.division = s;
+        }
+    };
+
+    //ObservableList<String> countryComboBox;
 
     @FXML
     public void initialize() {
@@ -88,19 +122,53 @@ public class CustomersController {
             address.setText(addressString);
             phoneNumber.setText(phoneString);
             postalCode.setText(postalCodeString);
-            cBoxDivisions.setValue(divisionIDString);
             cBoxCountries.getItems().clear();
             cBoxCountries.getItems().addAll(comboBoxCountries.values());
             cBoxCountries.setValue(countryString);
+            cBoxDivisions.getItems().clear();
+            if(cBoxCountries.getValue().toString().equals("US")||cBoxCountries.getValue().toString().equals("U.S")) {
+                //System.out.println("In the if statement");
+                cBoxDivisions.getItems().clear();
+                cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
+            }else if(cBoxCountries.getValue().toString().equals("UK")) {
+                //System.out.println("In the if statement");
+                cBoxDivisions.getItems().clear();
+                cBoxDivisions.getItems().addAll(comboBoxDivision2.values());
+            } else if(cBoxCountries.getValue().toString().equals("Canada")) {
+                //System.out.println("In the if statement");
+                cBoxDivisions.getItems().clear();
+                cBoxDivisions.getItems().addAll(comboBoxDivision3.values());
+            }
+            //cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
+            cBoxDivisions.setValue(divisionIDString);
 
        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
             cBoxCountries.getItems().clear();
             cBoxCountries.getItems().addAll(comboBoxCountries.values());
-//            cBoxDivisions.getItems().clear();
-//            cBoxDivisions.getItems().addAll(comboBoxDivisions.values());
+            cBoxDivisions.getItems().clear();
+            cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
         }
 
     }
+
+    public void comboBoxCountryAction(){
+        //System.out.println("out of the if statement");
+        //System.out.println(cBoxCountries.getValue());
+        //System.out.println(cBoxCountries.getValue().toString().equals("US"));
+        if(cBoxCountries.getValue().toString().equals("US")) {
+            //System.out.println("In the if statement");
+            cBoxDivisions.getItems().clear();
+            cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
+        }else if(cBoxCountries.getValue().toString().equals("UK")) {
+            //System.out.println("In the if statement");
+            cBoxDivisions.getItems().clear();
+            cBoxDivisions.getItems().addAll(comboBoxDivision2.values());
+        } else if(cBoxCountries.getValue().toString().equals("Canada")) {
+            //System.out.println("In the if statement");
+            cBoxDivisions.getItems().clear();
+            cBoxDivisions.getItems().addAll(comboBoxDivision3.values());
+        }
+    };
 
     @FXML
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {
