@@ -178,4 +178,6 @@ public class Appointments {
     public static void updateAppointment(Appointments selectedAppointments){
         myAppointments.set(0,selectedAppointments); //BUG: index of 0 used each time customer updated. possible issue.
     }
+
+
 }

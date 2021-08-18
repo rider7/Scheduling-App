@@ -1,5 +1,6 @@
 package sample.ViewController;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +12,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Main;
+import sample.Model.Appointments;
+import sample.Model.Contacts;
 import sample.Model.Customers;
+import sample.Model.Wrapper;
 import javafx.scene.control.*;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
@@ -25,6 +30,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -52,22 +58,72 @@ public class ReportsController implements Initializable {
     @FXML
     VBox report1VBox;
     @FXML
+    VBox report3VBox;
+    @FXML
+    HBox report2HBox;
+    @FXML
     TextField planningSessionsTotal;
     @FXML
     TextField deBriefingTotal;
 
+    //Report 3 textfields
+    @FXML
+    TextField usCustomers;
+    @FXML
+    TextField ukCustomers;
+    @FXML
+    TextField canadaCustomers;
     //Month textfields
     @FXML
     TextField janTextField, febTextField, marchTextField, aprilTextField, mayTextField, juneTextField, julyTextField,
     augustTextField, septTextField, octTextField, novTextField, decTextField;
 
+    //**********Original
+//    //TablewView Fields
+//    @FXML TableView<Appointments> myAppointments;
+//    @FXML TableView<Customers> myTableView3;
+//    //Table Columns
+//    @FXML
+//    public TableColumn<String, String> contact;
+//    @FXML
+//    public TableColumn<Appointments, Integer> apptID;
+//    @FXML
+//    public TableColumn<Appointments, String> title;
+//    @FXML
+//    public TableColumn<Appointments, String> description;
+//    @FXML
+//    public TableColumn<Appointments, String> type;
+//    @FXML
+//    public TableColumn<Appointments, String> start;
+//    @FXML
+//    public TableColumn<Appointments, String> end;
+//    @FXML
+//    public TableColumn<Appointments, Integer> customerID;
+
     //TablewView Fields
-    @FXML TableView<Customers> myTableView1;
-    @FXML TableView<Customers> myTableView2;
-    @FXML TableView<Customers> myTableView3;
+    @FXML TableView<Wrapper> myWrapper;
+    //@FXML TableView<Customers> myTableView3;
     //Table Columns
     @FXML
-    private TableColumn<Customers, Integer> customerID;
+    public TableColumn<Wrapper, String> contact;
+    @FXML
+    public TableColumn<Wrapper, Integer> apptID;
+    @FXML
+    public TableColumn<Wrapper, String> title;
+    @FXML
+    public TableColumn<Wrapper, String> description;
+    @FXML
+    public TableColumn<Wrapper, String> type;
+    @FXML
+    public TableColumn<Wrapper, String> start;
+    @FXML
+    public TableColumn<Wrapper, String> end;
+    @FXML
+    public TableColumn<Wrapper, Integer> customerID;
+
+    //Table Columns
+    //@FXML
+   // private TableColumn<Customers, Integer> customerID;
     @FXML
     private TableColumn<Customers, Integer> divisionID;
     @FXML
@@ -90,37 +146,70 @@ public class ReportsController implements Initializable {
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         // remove tableviews except for tableview1
-        reportVBox.getChildren().remove(myTableView1);
-        reportVBox.getChildren().remove(myTableView2);
-        reportVBox.getChildren().remove(myTableView3);
+        usCustomers.setText(String.valueOf(1));
+        ukCustomers.setText(String.valueOf(1));
+        canadaCustomers.setText(String.valueOf(1));
+        reportVBox.getChildren().remove(report2HBox);
+        reportVBox.getChildren().remove(report3VBox);
 
-//        try {
-//           // myConnection();
-//        }
-//        catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
+        //set report number to 1 when initializing so system does not need to get the report 1 vbox if it is already set in the scene
+        reportNumber =1;
 
-        //Sets the column for customers
-//        customerID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("Customer_ID"));
-//        divisionID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("Division_ID"));
-//        customerName.setCellValueFactory(new PropertyValueFactory<Customers, String>("Customer_Name"));
-//        address.setCellValueFactory(new PropertyValueFactory<Customers, String>("Address"));
-//        postalCode.setCellValueFactory(new PropertyValueFactory<Customers, String>("Postal_Code"));
-//        phone.setCellValueFactory(new PropertyValueFactory<Customers, String>("Phone"));
-//        createDate.setCellValueFactory(new PropertyValueFactory<Customers, String>("Create_Date"));
-//        createdBy.setCellValueFactory(new PropertyValueFactory<Customers, String>("Created_By"));
-//        lastUpdate.setCellValueFactory(new PropertyValueFactory<Customers, String>("Last_Update"));
-//        lastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Customers, String>("Last_Updated_By"));
-
-        //Sets the items on the myCustomerList table from the Observable list for customers via the getAllCustomers() method call
-        //myCustomerList.setItems(getAllCustomers());
+        //Sets the column for Appointments
+        contact.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("Contact_Name"));
+        apptID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("Appointment_ID"));
+        title.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("Title"));
+        description.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("Description"));
+        type.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("Type"));
+        start.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("Start"));
+        end.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("End"));
+        customerID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("Customer_ID"));
+        myWrapper.setItems(getAllWrappers());
     }
 
+    public static ObservableList<Wrapper>getAllWrappers(){
+        return Wrapper.myWrapper;
+    }
+
+    //******************Original
+//    @Override
+//    public void initialize (URL url, ResourceBundle resourceBundle){
+//        // remove tableviews except for tableview1
+//        reportVBox.getChildren().remove(report2HBox);
+//        reportVBox.getChildren().remove(myTableView3);
+//
+//        //set report number to 1 when initializing so system does not need to get the report 1 vbox if it is already set in the scene
+//        reportNumber =1;
+//
+//        //Sets the column for Appointments
+//        contact.setCellValueFactory(new PropertyValueFactory<String, String>("contact"));
+//        apptID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Appointment_ID"));
+//        title.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Title"));
+//        description.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Description"));
+//        type.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Type"));
+//        start.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Start"));
+//        end.setCellValueFactory(new PropertyValueFactory<Appointments, String>("End"));
+//        customerID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Customer_ID"));
+//        myAppointments.setItems(getAllAppointments());
+//    }
+//
+//    public static ObservableList<Appointments>getAllAppointments(){
+//        return Appointments.myAppointments;
+//    }
+
     public void reportOneAction(ActionEvent event) throws SQLException {
+        //add report 1 VBox if it is not set already in the scene
+        if(reportNumber!=1) {
+            reportVBox.getChildren().add(1, report1VBox);
+            reportVBox.getChildren().remove(report2HBox);
+            reportVBox.getChildren().remove(report3VBox);
+        }
+        // remove tableviews
+        reportVBox.getChildren().remove(report2HBox);
+        myWrapper.setVisible(false);
         String planningString = "Planning Session";
         reportNumber =1;
-        System.out.println("Report Number: " + reportNumber);
+        //System.out.println("Report Number: " + reportNumber);
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
 
@@ -161,7 +250,7 @@ public class ReportsController implements Initializable {
         int count2=0;
         while (myResultSet2.next()) { //Loop through each row adding to the count
             count2++;
-            System.out.println(count2);
+            //System.out.println(count2);
         }
         deBriefingTotal.setText(String.valueOf(count2));
 
@@ -256,28 +345,168 @@ public class ReportsController implements Initializable {
         decTextField.setText(String.valueOf(decCount));
     };
 
-    public void reportTwoAction(){
-        reportNumber =2;
+    public void reportTwoAction() throws SQLException {
+        if(reportNumber!=2) {
+            reportVBox.getChildren().add(1, myWrapper);
+        }
+        reportNumber=2;
         System.out.println(reportNumber);
         //add tableview
-        reportVBox.getChildren().add(1,myTableView2);
+        //reportVBox.getChildren().add(1,myWrapper);
         //tableview visibility
-        myTableView2.setVisible(true);
+        myWrapper.setVisible(true);
         // remove tableviews
-        reportVBox.getChildren().remove(myTableView1);
-        reportVBox.getChildren().remove(myTableView3);
+        reportVBox.getChildren().remove(report1VBox);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+
+        //Select Appt Statement
+        String selectApptStatement = "SELECT * FROM  appointments";
+        //Select Contact Statement
+        String selectContactStatement = "SELECT * FROM  contacts WHERE Contact_ID = ?";
+        //Select join statement
+        String selectJoinStatement = "SELECT appointments.Appointment_ID, appointments.Title, appointments.Description, appointments.Type, appointments.Customer_ID, appointments.User_ID, appointments.Contact_ID, appointments.Start, appointments.End, contacts.Contact_Name FROM appointments INNER JOIN contacts ON appointments.Contact_ID=contacts.Contact_ID";
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, selectJoinStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+        try {
+            preparedStatement.execute(selectJoinStatement);
+            //Create ResultSet object and assign the preparedStatement results
+            ResultSet myResultSet = preparedStatement.getResultSet();
+            System.out.println("Appt table for Report 2");
+            //Forward scroll ResultSet
+            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                String contact_name = myResultSet.getString("Contact_Name");
+                int appt_ID = myResultSet.getInt("Appointment_ID");
+                //System.out.println(appt_ID);
+                String title = myResultSet.getString("Title");
+                String description = myResultSet.getString("Description");
+                String type = myResultSet.getString("Type");
+                int customer_id = myResultSet.getInt("Customer_ID");
+                int user_id = myResultSet.getInt("User_ID");
+                int contact_id = myResultSet.getInt("Contact_ID");
+                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //Create new instance of Appontments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
+                Wrapper newWrapper = new Wrapper(contact_name,appt_ID, customer_id, user_id, contact_id, title, description, null, type, start, end, null,null,null, null);
+                //Call addCustomer method with newCustomer instance passed to add to the observableList
+                //Appointments.addAppointments(newAppointment);
+                Wrapper.addWrappers(newWrapper);
+                //Appointments.updateAppointments(newAppointment);
+                Wrapper.updateWrappers(newWrapper);
+                System.out.println(appt_ID);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     };
 
-    public void reportThreeAction(){
-        reportNumber =3;
+    //***************ORIGINAL
+//    public void reportTwoAction() throws SQLException {
+//        reportNumber=2;
+//        System.out.println(reportNumber);
+//        //add tableview
+//        reportVBox.getChildren().add(1,myAppointments);
+//        //tableview visibility
+//        //myTableView2.setVisible(true);
+//        // remove tableviews
+//        reportVBox.getChildren().remove(report1VBox);
+//
+//        //Establish connection before launch and assign it to the Connection reference variable named conn
+//        Connection conn = DBConnection.startConnection();
+//
+//        //Select Statement
+//        String selectApptStatement = "SELECT * FROM  appointments";
+//
+//        //Create prepared statement object for insertStatement
+//        Query.setPreparedStatement(conn, selectApptStatement);
+//
+//        //Get the prepared statement reference
+//        PreparedStatement preparedStatement = Query.getPreparedStatement();
+//        try {
+//            preparedStatement.execute(selectApptStatement);
+//            //Create ResultSet object and assign the preparedStatement results
+//            ResultSet myResultSet = preparedStatement.getResultSet();
+//            System.out.println("Appt table for Report 2");
+//            //Forward scroll ResultSet
+//            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+//                int appt_ID = myResultSet.getInt("Appointment_ID");
+//                //System.out.println(appt_ID);
+//                String title = myResultSet.getString("Title");
+//                String description = myResultSet.getString("Description");
+//                String type = myResultSet.getString("Type");
+//                int customer_id = myResultSet.getInt("Customer_ID");
+//                int user_id = myResultSet.getInt("User_ID");
+//                int contact_id = myResultSet.getInt("Contact_ID");
+//                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+//                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+//                //Create new instance of Appontments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
+//                Appointments newAppointment = new Appointments(appt_ID, customer_id, user_id, contact_id, title, description, null, type, start, end, null,null,null, null);
+//                //Call addCustomer method with newCustomer instance passed to add to the observableList
+//                Appointments.addAppointments(newAppointment);
+//                Appointments.updateAppointments(newAppointment);
+//                System.out.println(appt_ID);
+//            }
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//    };
+
+    public void reportThreeAction() throws SQLException {
+        int usCount = 0;
+        int ukCount = 0;
+        int canadaCount = 0;
+        reportNumber=3;
         System.out.println(reportNumber);
         //add tableview
-        reportVBox.getChildren().add(1,myTableView3);
+        reportVBox.getChildren().add(1,report3VBox);
         //tableview visibility
-        myTableView3.setVisible(true);
+        report3VBox.setVisible(true);
+        report1VBox.setVisible(false);
+        myWrapper.setVisible(false);
         // remove tableviews
-        reportVBox.getChildren().remove(myTableView2);
-        reportVBox.getChildren().remove(myTableView1);
+        //reportVBox.getChildren().remove(myAppointments);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+
+        //Select join statement
+        String selectJoinStatement = "SELECT customers.Division_ID, customers.Customer_ID, first_level_divisions.COUNTRY_ID FROM customers INNER JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID";
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, selectJoinStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+        try {
+            preparedStatement.execute(selectJoinStatement);
+            //Create ResultSet object and assign the preparedStatement results
+            ResultSet myResultSet = preparedStatement.getResultSet();
+            System.out.println("Customer table for Report 3");
+            //Forward scroll ResultSet
+            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                int division_ID = myResultSet.getInt("Division_ID");
+                int country_ID = myResultSet.getInt("COUNTRY_ID");
+                int customer_id = myResultSet.getInt("Customer_ID");
+                if(country_ID==1){
+                    usCount++;
+                } else if(country_ID ==2){
+                    ukCount++;
+                }else if(country_ID ==3){
+                    canadaCount++;
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        usCustomers.setText(String.valueOf(usCount));
+        ukCustomers.setText(String.valueOf(ukCount));
+        canadaCustomers.setText(String.valueOf(canadaCount));
+
     };
 
     @FXML

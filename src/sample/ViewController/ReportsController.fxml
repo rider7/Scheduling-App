@@ -13,6 +13,22 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
+            <HBox fx:id="report2HBox" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="myWrapper" minWidth="-Infinity" prefHeight="267.0" prefWidth="596.0">
+                    <columns>
+                      <TableColumn fx:id="contact" prefWidth="75.0" text="Contact" />
+                      <TableColumn fx:id="apptID" prefWidth="75.0" text="Appt ID" />
+                        <TableColumn fx:id="title" prefWidth="75.0" text="Title" />
+                        <TableColumn fx:id="type" prefWidth="75.0" text="Type" />
+                        <TableColumn fx:id="description" prefWidth="75.0" text="Description" />
+                        <TableColumn fx:id="start" prefWidth="75.0" text="Start" />
+                        <TableColumn fx:id="end" prefWidth="75.0" text="End" />
+                        <TableColumn fx:id="customerID" prefWidth="75.0" text="Customer ID" />
+                    </columns>
+                  </TableView>
+               </children>
+            </HBox>
             <VBox fx:id="report1VBox" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox prefHeight="31.0" prefWidth="600.0" spacing="10.0">
@@ -107,6 +123,52 @@
                   </HBox>
                </children>
             </VBox>
+            <VBox fx:id="report3VBox" layoutX="10.0" layoutY="140.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox prefHeight="31.0" prefWidth="600.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="138.0" text="Total US Customers">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="usCustomers" editable="false">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="HBoxReport3" layoutX="10.0" layoutY="10.0" prefHeight="84.0" prefWidth="600.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="139.0" text="Total UK Customers">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="ukCustomers" editable="false" prefHeight="25.0" prefWidth="148.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="35.0" prefHeight="84.0" prefWidth="600.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="139.0" text="Total Canada Customers">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="canadaCustomers" editable="false" prefHeight="25.0" prefWidth="149.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="reportOne" mnemonicParsing="false" onAction="#reportOneAction" text="Report: Total Appointments">
@@ -119,7 +181,7 @@
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="reportThree" mnemonicParsing="false" onAction="#reportThreeAction" text="Report: Total Customers">
+                  <Button fx:id="reportThree" mnemonicParsing="false" onAction="#reportThreeAction" text="Report: Total Customers Per Country">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin></Button>
