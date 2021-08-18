@@ -25,6 +25,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -54,6 +55,11 @@ public class ReportsController implements Initializable {
     TextField planningSessionsTotal;
     @FXML
     TextField deBriefingTotal;
+
+    //Month textfields
+    @FXML
+    TextField janTextField, febTextField, marchTextField, aprilTextField, mayTextField, juneTextField, julyTextField,
+    augustTextField, septTextField, octTextField, novTextField, decTextField;
 
     //TablewView Fields
     @FXML TableView<Customers> myTableView1;
@@ -159,6 +165,95 @@ public class ReportsController implements Initializable {
         }
         deBriefingTotal.setText(String.valueOf(count2));
 
+
+        //call method monthInteger which finds and totals the month for each appointment
+        monthInteger(conn);
+    };
+
+    public void monthInteger(Connection conn) throws SQLException {
+        int janCount =0;
+        int febCount =0;
+        int marCount =0;
+        int aprilCount =0;
+        int mayCount =0;
+        int juneCount =0;
+        int julyCount =0;
+        int augustCount =0;
+        int septCount =0;
+        int octCount =0;
+        int novCount =0;
+        int decCount =0;
+        String selectTypeStatement = "SELECT * FROM  appointments"; //Question marks are placeholders to be mapped with key values in one-based index
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, selectTypeStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+        //Map value to prepared statement
+        preparedStatement.execute();
+        //Create ResultSet object and assign the preparedStatement results
+        ResultSet myResultSet = preparedStatement.getResultSet();
+
+        while (myResultSet.next()) { //Loop through each row adding to the count
+            Timestamp ts = myResultSet.getTimestamp("Start");
+            Date myDate = new Date(ts.getTime());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(myDate);
+            int month = cal.get(Calendar.MONTH);
+            //System.out.println("month number " + month);
+            switch (month){
+                case 0:
+                    janCount++;
+                    break;
+                case 1:
+                    febCount++;
+                    break;
+                case 2:
+                    marCount++;
+                    break;
+                case 3:
+                    aprilCount++;
+                    break;
+                case 4:
+                    mayCount++;
+                    break;
+                case 5:
+                    juneCount++;
+                    break;
+                case 6:
+                    julyCount++;
+                    break;
+                case 7:
+                    augustCount++;
+                    break;
+                case 8:
+                    septCount++;
+                    break;
+                case 9:
+                    octCount++;
+                    break;
+                case 10:
+                    novCount++;
+                    break;
+                case 11:
+                    decCount++;
+                    break;
+            }
+            //System.out.println(mayCount);
+        }
+        janTextField.setText(String.valueOf(janCount));
+        febTextField.setText(String.valueOf(febCount));
+        marchTextField.setText(String.valueOf(marCount));
+        aprilTextField.setText(String.valueOf(aprilCount));
+        mayTextField.setText(String.valueOf(mayCount));
+        juneTextField.setText(String.valueOf(juneCount));
+        julyTextField.setText(String.valueOf(julyCount));
+        augustTextField.setText(String.valueOf(augustCount));
+        septTextField.setText(String.valueOf(septCount));
+        octTextField.setText(String.valueOf(octCount));
+        novTextField.setText(String.valueOf(novCount));
+        decTextField.setText(String.valueOf(decCount));
     };
 
     public void reportTwoAction(){
