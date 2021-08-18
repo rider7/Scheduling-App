@@ -169,7 +169,7 @@ public class CustomersController {
 
     @FXML
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {
-        System.out.println("Save Customer Button Works!");
+        //System.out.println("Save Customer Button Works!");
 
         String newCustomerID = customerID.getText();
         String newCustomerName = customerName.getText();
