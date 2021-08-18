@@ -72,7 +72,15 @@
                   </HBox>
                </children>
             </HBox>
-            <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0">

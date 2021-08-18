@@ -111,8 +111,6 @@ public class CustomersController {
         }
     };
 
-    //ObservableList<String> countryComboBox;
-
     @FXML
     public void initialize() {
         if (Integer.valueOf(customerIDString) > 0) {
@@ -178,8 +176,11 @@ public class CustomersController {
         String newAddress = address.getText();
         String newPhoneNumber = phoneNumber.getText();
         String newPostalCode= postalCode.getText();
+        String newDivision= cBoxDivisions.getValue().toString();
+        getDivision(newDivision);
+        int myNewDivision = divisionIDString;
         String newUser = UsersController.getMyNewUser();
-        System.out.println(newCustomerName + newAddress + newPhoneNumber + newPostalCode + newUser);
+        System.out.println(newCustomerName + newAddress + newPhoneNumber + newPostalCode + newUser + newDivision);
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -193,19 +194,13 @@ public class CustomersController {
         //Get the prepared statement reference
         PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-//        String Customer_Name = newCustomerName;
-//        String Address = newAddress;
-//        String Postal_Code = newPhoneNumber;
-//        String Phone = "me again";
-
-
         //Key-value mapping to set the prepared statement
         //preparedStatement.setInt(1,Integer.valueOf(newCustomerID));
         preparedStatement.setString(1,newCustomerName);
         preparedStatement.setString(2,newAddress);
         preparedStatement.setString(3,newPhoneNumber);
         preparedStatement.setString(4,newPostalCode);
-        preparedStatement.setInt(5,5);
+        preparedStatement.setInt(5,myNewDivision);
         preparedStatement.setString(6,newUser);
         preparedStatement.setString(7,newUser);
 
@@ -215,6 +210,30 @@ public class CustomersController {
         if (preparedStatement.getUpdateCount() > 0)
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");
+    }
+
+    public void getDivision(String division_ID) throws SQLException {
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Select all records from customers table
+        String selectDivisionStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?"; //SQL statement
+        //Create prepared statement object for selecting appointments
+        Query.setPreparedStatement(conn, selectDivisionStatement);
+        //Prepared statement reference
+        PreparedStatement preparedDivisionStatement = Query.getPreparedStatement();
+        //Key-value mapping to set the prepared statement based on customer id
+        preparedDivisionStatement.setString(1, division_ID);
+
+        try {
+            //System.out.println("Try statement");
+            preparedDivisionStatement.execute(); //Execute statement (returns true)
+            ResultSet myResultSet = preparedDivisionStatement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            myResultSet.next();
+            divisionIDString = myResultSet.getInt("Division_ID");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void getCustomerData(Customers customer){

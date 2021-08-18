@@ -22,6 +22,8 @@ import java.util.Scanner;
 
 public class Main extends Application{
 
+    Scene reportScene;
+    Stage primaryStage;
     //Starting or primary fxml view when the application first runs
     @Override
     public void start(Stage primaryStage) throws Exception {

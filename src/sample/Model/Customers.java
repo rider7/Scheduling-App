@@ -28,6 +28,10 @@ public class Customers {
                     null, "gary")
     );
 
+    public Customers(String customer_Name) {
+        this.Customer_Name = customer_Name;
+    }
+
     public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
         Customer_ID = customer_ID;
         Division_ID = division_ID;

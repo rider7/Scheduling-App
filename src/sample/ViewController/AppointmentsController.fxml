@@ -76,12 +76,12 @@
       </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
+            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" prefHeight="25.0" prefWidth="33.0" text="Back">
                <HBox.margin>
-                  <Insets />
+                  <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="createNewAppt" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="Back">
+            <Button fx:id="createNewAppt" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="New">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -91,4 +91,3 @@
       </HBox>
    </children>
 </AnchorPane>
-
