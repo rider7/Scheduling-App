@@ -15,6 +15,7 @@ import sample.Model.Customers;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -28,6 +29,8 @@ public class AppointmentsList implements Initializable {
     Locale locale = new Locale("en");
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
+    //Message box instance
+    JFrame frame;
 
     //FXML attributes
     //TableView field
@@ -101,7 +104,8 @@ public class AppointmentsList implements Initializable {
         preparedStatement.execute(); //Execute prepared statement
         //Delete the appointment from tableview as well
         Appointments.deleteAppointment(deleteSelectedAppointment);
-        System.out.println("Appointment Deleted!" + " Appointment ID: " + Appointment_ID + "Appointment Type: " + type);
+        JOptionPane.showMessageDialog(frame,"You have deleted the appointment with the following details " +"\n" + "Appointment ID: " + Appointment_ID + "\n" + "Appointment Type: " + type);
+        //System.out.println("Appointment Deleted!" + " Appointment ID: " + Appointment_ID + "Appointment Type: " + type);
     }
 
     @FXML

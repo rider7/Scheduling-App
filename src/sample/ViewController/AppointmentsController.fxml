@@ -94,7 +94,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="updateAppt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="Update" />
+                  <Button fx:id="updateAppt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update" />
                </children>
             </HBox>
 

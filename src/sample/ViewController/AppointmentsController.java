@@ -99,6 +99,9 @@ public class AppointmentsController {
             }else if(contactID==3){
                 contactComboBox.setValue("Li Lee");
             }
+        }else{
+            contactComboBox.getItems().clear();
+            contactComboBox.getItems().addAll(comboBoxContactName.values());
         }
     }
 
@@ -116,13 +119,13 @@ public class AppointmentsController {
         String newContactString=contact.getText();
         String newUser = UsersController.getMyNewUser();
         String newAppt = AppointmentsList.getMyNewAppointments();
-        System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
+        //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
 
         //Insert Statement
-        String insertStatement = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+        String insertStatement = "INSERT INTO appointments (Title, Description, Location, Type, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Create prepared statement object for insertStatement
         Query.setPreparedStatement(conn, insertStatement);
@@ -131,13 +134,13 @@ public class AppointmentsController {
         PreparedStatement preparedStatement = Query.getPreparedStatement();
 
         //Key-value mapping to set the prepared statement
-        preparedStatement.setString(1,newAppointmentID);
-        preparedStatement.setString(2,newTitleString);
-        preparedStatement.setString(3,newDescriptionString);
-        preparedStatement.setString(4,newLocationString);
-        preparedStatement.setString(5,newTypeString);
+        //preparedStatement.setString(1,newAppointmentID);
+        preparedStatement.setString(1,newTitleString);
+        preparedStatement.setString(2,newDescriptionString);
+        preparedStatement.setString(3,newLocationString);
+        preparedStatement.setString(4,newTypeString);
+        preparedStatement.setString(5,newUser);
         preparedStatement.setString(6,newUser);
-        preparedStatement.setString(7,newUser);
 
         preparedStatement.execute(); //Execute prepared statement
 
@@ -145,6 +148,59 @@ public class AppointmentsController {
         if (preparedStatement.getUpdateCount() > 0)
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");
+    }
+
+    @FXML
+    public void onActionUpdateAppointment(ActionEvent event) throws SQLException, IOException {
+        System.out.println("Update Appointment Button Works!");
+
+        String newAppointmentID = appointment_id.getText();
+        String newTitleString = title.getText();
+        String newDescriptionString = description.getText();
+        String newLocationString = myLocation.getText();
+        String newTypeString= type.getText();
+        String newStartString= start.getText();
+        String newEndString= end.getText();
+        String newContactString=contact.getText();
+        String newUser = UsersController.getMyNewUser();
+        String newAppt = AppointmentsList.getMyNewAppointments();
+        //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+
+        //Update Statement
+        String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, updateStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+
+        //Key-value mapping to set the prepared statement
+        preparedStatement.setString(1,newTitleString);
+        preparedStatement.setString(2,newDescriptionString);
+        preparedStatement.setString(3,newLocationString);
+        preparedStatement.setString(4,newTypeString);
+        preparedStatement.setString(5,newStartString);
+        preparedStatement.setString(6,newEndString);
+        preparedStatement.setString(7,newAppointmentID);
+
+        preparedStatement.execute(); //Execute prepared statement
+
+        //Check rows affected
+        if (preparedStatement.getUpdateCount() > 0)
+            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+        else System.out.println("No change!");
+
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "AppointmentsList.fxml"),bundle);
+        Stage stage = (Stage) updateAppt.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void getAppointmentData(Appointments appointment){
