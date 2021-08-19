@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Model.Appointments;
@@ -30,12 +31,14 @@ public class AppointmentsController {
 
     //Attributes
     public static int appointmentID;
+    public static int contactID;
     public static String titleString;
     public static String descriptionString;
     public static String locationString;
     public static String typeString;
     public static LocalDateTime startString;
     public static LocalDateTime endString;
+    public static String contactString;
 
     @FXML
     private TextField appointment_id;
@@ -54,7 +57,28 @@ public class AppointmentsController {
     @FXML
     private TextField end;
     @FXML
-    private Button backToReality;
+    private TextField contactIDField;
+    @FXML
+    private Button backToReality, updateAppt, createNewAppt;
+    @FXML
+    private ComboBox contactComboBox;
+
+    //Enums
+    public enum comboBoxContactName{
+        AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
+        //Contact_ID 1, 2, 3;
+            public final String contacts;
+        comboBoxContactName(String s) {
+            this.contacts = s;
+        }
+    };
+    public enum comboBoxContactID{
+        AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
+        public final String contacts;
+        comboBoxContactID(String s) {
+            this.contacts = s;
+        }
+    };
 
     @FXML
     public void initialize() {
@@ -66,8 +90,18 @@ public class AppointmentsController {
             type.setText(typeString);
             start.setText(startString.toString());
             end.setText(endString.toString());
+            contactIDField.setText(String.valueOf(contactID));
+            contactComboBox.getItems().addAll(comboBoxContactName.values());
+            if(contactID==1){
+                contactComboBox.setValue("Anika Costa");
+            }else if(contactID==2){
+                contactComboBox.setValue("Daniel Garcia");
+            }else if(contactID==3){
+                contactComboBox.setValue("Li Lee");
+            }
         }
     }
+
     @FXML
     public void onActionInsertAppointment(ActionEvent event) throws SQLException, IOException {
         System.out.println("Save Appointment Button Works!");
@@ -79,6 +113,7 @@ public class AppointmentsController {
         String newTypeString= type.getText();
         String newStartString= start.getText();
         String newEndString= end.getText();
+        String newContactString=contact.getText();
         String newUser = UsersController.getMyNewUser();
         String newAppt = AppointmentsList.getMyNewAppointments();
         System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
@@ -101,8 +136,6 @@ public class AppointmentsController {
         preparedStatement.setString(3,newDescriptionString);
         preparedStatement.setString(4,newLocationString);
         preparedStatement.setString(5,newTypeString);
-        //preparedStatement.setString(6,newStartString);
-        //preparedStatement.setString(7,newEndString);
         preparedStatement.setString(6,newUser);
         preparedStatement.setString(7,newUser);
 
@@ -122,6 +155,8 @@ public class AppointmentsController {
         typeString = appointment.getType();
         startString = appointment.getStart();
         endString = appointment.getEnd();
+        contactID = appointment.getContact_ID();
+
     };
 
     @FXML

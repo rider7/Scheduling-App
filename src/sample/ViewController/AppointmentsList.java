@@ -50,6 +50,8 @@ public class AppointmentsList implements Initializable {
     private TableColumn<Appointments, String> end;
     @FXML
     private TableColumn<Appointments, Integer> customerID;
+    @FXML
+    private TableColumn<Appointments, Integer> contactID;
 //    @FXML
 //    private TableColumn<Appointments, String> createDate;
 //    @FXML
@@ -143,6 +145,7 @@ public class AppointmentsList implements Initializable {
         start.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Start"));
         end.setCellValueFactory(new PropertyValueFactory<Appointments, String>("End"));
         customerID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Customer_ID"));
+        contactID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Contact_ID"));
 //        createDate.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Create_Date"));
 //        createdBy.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Created_By"));
 //        lastUpdate.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Last_Update"));
