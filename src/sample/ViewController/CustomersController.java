@@ -55,6 +55,8 @@ public class CustomersController {
     @FXML
     Button backToReality;
     @FXML
+    Button updateCustomerButton;
+    @FXML
     ComboBox cBoxCountries;
     @FXML
     ComboBox cBoxDivisions;
@@ -210,6 +212,60 @@ public class CustomersController {
         if (preparedStatement.getUpdateCount() > 0)
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");
+    }
+
+    @FXML
+    public void onActionUpdateCustomer(ActionEvent event) throws SQLException, IOException {
+        //System.out.println("Save Customer Button Works!");
+
+        String newCustomerID = customerID.getText();
+        String newCustomerName = customerName.getText();
+        String newAddress = address.getText();
+        String newPhoneNumber = phoneNumber.getText();
+        String newPostalCode= postalCode.getText();
+        String newDivision= cBoxDivisions.getValue().toString();
+        getDivision(newDivision);
+        int myNewDivision = divisionIDString;
+        String newUser = UsersController.getMyNewUser();
+        System.out.println(newCustomerName + newAddress + newPhoneNumber + newPostalCode + newUser + newDivision);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+
+        //Update Statement
+        String updateStatement = "UPDATE customers SET Customer_Name=?, Address=?, Phone=?, Postal_Code=?, Division_ID=?, Created_By=?, Last_Updated_By=? WHERE Customer_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
+
+        //Create prepared statement object for insertStatement
+        Query.setPreparedStatement(conn, updateStatement);
+
+        //Get the prepared statement reference
+        PreparedStatement preparedStatement = Query.getPreparedStatement();
+
+        //Key-value mapping to set the prepared statement
+        //preparedStatement.setInt(1,Integer.valueOf(newCustomerID));
+        preparedStatement.setString(1,newCustomerName);
+        preparedStatement.setString(2,newAddress);
+        preparedStatement.setString(3,newPhoneNumber);
+        preparedStatement.setString(4,newPostalCode);
+        preparedStatement.setInt(5,myNewDivision);
+        preparedStatement.setString(6,newUser);
+        preparedStatement.setString(7,newUser);
+        preparedStatement.setString(8,newCustomerID);
+
+        preparedStatement.execute(); //Execute prepared statement
+
+        //Check rows affected
+        if (preparedStatement.getUpdateCount() > 0)
+            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+        else System.out.println("No change!");
+
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "CustomersList.fxml"),bundle);
+        Stage stage = (Stage) updateCustomerButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void getDivision(String division_ID) throws SQLException {

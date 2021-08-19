@@ -207,6 +207,7 @@ public class ReportsController implements Initializable {
         // remove tableviews
         reportVBox.getChildren().remove(report2HBox);
         myWrapper.setVisible(false);
+        report1VBox.setVisible(true);
         String planningString = "Planning Session";
         reportNumber =1;
         //System.out.println("Report Number: " + reportNumber);
