@@ -32,6 +32,8 @@ public class AppointmentsController {
     //Attributes
     public static int appointmentID;
     public static int contactID;
+    public static int customerID;
+    public static int userID;
     public static String titleString;
     public static String descriptionString;
     public static String locationString;
@@ -58,6 +60,10 @@ public class AppointmentsController {
     private TextField end;
     @FXML
     private TextField contactIDField;
+    @FXML
+    private TextField customerIDField;
+    @FXML
+    private TextField userIDField;
     @FXML
     private Button backToReality, updateAppt, createNewAppt;
     @FXML
@@ -91,6 +97,8 @@ public class AppointmentsController {
             start.setText(startString.toString());
             end.setText(endString.toString());
             contactIDField.setText(String.valueOf(contactID));
+            customerIDField.setText(String.valueOf(customerID));
+            userIDField.setText(String.valueOf(userID));
             contactComboBox.getItems().addAll(comboBoxContactName.values());
             if(contactID==1){
                 contactComboBox.setValue("Anika Costa");
@@ -161,7 +169,10 @@ public class AppointmentsController {
         String newTypeString= type.getText();
         String newStartString= start.getText();
         String newEndString= end.getText();
-        String newContactString=contact.getText();
+        String newContactIDString= contactIDField.getText();
+        String newCustomerIDString= customerIDField.getText();
+        String newUserIDString= userIDField.getText();
+        //String newContactString=contact.getText();
         String newUser = UsersController.getMyNewUser();
         String newAppt = AppointmentsList.getMyNewAppointments();
         //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
@@ -170,7 +181,7 @@ public class AppointmentsController {
         Connection conn = DBConnection.startConnection();
 
         //Update Statement
-        String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
+        String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Create prepared statement object for insertStatement
         Query.setPreparedStatement(conn, updateStatement);
@@ -185,7 +196,10 @@ public class AppointmentsController {
         preparedStatement.setString(4,newTypeString);
         preparedStatement.setString(5,newStartString);
         preparedStatement.setString(6,newEndString);
-        preparedStatement.setString(7,newAppointmentID);
+        preparedStatement.setString(7,newContactIDString);
+        preparedStatement.setString(8,newCustomerIDString);
+        preparedStatement.setString(9,newUserIDString);
+        preparedStatement.setString(10,newAppointmentID);
 
         preparedStatement.execute(); //Execute prepared statement
 
@@ -212,7 +226,8 @@ public class AppointmentsController {
         startString = appointment.getStart();
         endString = appointment.getEnd();
         contactID = appointment.getContact_ID();
-
+        customerID = appointment.getCustomer_ID();
+        userID = appointment.getUser_ID();
     };
 
     @FXML
