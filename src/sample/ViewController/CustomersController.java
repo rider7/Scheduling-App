@@ -30,6 +30,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -153,6 +154,14 @@ public class CustomersController {
             cBoxDivisions.getItems().clear();
             cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
         }
+        ArrayList<String> numbers = new ArrayList<String>();
+        numbers.add(customersNameString);
+        numbers.add(addressString);
+        numbers.add(phoneString);
+        numbers.add(postalCodeString);
+        numbers.add(countryString);
+        numbers.forEach((n) -> {System.out.println(n);});
+
 
     }
 
@@ -177,6 +186,8 @@ public class CustomersController {
             cBoxDivisions.getItems().addAll(comboBoxDivision3.values());
         }
     };
+
+
 
     @FXML
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {

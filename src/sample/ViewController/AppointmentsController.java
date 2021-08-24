@@ -24,10 +24,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 
 public class AppointmentsController {
     /**
@@ -97,6 +94,8 @@ public class AppointmentsController {
         }
     };
 
+
+
     @FXML
     public void initialize() {
         /**
@@ -126,6 +125,14 @@ public class AppointmentsController {
             contactComboBox.getItems().clear();
             contactComboBox.getItems().addAll(comboBoxContactName.values());
         }
+
+        ArrayList<String> numbers = new ArrayList<String>();
+        numbers.add(titleString);
+        numbers.add(descriptionString);
+        numbers.add(locationString);
+        numbers.add(typeString);
+        numbers.forEach((n) -> {System.out.println(n);});
+
     }
 
     @FXML

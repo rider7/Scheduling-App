@@ -8,8 +8,5 @@
       <Button fx:id="loginButton" layoutX="37.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToUserLogin" text="Login" />
       <Button fx:id="customerListScene" layoutX="111.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToCustomerList" text="Customer List" />
       <Button fx:id="apptListScene" layoutX="210.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToApptList" text="Appt List" />
-      <Button fx:id="editCustScene" layoutX="111.0" layoutY="84.0" mnemonicParsing="false" onAction="#goToEditCust" text="Edit Cust" />
-      <Button fx:id="editApptScene" layoutX="209.0" layoutY="84.0" mnemonicParsing="false" onAction="#goToEditAppt" text="Edit Appt" />
-      <Button fx:id="reportScene" layoutX="300.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToReports" text="%Reports" />
    </children>
 </AnchorPane>
