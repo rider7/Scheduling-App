@@ -343,6 +343,20 @@ public class AppointmentsController {
         return myBoolean;
     }
 
+    private static void apptConflictCheck(int userID, String start, String end){
+        //connect to database and select all appts based on user_id passed through method
+
+        //if statement to compare if start time conflicts
+        //message
+
+        //if statement to compare if end time conflicts
+        //message
+
+
+
+    }
+
+
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
         /**
