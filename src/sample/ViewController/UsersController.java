@@ -18,6 +18,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -39,6 +40,8 @@ public class UsersController {
     //Object instance created for dialog box
     JFrame frame;
     public static String myNewUser;
+    private final String user_one = "test";
+    private final String user_two = "admin";
 
     boolean userMatched = false;
     String attempt = "Fail";
@@ -73,6 +76,9 @@ public class UsersController {
             if(myResultSet.getString("User_Name").equals(user.getText()) && myResultSet.getString("Password").equals(password.getText())){ //Use user result set here!!
                 userMatched = true;
                 attempt = "Success";
+                System.out.println("User beginning");
+                myPreparedStatement(myNewUser);
+                System.out.println("User end");
                 if(localeString.equals("fr")){ //Logic used if user is a match to display a dialog box either in English or French based on the default locale
                     //System.out.println("FRENCHIE");
                     JOptionPane.showMessageDialog(frame, "Connexion réussie!");}
@@ -157,18 +163,75 @@ public class UsersController {
         return myResultSet;
     }
 
-    public ResultSet myPreparedStatement() throws SQLException{
+    public void myPreparedStatement(String user) throws SQLException{
+        System.out.println("My prep statement method user: " + user);
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
-        //Pass conn object to statement
-        Query.setStatement(conn); //Create statement object
-        Statement statement = Query.getPreparedStatement(); //Get Statement reference
-
         //Select all records from countries table
-        String selectStatement = "SELECT * FROM users"; //SQL statement
-        statement.execute(selectStatement); //Execute statement (returns true)
+        String selectStatement = "SELECT * FROM appointments WHERE User_ID = ?"; //SQL statement
+        //String selectStatement = "SELECT * FROM appointments"; //SQL statement
+        //Pass conn object to statement
+        Query.setPreparedStatement(conn, selectStatement); //Create statement object
+        PreparedStatement statement = Query.getPreparedStatement(); //Get Statement reference
+        if(user.equals(user_one)){
+            System.out.println("User 1");
+        //Key-value mapping to set the prepared statement based on customer id
+        statement.setInt(1, 1);}
+        else{
+            System.out.println("User 2");
+            statement.setInt(1, 2);
+        }
+
+        statement.execute(); //Execute statement (returns true)
         ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
-        return myResultSet;
+        System.out.println("Result SETTTTTTTTTTTTTTTT");
+        //System.out.println(myResultSet.getTimestamp("Start"));
+        //Get local date time
+        LocalDateTime myLocalDateTime = LocalDateTime.now();
+        //Custom format pattern
+        DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        DateTimeFormatter myFormatterFull = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter myFormatterHour = DateTimeFormatter.ofPattern("HH");
+        DateTimeFormatter myFormatterMin = DateTimeFormatter.ofPattern("mm");
+        //Format to a string
+        String formDT = myLocalDateTime.format(myFormatter);
+        String formFullDT = myLocalDateTime.format(myFormatterFull);
+        String formFullHour = myLocalDateTime.format(myFormatterHour);
+        String formFullMin = myLocalDateTime.format(myFormatterMin);
+        //System.out.println("Local " + formDT);
+
+
+        //return myResultSet;
+        while(myResultSet.next()){
+            Timestamp time =myResultSet.getTimestamp("Start");
+            String formatMonth = new SimpleDateFormat("MM/dd/yyyy HH:mm").format(time);
+            String formatFull = new SimpleDateFormat("MM/dd/yyyy").format(time);
+            System.out.println("Appt time: " + formatMonth);
+            String formatHour = new SimpleDateFormat("HH").format(time);
+            String formatMin = new SimpleDateFormat("HH").format(time);
+            //System.out.println(formatHour);
+            //Build formatter
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+            //Parse String to LocalDateTime
+            //LocalDateTime dateTimeLocal = LocalDateTime.parse(formDT, formatter);
+            LocalDateTime dateTimeAppt = time.toLocalDateTime();
+            //int compareDate = myLocalDateTime.compareTo(dateTimeAppt);
+            int compareDate = dateTimeAppt.compareTo(myLocalDateTime);
+            //System.out.println(compareDate);
+            if(formatFull.equals(formFullDT)){
+                //System.out.println("Same day");
+                if(formFullHour.equals(formatHour)){
+                    //System.out.println("Same hour");
+                    if((Integer.parseInt(formFullMin) + 15) <= Integer.parseInt(formatMin)){
+                        //System.out.println("15 minute appt");
+                        JOptionPane.showMessageDialog(frame,"Upcoming appointments!");
+
+                    }
+                }
+            } else{
+                JOptionPane.showMessageDialog(frame,"No appointments upcoming appointments within the next 15 minutes. ");
+            }
+        }
     }
 
     public void backToMainController(ActionEvent event) throws IOException {
@@ -185,4 +248,10 @@ public class UsersController {
         System.out.println("In getMyNewUserMethod: " + myNewUser);
         return myNewUser;
     }
+
+    public static void userAppointments(){
+
+
+    }
+
 }

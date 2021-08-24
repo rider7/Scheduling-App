@@ -14,13 +14,20 @@ import sample.Model.Customers;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class AppointmentsController {
     //Set language resource bundle
@@ -69,6 +76,7 @@ public class AppointmentsController {
     @FXML
     private ComboBox contactComboBox;
 
+    JFrame frame;
     //Enums
     public enum comboBoxContactName{
         AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
@@ -88,6 +96,7 @@ public class AppointmentsController {
 
     @FXML
     public void initialize() {
+        //convertTimeZone();
         if (appointmentID > 0) {
             appointment_id.setText(String.valueOf(appointmentID));
             title.setText(titleString);
@@ -117,6 +126,7 @@ public class AppointmentsController {
     public void onActionInsertAppointment(ActionEvent event) throws SQLException, IOException {
         System.out.println("Save Appointment Button Works!");
 
+
         String newAppointmentID = appointment_id.getText();
         String newTitleString = title.getText();
         String newDescriptionString = description.getText();
@@ -124,10 +134,18 @@ public class AppointmentsController {
         String newTypeString= type.getText();
         String newStartString= start.getText();
         String newEndString= end.getText();
-        String newContactString=contact.getText();
+        //String newContactString=contact.getText();
         String newUser = UsersController.getMyNewUser();
         String newAppt = AppointmentsList.getMyNewAppointments();
         //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
+
+//        if(Integer.parseInt(newStartString) >
+//        convertTimeZone(newStartString, newEndString)){
+//
+//        }
+
+
+
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -177,44 +195,51 @@ public class AppointmentsController {
         String newAppt = AppointmentsList.getMyNewAppointments();
         //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
 
-        //Establish connection before launch and assign it to the Connection reference variable named conn
-        Connection conn = DBConnection.startConnection();
 
-        //Update Statement
-        String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
+        if(convertTimeZone(newStartString,newEndString)){
+            System.out.println("OUTSIDE OF BUSINESS HOURS TRY AGAIN");
+            JOptionPane.showMessageDialog(frame,"Sorry, you are trying to schedule an appointment outside of normal business hours defined as 8:00 a.m. to 10:00 p.m. EST. Please try again.");
 
-        //Create prepared statement object for insertStatement
-        Query.setPreparedStatement(conn, updateStatement);
+    } else{
+            //Establish connection before launch and assign it to the Connection reference variable named conn
+            Connection conn = DBConnection.startConnection();
 
-        //Get the prepared statement reference
-        PreparedStatement preparedStatement = Query.getPreparedStatement();
+            //Update Statement
+            String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
 
-        //Key-value mapping to set the prepared statement
-        preparedStatement.setString(1,newTitleString);
-        preparedStatement.setString(2,newDescriptionString);
-        preparedStatement.setString(3,newLocationString);
-        preparedStatement.setString(4,newTypeString);
-        preparedStatement.setString(5,newStartString);
-        preparedStatement.setString(6,newEndString);
-        preparedStatement.setString(7,newContactIDString);
-        preparedStatement.setString(8,newCustomerIDString);
-        preparedStatement.setString(9,newUserIDString);
-        preparedStatement.setString(10,newAppointmentID);
+            //Create prepared statement object for insertStatement
+            Query.setPreparedStatement(conn, updateStatement);
 
-        preparedStatement.execute(); //Execute prepared statement
+            //Get the prepared statement reference
+            PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-        //Check rows affected
-        if (preparedStatement.getUpdateCount() > 0)
-            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-        else System.out.println("No change!");
+            //Key-value mapping to set the prepared statement
+            preparedStatement.setString(1, newTitleString);
+            preparedStatement.setString(2, newDescriptionString);
+            preparedStatement.setString(3, newLocationString);
+            preparedStatement.setString(4, newTypeString);
+            preparedStatement.setString(5, newStartString);
+            preparedStatement.setString(6, newEndString);
+            preparedStatement.setString(7, newContactIDString);
+            preparedStatement.setString(8, newCustomerIDString);
+            preparedStatement.setString(9, newUserIDString);
+            preparedStatement.setString(10, newAppointmentID);
 
-        Parent root = FXMLLoader.load(getClass().
-                getResource(
-                        "AppointmentsList.fxml"),bundle);
-        Stage stage = (Stage) updateAppt.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            preparedStatement.execute(); //Execute prepared statement
+
+            //Check rows affected
+            if (preparedStatement.getUpdateCount() > 0)
+                System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+            else System.out.println("No change!");
+
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            "AppointmentsList.fxml"), bundle);
+            Stage stage = (Stage) updateAppt.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public static void getAppointmentData(Appointments appointment){
@@ -229,6 +254,66 @@ public class AppointmentsController {
         customerID = appointment.getCustomer_ID();
         userID = appointment.getUser_ID();
     };
+
+    public static String getTimeZone(){
+
+        //Get Calendar instance
+        Calendar now = Calendar.getInstance();
+
+        //Get current timezone using get timezone method of calendar class
+        TimeZone timezone = now.getTimeZone();
+
+        //System.out.print(timezone.getDisplayName());
+        return timezone.getDisplayName();
+    }
+
+    public static boolean convertTimeZone(String start, String end) {
+        Boolean myBoolean;
+        //Convert string to LocalDateTime format
+        //String myStart = start;
+        //String myEnd = end;
+        //2007-12-03T10:15:30
+        System.out.println(start);
+        System.out.println(end);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime dateTimeStart = LocalDateTime.parse(start, formatter);
+        LocalDateTime dateTimeEnd = LocalDateTime.parse(end, formatter);
+        System.out.println("The start: " + dateTimeStart);
+        System.out.println("The end: " + dateTimeEnd);
+
+
+        final String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a z";
+        final DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+        ZoneId fromTimeZone = ZoneId.systemDefault();    //Source timezone
+        ZoneId toTimeZone = ZoneId.of("America/New_York");  //Target timezone
+
+        LocalDateTime today = LocalDateTime.now();          //Current time
+
+        //Zoned date time at start source timezone
+        ZonedDateTime startTime = dateTimeStart.atZone(fromTimeZone);
+        //Zoned date time at source timezone
+        ZonedDateTime endTime = dateTimeEnd.atZone(fromTimeZone);
+
+        //Zoned date time at target timezone
+        ZonedDateTime startETime = startTime.withZoneSameInstant(toTimeZone);
+        //Zoned date time at target timezone
+        ZonedDateTime endETime = endTime.withZoneSameInstant(toTimeZone);
+        int startHour = startETime.get(ChronoField.HOUR_OF_DAY);
+        int endHour = endETime.get(ChronoField.HOUR_OF_DAY);
+        if (startHour < 8 || endHour > 22 || endHour == 0) {
+            myBoolean = true;
+            System.out.println("Outside of Business Hours");
+        } else{
+            myBoolean = false;
+        }
+
+        System.out.println("End hour: " + endHour);
+//        System.out.println(currentETime);
+        //System.out.println(currentISTime);
+        //return startHour;
+        return myBoolean;
+    }
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {

@@ -61,19 +61,19 @@
                         <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Contact ID" />
-                              <TextField fx:id="contactIDField" />
+                              <TextField fx:id="contactIDField" editable="false" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Customer ID" />
-                              <TextField fx:id="customerIDField" />
+                              <TextField fx:id="customerIDField" editable="false" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="User ID" />
-                              <TextField fx:id="userIDField" />
+                              <TextField fx:id="userIDField" editable="false" />
                            </children>
                         </HBox>
 
