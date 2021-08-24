@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+    /**
+     * Class used to create the JDBC URL and concatenate with the JDBC Driver
+     */
 
     //JDBC URL parts
     private static final String protocol = "jdbc";
@@ -27,6 +30,9 @@ public class DBConnection {
 
     //Method to start the connection
     public static Connection startConnection(){
+        /**
+         * Method used to start the connection
+         */
         System.out.println("Trying to connect!");
         try {
             Class.forName(mySQLJDBCDriver);
@@ -40,6 +46,9 @@ public class DBConnection {
 
     //Method to close the connection
     public static void closeConnection(){
+        /**
+         * Method used to close the connection
+         */
         try{
         conn.close();
         System.out.println("Connection closed!");

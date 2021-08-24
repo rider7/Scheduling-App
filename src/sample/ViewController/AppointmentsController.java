@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 public class AppointmentsController {
+    /**
+     * Class used for data manipulation of appointment records
+     */
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -96,6 +99,9 @@ public class AppointmentsController {
 
     @FXML
     public void initialize() {
+        /**
+         * Method used to initialize the scene with the appointments controller fxml
+         */
         //convertTimeZone();
         if (appointmentID > 0) {
             appointment_id.setText(String.valueOf(appointmentID));
@@ -124,6 +130,9 @@ public class AppointmentsController {
 
     @FXML
     public void onActionInsertAppointment(ActionEvent event) throws SQLException, IOException {
+        /**
+         * Method used to connect to the database and insert appointment record data
+         */
         System.out.println("Save Appointment Button Works!");
 
 
@@ -178,6 +187,9 @@ public class AppointmentsController {
 
     @FXML
     public void onActionUpdateAppointment(ActionEvent event) throws SQLException, IOException {
+        /**
+         * Method used to connect to the database and update the appointment record
+         */
         System.out.println("Update Appointment Button Works!");
 
         String newAppointmentID = appointment_id.getText();
@@ -243,6 +255,9 @@ public class AppointmentsController {
     }
 
     public static void getAppointmentData(Appointments appointment){
+        /**
+         * Method used to get the appointment object data
+         */
         appointmentID = appointment.getAppointment_ID();
         titleString = appointment.getTitle();
         descriptionString = appointment.getDescription();
@@ -256,6 +271,9 @@ public class AppointmentsController {
     };
 
     public static String getTimeZone(){
+        /**
+         * Method used to get the timezone
+         */
 
         //Get Calendar instance
         Calendar now = Calendar.getInstance();
@@ -268,6 +286,9 @@ public class AppointmentsController {
     }
 
     public static boolean convertTimeZone(String start, String end) {
+        /**
+         * Method used to convert the time zone
+         */
         Boolean myBoolean;
         //Convert string to LocalDateTime format
         //String myStart = start;
@@ -317,6 +338,9 @@ public class AppointmentsController {
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
+        /**
+         * Method used to navigate back to the main controller
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);

@@ -24,6 +24,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AppointmentsList implements Initializable {
+    /**
+     * Class used to manipulate data for appointment records
+     */
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -82,6 +85,9 @@ public class AppointmentsList implements Initializable {
 
     @FXML
     public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
+        /**
+         * Method used to connect to the database and delete appointments by appointment_id
+         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
 
@@ -110,6 +116,9 @@ public class AppointmentsList implements Initializable {
 
     @FXML
     private void goToAppointmentsController(ActionEvent event) throws IOException {
+        /**
+         * Method used to go to appointments controller
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "AppointmentsController.fxml"),bundle);
@@ -121,6 +130,9 @@ public class AppointmentsList implements Initializable {
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
+        /**
+         * Method used to back to the main controller
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
@@ -132,7 +144,9 @@ public class AppointmentsList implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-
+        /**
+         * Method used to initialize the scene with appointment lists
+         */
         try {
             myConnection();
         }
@@ -162,11 +176,17 @@ public class AppointmentsList implements Initializable {
     }
 
     public static ObservableList<Appointments> getAllAppointments(){
+        /**
+         * Method used to return ObservableList of appointments
+         */
 
         return Appointments.myAppointments;
     }
 
     public static void myConnection() throws SQLException {
+        /**
+         * Method used to connect to the database and to select appointments
+         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -212,12 +232,18 @@ public class AppointmentsList implements Initializable {
 
 
     public static String getMyNewAppointments(){
+        /**
+         * Method used to get new appointments
+         */
         System.out.println("In getMyNewApptMethod: " + myNewAppt);
         return myNewAppt;
     }
 
     @FXML
     private void goToAppointmentUpdate(ActionEvent event) throws IOException {
+        /**
+         * Method used to go to the appointment list page with updated appointment
+         */
         //Create instance of Appointments that is selected from tableview myAppointmentList
         Appointments updateSelectedAppointment = myAppointmentsList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedAppointment object to AppointmentsController for use in populating data fields

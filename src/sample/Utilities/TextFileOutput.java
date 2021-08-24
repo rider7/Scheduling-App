@@ -4,9 +4,14 @@ import java.io.*;
 import java.io.PrintWriter;
 
 public class TextFileOutput {
-
+    /**
+     * Class used to write to the text output file
+     */
 
     public static void myFileOutput(String username, String attempt, String ldt) throws IOException {
+        /**
+         * Method used to assign values to the login_activity.txt
+         */
         //Filename and user variable
         String filename = "login_activity.txt", user;
 
