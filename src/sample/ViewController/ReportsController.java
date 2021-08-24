@@ -36,6 +36,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ReportsController implements Initializable {
+    /**
+     * This class is used to populate all the report information
+     */
     Locale locale = new Locale("en");
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
@@ -145,6 +148,9 @@ public class ReportsController implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
+        /**
+         * Method used to intialize the scene when the controller is used
+         */
         // remove tableviews except for tableview1
         usCustomers.setText(String.valueOf(1));
         ukCustomers.setText(String.valueOf(1));
@@ -168,6 +174,9 @@ public class ReportsController implements Initializable {
     }
 
     public static ObservableList<Wrapper>getAllWrappers(){
+        /**
+         * Method used to wrap the observableList and create a super()
+         */
         return Wrapper.myWrapper;
     }
 
@@ -198,6 +207,9 @@ public class ReportsController implements Initializable {
 //    }
 
     public void reportOneAction(ActionEvent event) throws SQLException {
+        /**
+         * Method used to query the database and evaluate the information for the first report
+         */
         //add report 1 VBox if it is not set already in the scene
         if(reportNumber!=1) {
             reportVBox.getChildren().add(1, report1VBox);
@@ -261,6 +273,9 @@ public class ReportsController implements Initializable {
     };
 
     public void monthInteger(Connection conn) throws SQLException {
+        /**
+         * Method used to query the database and evaluate the information for the first report
+         */
         int janCount =0;
         int febCount =0;
         int marCount =0;
@@ -347,6 +362,9 @@ public class ReportsController implements Initializable {
     };
 
     public void reportTwoAction() throws SQLException {
+        /**
+         * Method used to query the database and evaluate the information for the second report
+         */
         if(reportNumber!=2) {
             reportVBox.getChildren().add(1, myWrapper);
         }
@@ -458,6 +476,9 @@ public class ReportsController implements Initializable {
 //    };
 
     public void reportThreeAction() throws SQLException {
+        /**
+         * Method used to query the database and evaluate the information for the third report
+         */
         int usCount = 0;
         int ukCount = 0;
         int canadaCount = 0;
@@ -512,6 +533,9 @@ public class ReportsController implements Initializable {
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
+        /**
+         * Method used navigate back to the main controller
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);

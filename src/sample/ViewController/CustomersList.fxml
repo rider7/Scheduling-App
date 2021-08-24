@@ -28,6 +28,7 @@
                     <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="New" />
                     <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete" />
                   <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
+                  <Button fx:id="toApptList" mnemonicParsing="false" onAction="#toAppointmentsList" text="Appointments" />
                 </children>
                <VBox.margin>
                   <Insets top="10.0" />

@@ -22,6 +22,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CustomersList implements Initializable {
+    /**
+     * Class used for the customer list functionality
+     */
     Stage stage;
     Parent root;
 
@@ -65,11 +68,15 @@ public class CustomersList implements Initializable {
     private Button deleteCustomersButton;
     @FXML
     private Button toReports;
+    @FXML
+    private Button toApptList;
 
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-
+        /**
+         * Method used to initialize the scene
+         */
         try {
             myConnection();
         }
@@ -94,6 +101,9 @@ public class CustomersList implements Initializable {
     }
 
     public static void myConnection() throws SQLException {
+        /**
+         * Method used to connect to the database and query with a select statement
+         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -134,13 +144,18 @@ public class CustomersList implements Initializable {
      }
 
     public static ObservableList<Customers> getAllCustomers(){
-
+        /**
+         * Method used to return the observableList
+         */
         return Customers.myCustomers;
     }
 
 
     @FXML
     private void goToCustomerUpdate(ActionEvent event) throws IOException, SQLException {
+        /**
+         * Method used to go to the customer Update controller page
+         */
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
@@ -159,6 +174,9 @@ public class CustomersList implements Initializable {
     }
     @FXML
     private void goToCustomerController(ActionEvent event) throws IOException {
+        /**
+         * Method used to go to the customer controller page
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "CustomersController.fxml"),bundle);
@@ -170,6 +188,9 @@ public class CustomersList implements Initializable {
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
+        /**
+         * Method used to go back to the main controller page
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
@@ -180,7 +201,24 @@ public class CustomersList implements Initializable {
     }
 
     @FXML
+    private void toAppointmentsList(ActionEvent event) throws IOException {
+        /**
+         * Method used to go to the appointment list controller page
+         */
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "AppointmentsList.fxml"),bundle);
+        Stage stage = (Stage) toApptList.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
     public void onActionDeleteCustomer(ActionEvent event) throws SQLException{
+        /**
+         * Method used to connect to the database and query with select where the customer_id is the parameter
+         */
     //Establish connection before launch and assign it to the Connection reference variable named conn
     Connection conn = DBConnection.startConnection();
 
@@ -236,6 +274,9 @@ public class CustomersList implements Initializable {
 
 
     public void getCountry() throws SQLException {
+        /**
+         * Method used to connect to the database and query with select where the division_id is the parameter
+         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Select all records from customers table
@@ -273,6 +314,9 @@ public class CustomersList implements Initializable {
 
     @FXML
     private void goToReports(ActionEvent event) throws IOException {
+        /**
+         * Method used to navigate to the report interface screen
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "ReportsController.fxml"),bundle);
