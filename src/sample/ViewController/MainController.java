@@ -15,6 +15,9 @@ import java.util.ResourceBundle;
 
 
 public class MainController{
+    /**
+     * Class for the main controller which is used mainly for testing purposes
+     */
     //Set language
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -28,7 +31,9 @@ public class MainController{
 
     @FXML
     public void goToUserLogin(ActionEvent event) throws IOException {
-
+        /**
+         * Method used to go to the user login controller page
+         */
         stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("UsersController.fxml"), bundle);
         stage.setScene(new Scene(scene));
@@ -38,7 +43,9 @@ public class MainController{
 
     @FXML
     public void goToCustomerList(ActionEvent event) throws IOException {
-
+        /**
+         * Method used to go to the customer list controller page
+         */
         stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("CustomersList.fxml"), bundle);
         stage.setScene(new Scene(scene));
@@ -46,22 +53,12 @@ public class MainController{
     }
     @FXML
     public void goToApptList(ActionEvent event) throws IOException {
+        /**
+         * Method used to go to the appt list controller page
+         */
         stage = (Stage) ((javafx.scene.control.Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("AppointmentsList.fxml"), bundle);
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
-    public void goToEditCust(ActionEvent event) {
-    }
-
-    public void goToEditAppt(ActionEvent event) {
-    }
-
-    public void goToReports(ActionEvent event) {
-    }
-
-
-
-
 }

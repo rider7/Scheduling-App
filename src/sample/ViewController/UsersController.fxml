@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.UsersController">
    <children>
-      <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back" />
+      <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back" visible="false" />
       <HBox layoutY="40.0" prefHeight="360.0" prefWidth="600.0">
          <children>
             <VBox prefHeight="360.0" prefWidth="147.0">

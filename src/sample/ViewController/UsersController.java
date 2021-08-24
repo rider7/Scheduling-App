@@ -56,6 +56,9 @@ public class UsersController {
     private Button backToReality;
     @FXML
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
+        /**
+         * Method used to verify if the user credentials are in the system
+         */
         // declaring object of Locale
         Locale locale;
 
@@ -127,6 +130,9 @@ public class UsersController {
     String myTimeZoneString = getTimeZone();
 
     @FXML private void initialize(){
+        /**
+         * Initialize method that starts when this controller is used
+         */
         //Set language resource bundle
         Locale.setDefault(new Locale("en"));
         Locale locale = new Locale("en");
@@ -135,7 +141,9 @@ public class UsersController {
     }
 
     public static String getTimeZone(){
-
+        /**
+         * Method used to get the current timezone and display the name
+         */
         //Get Calendar instance
         Calendar now = Calendar.getInstance();
 
@@ -149,6 +157,9 @@ public class UsersController {
 
 
     public ResultSet myConnection() throws SQLException {
+        /**
+         * Method used to create a connection with the database and select the users
+         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -164,6 +175,9 @@ public class UsersController {
     }
 
     public void myPreparedStatement(String user) throws SQLException{
+        /**
+         * Method used to connect to the database and select the appointment records by user_id
+         */
         System.out.println("My prep statement method user: " + user);
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -235,6 +249,9 @@ public class UsersController {
     }
 
     public void backToMainController(ActionEvent event) throws IOException {
+        /**
+         * Method used to go back to the main controller
+         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
@@ -245,13 +262,10 @@ public class UsersController {
     }
 
     public static String getMyNewUser(){
+        /**
+         * Method used to get the new user information
+         */
         System.out.println("In getMyNewUserMethod: " + myNewUser);
         return myNewUser;
     }
-
-    public static void userAppointments(){
-
-
-    }
-
 }

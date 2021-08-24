@@ -21,25 +21,34 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class Main extends Application{
+    /**
+     * This is the main class
+     */
 
     Scene reportScene;
     Stage primaryStage;
     //Starting or primary fxml view when the application first runs
     @Override
     public void start(Stage primaryStage) throws Exception {
+        /**
+         * Starts the application at the UsersControllers.txt stage and sets the language
+         */
         //Set language
         Locale.setDefault(new Locale("en"));
         Locale locale = new Locale("en");
         //System.out.println(Locale.getDefault());
         ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
-        Parent root = FXMLLoader.load(getClass().getResource("ViewController/MainController.fxml"), bundle);
-        primaryStage.setTitle("It Works");
+        Parent root = FXMLLoader.load(getClass().getResource("ViewController/UsersController.fxml"), bundle);
+        primaryStage.setTitle("Scheduling-Application");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
+        /**
+         * The entry point into the application which includes the login_activity.txt file
+         */
         //Filename and user variable
         String filename = "login_activity.txt";
 
