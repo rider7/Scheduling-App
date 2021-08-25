@@ -16,9 +16,7 @@ import sample.Utilities.Query;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -77,6 +75,7 @@ public class AppointmentsController {
     private ComboBox contactComboBox;
 
     JFrame frame;
+    JFrame frames;
     //Enums
     public enum comboBoxContactName{
         AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
@@ -152,44 +151,52 @@ public class AppointmentsController {
         String newEndString= end.getText();
         //String newContactString=contact.getText();
         String newUser = UsersController.getMyNewUser();
+        String newContactIDString= contactIDField.getText();
         String newAppt = AppointmentsList.getMyNewAppointments();
-        //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
+        String newCustomerIDString = customerIDField.getText();
 
-//        if(Integer.parseInt(newStartString) >
-//        convertTimeZone(newStartString, newEndString)){
-//
-//        }
+        //Schedule conflict check
+        Boolean myBool = apptConflictCheck(newCustomerIDString, newStartString, newEndString);
 
+        if(myBool) {
+            //Establish connection before launch and assign it to the Connection reference variable named conn
+            Connection conn = DBConnection.startConnection();
 
+            //Insert Statement
+            String insertStatement = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Created_By, Last_Updated_By, Customer_ID) VALUES(?,?,?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
+            //Create prepared statement object for insertStatement
+            Query.setPreparedStatement(conn, insertStatement);
 
-        //Establish connection before launch and assign it to the Connection reference variable named conn
-        Connection conn = DBConnection.startConnection();
+            //Get the prepared statement reference
+            PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-        //Insert Statement
-        String insertStatement = "INSERT INTO appointments (Title, Description, Location, Type, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+            //Key-value mapping to set the prepared statement
+            //preparedStatement.setString(1,newAppointmentID);
+            preparedStatement.setString(1, newTitleString);
+            preparedStatement.setString(2, newDescriptionString);
+            preparedStatement.setString(3, newLocationString);
+            preparedStatement.setString(4, newTypeString);
+            preparedStatement.setString(5, newStartString);
+            preparedStatement.setString(6, newEndString);
+            preparedStatement.setString(7, newUser);
+            preparedStatement.setString(8, newUser);
+            preparedStatement.setString(9, newCustomerIDString);
 
-        //Create prepared statement object for insertStatement
-        Query.setPreparedStatement(conn, insertStatement);
+            preparedStatement.execute(); //Execute prepared statement
 
-        //Get the prepared statement reference
-        PreparedStatement preparedStatement = Query.getPreparedStatement();
-
-        //Key-value mapping to set the prepared statement
-        //preparedStatement.setString(1,newAppointmentID);
-        preparedStatement.setString(1,newTitleString);
-        preparedStatement.setString(2,newDescriptionString);
-        preparedStatement.setString(3,newLocationString);
-        preparedStatement.setString(4,newTypeString);
-        preparedStatement.setString(5,newUser);
-        preparedStatement.setString(6,newUser);
-
-        preparedStatement.execute(); //Execute prepared statement
-
-        //Check rows affected
-        if (preparedStatement.getUpdateCount() > 0)
-            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-        else System.out.println("No change!");
+            //Check rows affected
+            if (preparedStatement.getUpdateCount() > 0)
+                System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+            else System.out.println("No change!");
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            "AppointmentsList.fxml"), bundle);
+            Stage stage = (Stage) updateAppt.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     @FXML
@@ -214,50 +221,63 @@ public class AppointmentsController {
         String newAppt = AppointmentsList.getMyNewAppointments();
         //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm", Locale.US);
+
+        LocalDateTime localDate = LocalDateTime.parse(newStartString, formatter);
+        LocalDateTime localDate2 = LocalDateTime.parse(newEndString, formatter);
+        String myStringStart = (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(localDate)) + ":00";
+        String myStringEnd = (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(localDate2)) + ":00";
+
+
+
 
         if(convertTimeZone(newStartString,newEndString)){
             System.out.println("OUTSIDE OF BUSINESS HOURS TRY AGAIN");
             JOptionPane.showMessageDialog(frame,"Sorry, you are trying to schedule an appointment outside of normal business hours defined as 8:00 a.m. to 10:00 p.m. EST. Please try again.");
 
-    } else{
-            //Establish connection before launch and assign it to the Connection reference variable named conn
-            Connection conn = DBConnection.startConnection();
+    } else {
+            //Schedule conflict check
+            Boolean myBool = apptConflictCheck(newCustomerIDString, myStringStart, myStringEnd);
+            if (myBool) {
+                //Establish connection before launch and assign it to the Connection reference variable named conn
+                Connection conn = DBConnection.startConnection();
 
-            //Update Statement
-            String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
+                //Update Statement
+                String updateStatement = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?"; //Question marks are placeholders to be mapped with key values in one-based index
 
-            //Create prepared statement object for insertStatement
-            Query.setPreparedStatement(conn, updateStatement);
+                //Create prepared statement object for insertStatement
+                Query.setPreparedStatement(conn, updateStatement);
 
-            //Get the prepared statement reference
-            PreparedStatement preparedStatement = Query.getPreparedStatement();
+                //Get the prepared statement reference
+                PreparedStatement preparedStatement = Query.getPreparedStatement();
 
-            //Key-value mapping to set the prepared statement
-            preparedStatement.setString(1, newTitleString);
-            preparedStatement.setString(2, newDescriptionString);
-            preparedStatement.setString(3, newLocationString);
-            preparedStatement.setString(4, newTypeString);
-            preparedStatement.setString(5, newStartString);
-            preparedStatement.setString(6, newEndString);
-            preparedStatement.setString(7, newContactIDString);
-            preparedStatement.setString(8, newCustomerIDString);
-            preparedStatement.setString(9, newUserIDString);
-            preparedStatement.setString(10, newAppointmentID);
+                //Key-value mapping to set the prepared statement
+                preparedStatement.setString(1, newTitleString);
+                preparedStatement.setString(2, newDescriptionString);
+                preparedStatement.setString(3, newLocationString);
+                preparedStatement.setString(4, newTypeString);
+                preparedStatement.setString(5, myStringStart);
+                preparedStatement.setString(6, myStringEnd);
+                preparedStatement.setString(7, newContactIDString);
+                preparedStatement.setString(8, newCustomerIDString);
+                preparedStatement.setString(9, newUserIDString);
+                preparedStatement.setString(10, newAppointmentID);
 
-            preparedStatement.execute(); //Execute prepared statement
+                preparedStatement.execute(); //Execute prepared statement
 
-            //Check rows affected
-            if (preparedStatement.getUpdateCount() > 0)
-                System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-            else System.out.println("No change!");
+                //Check rows affected
+                if (preparedStatement.getUpdateCount() > 0)
+                    System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
+                else System.out.println("No change!");
 
-            Parent root = FXMLLoader.load(getClass().
-                    getResource(
-                            "AppointmentsList.fxml"), bundle);
-            Stage stage = (Stage) updateAppt.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                Parent root = FXMLLoader.load(getClass().
+                        getResource(
+                                "AppointmentsList.fxml"), bundle);
+                Stage stage = (Stage) updateAppt.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
 
@@ -343,17 +363,44 @@ public class AppointmentsController {
         return myBoolean;
     }
 
-    private static void apptConflictCheck(int userID, String start, String end){
+    public boolean apptConflictCheck(String customerID, String start, String end) throws SQLException {
+        boolean isConflict = true;
         //connect to database and select all appts based on user_id passed through method
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM appointments WHERE Customer_ID = ?"; //SQL statement
+        //String selectStatement = "SELECT * FROM appointments"; //SQL statement
+        //Pass conn object to statement
+        Query.setPreparedStatement(conn, selectStatement); //Create statement object
+        PreparedStatement statement = Query.getPreparedStatement(); //Get Statement reference
+        //Key-value mapping to set the prepared statement based on userid passed through this method
+        statement.setString(1, customerID);
+        statement.execute(); //Execute statement (returns true)
+        ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+        while(myResultSet.next()) {
+            Timestamp myNewApptStart = Timestamp.valueOf(start);
+            Timestamp myNewApptEnd = Timestamp.valueOf(end);
+            Timestamp myOldApptStart = Timestamp.valueOf(String.valueOf(myResultSet.getTimestamp("Start")));
+            Timestamp myOldApptEnd = Timestamp.valueOf(String.valueOf(myResultSet.getTimestamp("End")));;
+            //if statement to compare if start time conflicts
+            if(myNewApptStart.after(myOldApptStart) && myNewApptStart.before(myOldApptEnd)) {
+                //message
+                JOptionPane.showMessageDialog(frames,"Start time conflicts with prior appointment! Please change and resubmit!");
+                isConflict = false;
+                break;
+            }
+            //if statement to compare if end time conflicts
+            if(myNewApptEnd.after(myOldApptStart) && myNewApptEnd.before(myOldApptEnd)) {
+                //message
+                JOptionPane.showMessageDialog(frames,"End time conflicts with prior appointment! Please change and resubmit!");
+                isConflict = false;
+                break;
+            }
+        }
 
-        //if statement to compare if start time conflicts
-        //message
-
-        //if statement to compare if end time conflicts
-        //message
-
-
-
+    System.out.println("Conflict Schedule Checked");
+    return isConflict;
     }
 
 

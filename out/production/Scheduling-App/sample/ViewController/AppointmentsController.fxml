@@ -67,7 +67,7 @@
                         <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Customer ID" />
-                              <TextField fx:id="customerIDField" editable="false" />
+                              <TextField fx:id="customerIDField" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
