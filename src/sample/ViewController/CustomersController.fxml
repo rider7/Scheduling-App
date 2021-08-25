@@ -74,24 +74,27 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save">
+                  <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionInsertCustomer" text="Save New Customer">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#onActionUpdateCustomer" text="Update" />
+                  <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#onActionUpdateCustomer" text="Update Existing Customer" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="25.0" prefWidth="600.0">
          <children>
             <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Label lineSpacing="100.0" text="Create A New Customer" />
+            <Label fx:id="customerLabel" lineSpacing="100.0" text="Update Existing Customer">
+               <HBox.margin>
+                  <Insets left="100.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </children>

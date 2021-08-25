@@ -14,6 +14,7 @@ Login with correct credentials to move to the main page which shows a list of cu
 From there you can select a customer to update, create a new customer, view reports or navigate to the list of appointments.
 
 Reports:
+Access to reports can be obtained by clicking the 'Reports' button on either the Customer List page or the Appointment List page.
 The third report calculates and provides the total number of customers per each country available. (e.g., US, UK or Canada)
 
 MySQL Connector Driver: 

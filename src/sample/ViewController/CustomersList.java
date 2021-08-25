@@ -153,6 +153,7 @@ public class CustomersList implements Initializable {
 
     @FXML
     private void goToCustomerUpdate(ActionEvent event) throws IOException, SQLException {
+
         /**
          * Method used to go to the customer Update controller page
          */
@@ -171,9 +172,12 @@ public class CustomersList implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        //CustomersController.changeCustomerLabel("Update");
     }
     @FXML
-    private void goToCustomerController(ActionEvent event) throws IOException {
+    public void goToCustomerController(ActionEvent event) throws IOException {
+        //CustomersController.changeCustomerLabel("Create New Customer");
+        CustomersController.customerIDString =0;
         /**
          * Method used to go to the customer controller page
          */
@@ -184,6 +188,7 @@ public class CustomersList implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        //CustomersController.changeCustomerLabel("New");
     }
 
     @FXML
@@ -205,6 +210,7 @@ public class CustomersList implements Initializable {
         /**
          * Method used to go to the appointment list controller page
          */
+
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "AppointmentsList.fxml"),bundle);

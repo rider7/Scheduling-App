@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import sample.Model.Countries;
 import sample.Model.Customers;
@@ -55,6 +56,8 @@ public class CustomersController {
     @FXML
     TextField postalCode;
     @FXML
+    Label customerLabel;
+    @FXML
     Button saveCustomerButton;
     @FXML
     Button backToReality;
@@ -73,6 +76,7 @@ public class CustomersController {
     public static String postalCodeString;
     public static int divisionIDString;
     public static String countryString;
+    public static String divisionNameString;
 
     //Enums
     public enum comboBoxCountries{
@@ -120,7 +124,7 @@ public class CustomersController {
      * Method used to initialize the scene and set the combobox data
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
 
         if (Integer.valueOf(customerIDString) > 0) {
             customerID.setText(Integer.toString(customerIDString));
@@ -132,6 +136,9 @@ public class CustomersController {
             cBoxCountries.getItems().addAll(comboBoxCountries.values());
             cBoxCountries.setValue(countryString);
             cBoxDivisions.getItems().clear();
+            customerLabel.setText("Update Existing Customer");
+            saveCustomerButton.setVisible(false);
+            saveCustomerButton.setDisable(true);
             if(cBoxCountries.getValue().toString().equals("US")||cBoxCountries.getValue().toString().equals("U.S")) {
                 //System.out.println("In the if statement");
                 cBoxDivisions.getItems().clear();
@@ -146,13 +153,16 @@ public class CustomersController {
                 cBoxDivisions.getItems().addAll(comboBoxDivision3.values());
             }
             //cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
-            cBoxDivisions.setValue(divisionIDString);
+            cBoxDivisions.setValue(getDivisionName(divisionIDString));
 
        } else { //Populate comboboxes with country options then once a country is selected populate specific divisions
             cBoxCountries.getItems().clear();
             cBoxCountries.getItems().addAll(comboBoxCountries.values());
             cBoxDivisions.getItems().clear();
             cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
+            customerLabel.setText("Create New Customer");
+            updateCustomerButton.setVisible(false);
+            updateCustomerButton.setDisable(true);
         }
         ArrayList<String> numbers = new ArrayList<String>();
         numbers.add(customersNameString);
@@ -170,15 +180,15 @@ public class CustomersController {
         //System.out.println("out of the if statement");
         //System.out.println(cBoxCountries.getValue());
         //System.out.println(cBoxCountries.getValue().toString().equals("US"));
-        if(cBoxCountries.getValue().toString().equals("US")) {
+        if(cBoxCountries.getValue().toString().equals("US")){
             //System.out.println("In the if statement");
             cBoxDivisions.getItems().clear();
             cBoxDivisions.getItems().addAll(comboBoxDivision1.values());
-        }else if(cBoxCountries.getValue().toString().equals("UK")) {
+        }else if(cBoxCountries.getValue().toString().equals("UK")){
             //System.out.println("In the if statement");
             cBoxDivisions.getItems().clear();
             cBoxDivisions.getItems().addAll(comboBoxDivision2.values());
-        } else if(cBoxCountries.getValue().toString().equals("Canada")) {
+        }else if(cBoxCountries.getValue().toString().equals("Canada")){
             //System.out.println("In the if statement");
             cBoxDivisions.getItems().clear();
             cBoxDivisions.getItems().addAll(comboBoxDivision3.values());
@@ -209,7 +219,7 @@ public class CustomersController {
         Connection conn = DBConnection.startConnection();
 
         //Insert Statement
-        String insertStatement = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+        String insertStatement = "INSERT INTO customers (Customer_Name, Address, Phone, Postal_Code,  Division_ID, Created_By, Last_Updated_By) VALUES(?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
         //Create prepared statement object for insertStatement
         Query.setPreparedStatement(conn, insertStatement);
@@ -313,10 +323,38 @@ public class CustomersController {
             ResultSet myResultSet = preparedDivisionStatement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
             myResultSet.next();
             divisionIDString = myResultSet.getInt("Division_ID");
+            System.out.println("DivisionIDString" + divisionIDString);
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    public String getDivisionName(int division_ID) throws SQLException {
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Select all records from customers table
+        String selectDivisionStatement = "SELECT Division FROM first_level_divisions WHERE Division_ID = ?"; //SQL statement
+        //Create prepared statement object for selecting appointments
+        Query.setPreparedStatement(conn, selectDivisionStatement);
+        //Prepared statement reference
+        PreparedStatement preparedDivisionStatement = Query.getPreparedStatement();
+        //Key-value mapping to set the prepared statement based on customer id
+        preparedDivisionStatement.setInt(1, division_ID);
+
+        try {
+            //System.out.println("Try statement");
+            preparedDivisionStatement.execute(); //Execute statement (returns true)
+            ResultSet myResultSet = preparedDivisionStatement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            myResultSet.next();
+            divisionNameString = myResultSet.getString("Division");
+            System.out.println("Division name String" + divisionNameString);
+
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return divisionNameString;
     }
     /**
      * Method accepts a customer object and assigns the individual items to local string variables to be used in other methods
@@ -351,10 +389,16 @@ public class CustomersController {
     private void backToMainController(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().
                 getResource(
-                        "MainController.fxml"),bundle);
+                        "CustomersList.fxml"),bundle);
         Stage stage = (Stage) backToReality.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+//    @FXML
+//    public static void changeCustomerLabel(String label){
+//        System.out.println(label);
+//        myCustomerLabel = label;
+//        //customerLabel.setText(myCustomerLabel);
+//    }
 }

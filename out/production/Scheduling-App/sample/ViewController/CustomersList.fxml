@@ -3,9 +3,15 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.CustomersList">
    <children>
+      <Label layoutX="222.0" layoutY="39.0" text="Customer List">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
       <VBox layoutX="75.0" layoutY="100.0" prefHeight="200.0" prefWidth="448.0">
          <children>
             <TableView id="customer_list" fx:id="myCustomerList" prefHeight="200.0" prefWidth="283.0">
@@ -24,8 +30,8 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <Button id="update_button" fx:id="goToCustomerUpdate" mnemonicParsing="false" onAction="#goToCustomerUpdate" text="Update" />
-                    <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="New" />
+                    <Button id="update_button" fx:id="goToCustomerUpdate" mnemonicParsing="false" onAction="#goToCustomerUpdate" text="Update Existing" />
+                    <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="Create New" />
                     <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete" />
                   <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
                   <Button fx:id="toApptList" mnemonicParsing="false" onAction="#toAppointmentsList" text="Appointments" />
@@ -39,7 +45,6 @@
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="75.0" layoutY="83.0" text="List of Customers" />
       <Button fx:id="backToReality" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMainController" text="Back" />
 
    </children>

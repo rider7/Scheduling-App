@@ -3,12 +3,17 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.AppointmentsList">
    <children>
+      <Button fx:id="backToReality" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMainController" text="Back" />
+      <Label layoutX="199.0" layoutY="39.0" text="Appointment List">
+         <font>
+            <Font size="26.0" />
+         </font></Label>
       <VBox layoutX="-2.0" layoutY="100.0" prefHeight="200.0" prefWidth="600.0">
          <children>
-            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back" />
             <TableView id="table_list" fx:id="myAppointmentsList" prefHeight="200.0" prefWidth="544.0">
               <columns>
                 <TableColumn id="appointment_id" fx:id="appointmentID" prefWidth="50.0" text="Appt_ID" />
@@ -24,10 +29,15 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <RadioButton id="appt_filter" fx:id="myAppointmentSort" mnemonicParsing="false" text="Month/Week" />
+                  <RadioButton id="appt_filter" fx:id="myAppointmentSort1" mnemonicParsing="false" onAction="#getToggleFilter" selected="true" text="Month Filter">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="myToggleGroup" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="myAppointmentSort2" mnemonicParsing="false" onAction="#getToggleFilter2" text="Week Filter" toggleGroup="$myToggleGroup" />
                   <Button id="edit_button" fx:id="goToAppointmentUpdate" mnemonicParsing="false" onAction="#goToAppointmentUpdate" text="Update" />
                   <Button id="new_button" fx:id="goToAppointmentButton" mnemonicParsing="false" onAction="#goToAppointmentsController" text="New" />
                   <Button id="delete_button" fx:id="onActionDeleteAppointmentButton" mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete" />
+                  <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" top="10.0" />

@@ -35,6 +35,7 @@ public class AppointmentsList implements Initializable {
     //Message box instance
     JFrame frame;
 
+
     //FXML attributes
     //TableView field
     @FXML
@@ -78,10 +79,17 @@ public class AppointmentsList implements Initializable {
     private Button goToAppointmentButton;
     @FXML
     private Button onActionDeleteAppointmentButton;
+    @FXML Button toReports;
     @FXML
-    private  RadioButton myAppointmentSort;
+    private  RadioButton myAppointmentSort1;
+    @FXML
+    private  RadioButton myAppointmentSort2;
+    @FXML
+    public ToggleGroup myToggleGroup;
+    public String toggleFilter;
 
     public static String myNewAppt;
+
 
     @FXML
     public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
@@ -147,6 +155,7 @@ public class AppointmentsList implements Initializable {
         /**
          * Method used to initialize the scene with appointment lists
          */
+
         try {
             myConnection();
         }
@@ -160,6 +169,8 @@ public class AppointmentsList implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Description"));
         myLocation.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Location"));
         type.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Type"));
+        start.setSortType(TableColumn.SortType.ASCENDING);
+
         start.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Start"));
         end.setCellValueFactory(new PropertyValueFactory<Appointments, String>("End"));
         customerID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Customer_ID"));
@@ -169,10 +180,13 @@ public class AppointmentsList implements Initializable {
 //        lastUpdate.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Last_Update"));
 //        lastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Last_Updated_By"));
 //        userID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("User_ID"));
-        //contactName.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Postal_Code")); ***************BUG: Do I need to set contactName here by using ContactID from db?
+        //contactName.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Postal_Code"));
 
         //Sets the items on the myCustomerList table from the Observable list for appointments via the getAllAppointments() method call
         myAppointmentsList.setItems(getAllAppointments());
+        myAppointmentsList.getSortOrder().add(start);
+        myAppointmentsList.sort();
+
     }
 
     public static ObservableList<Appointments> getAllAppointments(){
@@ -239,6 +253,17 @@ public class AppointmentsList implements Initializable {
         return myNewAppt;
     }
 
+    public void getToggleFilter(){
+        toggleFilter = "month";
+        //System.out.println(myToggleGroup.getSelectedToggle());
+        System.out.println(toggleFilter);
+    }
+    public void getToggleFilter2(){
+        //System.out.println(myToggleGroup.getSelectedToggle());
+        toggleFilter = "week";
+        System.out.println(toggleFilter);
+    }
+
     @FXML
     private void goToAppointmentUpdate(ActionEvent event) throws IOException {
         /**
@@ -253,6 +278,20 @@ public class AppointmentsList implements Initializable {
                 getResource(
                         "AppointmentsController.fxml"),bundle);
         Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void goToReports(ActionEvent event) throws IOException {
+        /**
+         * Method used to navigate to the report interface screen
+         */
+        Parent root = FXMLLoader.load(getClass().
+                getResource(
+                        "ReportsController.fxml"),bundle);
+        Stage stage = (Stage) toReports.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
