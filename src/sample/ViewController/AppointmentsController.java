@@ -141,7 +141,6 @@ public class AppointmentsController {
          */
         System.out.println("Save Appointment Button Works!");
 
-
         String newAppointmentID = appointment_id.getText();
         String newTitleString = title.getText();
         String newDescriptionString = description.getText();
@@ -227,9 +226,6 @@ public class AppointmentsController {
         LocalDateTime localDate2 = LocalDateTime.parse(newEndString, formatter);
         String myStringStart = (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(localDate)) + ":00";
         String myStringEnd = (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(localDate2)) + ":00";
-
-
-
 
         if(convertTimeZone(newStartString,newEndString)){
             System.out.println("OUTSIDE OF BUSINESS HOURS TRY AGAIN");

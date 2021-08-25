@@ -34,11 +34,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
+/**
+ * Class used to manipulate data for Customer records
+ */
 public class CustomersController {
-    /**
-     * Class used to manipulate data for Customer records
-     */
+
     Locale locale = new Locale("en");
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
@@ -116,12 +116,12 @@ public class CustomersController {
             this.division = s;
         }
     };
-
+    /**
+     * Method used to initialize the scene and set the combobox data
+     */
     @FXML
     public void initialize() {
-        /**
-         * Method used to initialize the scene and set the combobox data
-         */
+
         if (Integer.valueOf(customerIDString) > 0) {
             customerID.setText(Integer.toString(customerIDString));
             customerName.setText(customersNameString);
@@ -161,14 +161,12 @@ public class CustomersController {
         numbers.add(postalCodeString);
         numbers.add(countryString);
         numbers.forEach((n) -> {System.out.println(n);});
-
-
     }
-
+    /**
+     * Method used to set the comboBox data
+     */
     public void comboBoxCountryAction(){
-        /**
-         * Method used to set the comboBox data
-         */
+
         //System.out.println("out of the if statement");
         //System.out.println(cBoxCountries.getValue());
         //System.out.println(cBoxCountries.getValue().toString().equals("US"));
@@ -188,12 +186,12 @@ public class CustomersController {
     };
 
 
-
+    /**
+     * Method used to connect to the database and insert a new customer record
+     * @param event The button event
+     */
     @FXML
     public void onActionInsertCustomer(ActionEvent event) throws SQLException, IOException {
-        /**
-         * Method used to connect to the database and insert a new customer record
-         */
         //System.out.println("Save Customer Button Works!");
 
         String newCustomerID = customerID.getText();
@@ -236,12 +234,12 @@ public class CustomersController {
             System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
         else System.out.println("No change!");
     }
-
+    /**
+     * Method used to connect to the database and update the customer record
+     */
     @FXML
     public void onActionUpdateCustomer(ActionEvent event) throws SQLException, IOException {
-        /**
-         * Method used to connect to the database and update the customer record
-         */
+
         //System.out.println("Save Customer Button Works!");
 
         String newCustomerID = customerID.getText();
@@ -281,9 +279,9 @@ public class CustomersController {
         preparedStatement.execute(); //Execute prepared statement
 
         //Check rows affected
-        if (preparedStatement.getUpdateCount() > 0)
-            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());
-        else System.out.println("No change!");
+        if (preparedStatement.getUpdateCount() > 0){
+            System.out.println("Rows affected: " + preparedStatement.getUpdateCount());}
+        else {System.out.println("No change!");}
 
         Parent root = FXMLLoader.load(getClass().
                 getResource(
@@ -293,11 +291,11 @@ public class CustomersController {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to connect to the database and query with select where the division is the parameter
+     */
     public void getDivision(String division_ID) throws SQLException {
-        /**
-         * Method used to connect to the database and query with select where the division is the parameter
-         */
+
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Select all records from customers table
@@ -320,11 +318,10 @@ public class CustomersController {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Method accepts a customer object and assigns the individual items to local string variables to be used in other methods
+     */
     public static void getCustomerData(Customers customer){
-        /**
-         * Method accepts a customer object and assigns the individual items to local string variables to be used in other methods
-         */
         customerIDString = customer.getCustomer_ID();
         customersNameString = customer.getCustomer_Name();
         addressString = customer.getAddress();
@@ -333,28 +330,25 @@ public class CustomersController {
         divisionIDString = customer.getDivision_ID();
         //System.out.println(customerIDString);
     };
-
+    /**
+     * Method used assign the divisionID value and return it as a string
+     */
     public static int getDivisionData(Customers customer){
-        /**
-         * Method used assign the divisionID value and return it as a string
-         */
         divisionIDString = customer.getDivision_ID();
         //System.out.println(divisionIDString);
         return divisionIDString;
     };
-
+    /**
+     * Method used get the country data and assign the country value
+     */
     public static void getCountryData(String country){
-        /**
-         * Method used get the country data and assign the country value
-         */
         countryString = country;
     };
-
+    /**
+     * Method used to navigate back to the main controller
+     */
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
-        /**
-         * Method used to navigate back to the main controller
-         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
