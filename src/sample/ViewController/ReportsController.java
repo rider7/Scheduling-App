@@ -416,7 +416,7 @@ public class ReportsController implements Initializable {
                 int contact_id = myResultSet.getInt("Contact_ID");
                 LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
                 LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
-                //Create new instance of Appontments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
+                //Create new instance of Appointments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
                 Wrapper newWrapper = new Wrapper(contact_name,appt_ID, customer_id, user_id, contact_id, title, description, null, type, start, end, null,null,null, null);
                 //Call addCustomer method with newCustomer instance passed to add to the observableList
                 //Appointments.addAppointments(newAppointment);
