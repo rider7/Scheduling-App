@@ -21,12 +21,16 @@ public class Customers {
     LocalDateTime Last_Update;
     String Last_Updated_By;
 
+//    //Moved this ObservableList to the CustomersList controller
+//    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
+//            new Customers(3,35, "Steve Jobs", "fake street",
+//                    "23453", "234323432", null, "steve",
+//                    null, "gary")
+//    );
+
     //Moved this ObservableList to the CustomersList controller
-    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList(
-            new Customers(3,35, "Steve Jobs", "fake street",
-                    "23453", "234323432", null, "steve",
-                    null, "gary")
-    );
+    public static ObservableList<Customers> myCustomers = FXCollections.observableArrayList();
+
 
     public Customers(String customer_Name) {
         this.Customer_Name = customer_Name;
@@ -133,8 +137,7 @@ public class Customers {
         return true;
     };
 
-        public static void updateCustomer(Customers selectedCustomers){
+    public static void updateCustomer(Customers selectedCustomers){
         myCustomers.set(0,selectedCustomers); //BUG: index of 0 used each time customer updated. possible issue.
         }
-
 }

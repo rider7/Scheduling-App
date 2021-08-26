@@ -24,11 +24,7 @@ public class Appointments {
     String Last_Updated_By;
 
     //ObservableList used to display appt data on tableview
-    public static ObservableList<Appointments> myAppointments = FXCollections.observableArrayList(
-            new Appointments(3,35, 25, 34,
-                    "23453", "234323432", "location", "steve",
-                    null, null, null, "admin", null, "admin")
-    );
+    public static ObservableList<Appointments> myAppointments = FXCollections.observableArrayList();
 
     public Appointments(int appointment_ID, int customer_ID, int contact_ID, int user_ID, String title, String description,
                         String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {

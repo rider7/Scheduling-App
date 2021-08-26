@@ -6,6 +6,16 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ViewController.AppointmentsController">
    <children>
+      <HBox prefHeight="25.0" prefWidth="550.0">
+         <children>
+            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" prefHeight="25.0" prefWidth="56.0" text="Back">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Label fx:id="apptLabel" lineSpacing="100.0" text="Create A New Appointment" />
+         </children>
+      </HBox>
       <VBox layoutX="24.0" layoutY="28.0" prefHeight="339.0" prefWidth="550.0">
          <children>
             <HBox prefHeight="183.0" prefWidth="550.0">
@@ -73,7 +83,7 @@
                         <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="User ID" />
-                              <TextField fx:id="userIDField" editable="false" />
+                              <TextField fx:id="userIDField" />
                            </children>
                         </HBox>
 
@@ -96,26 +106,16 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="createNewAppt" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="Save">
+                  <Button fx:id="createNewAppt" mnemonicParsing="false" onAction="#onActionInsertAppointment" text="Save New Appointment">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="updateAppt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update" />
+                  <Button fx:id="updateAppt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update Existing Appointment" />
                </children>
             </HBox>
 
          </children>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="550.0">
-         <children>
-            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" prefHeight="25.0" prefWidth="56.0" text="Back">
-               <HBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Label lineSpacing="100.0" text="Create A New Appointment" />
-         </children>
-      </HBox>
    </children>
 </AnchorPane>

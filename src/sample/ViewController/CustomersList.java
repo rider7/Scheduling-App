@@ -77,8 +77,10 @@ public class CustomersList implements Initializable {
         /**
          * Method used to initialize the scene
          */
+//        System.out.println(myCustomerList.getItems());
+//        myCustomerList.getItems().clear();
         try {
-            myConnection();
+            myConnection(); //Bug getting last customer record twice
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -153,10 +155,10 @@ public class CustomersList implements Initializable {
 
     @FXML
     private void goToCustomerUpdate(ActionEvent event) throws IOException, SQLException {
-
         /**
          * Method used to go to the customer Update controller page
          */
+
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields

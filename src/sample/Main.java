@@ -24,7 +24,7 @@ public class Main extends Application{
     /**
      * This is the main class
      */
-
+    Locale locale;
     Scene reportScene;
     Stage primaryStage;
     //Starting or primary fxml view when the application first runs
@@ -34,8 +34,10 @@ public class Main extends Application{
          * Starts the application at the UsersControllers.txt stage and sets the language
          */
         //Set language
-        Locale.setDefault(new Locale("en"));
-        Locale locale = new Locale("en");
+        locale = Locale.getDefault();
+
+        //Locale.setDefault(new Locale("fr"));
+        //Locale locale = new Locale("fr");
         //System.out.println(Locale.getDefault());
         ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
         Parent root = FXMLLoader.load(getClass().getResource("ViewController/UsersController.fxml"), bundle);

@@ -30,8 +30,9 @@ import static sample.Utilities.TextFileOutput.myFileOutput;
 
 public class UsersController {
     //Set language resource bundle
+    Locale locale = Locale.getDefault();
     //Locale.setDefault(new Locale("fr"));
-    Locale locale = new Locale("en");
+    //Locale locale = new Locale("es");
 
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
@@ -48,10 +49,8 @@ public class UsersController {
 
     @FXML
     private TextField user;
-
     @FXML
     private TextField password;
-
     @FXML
     private Button backToReality;
     @FXML
@@ -61,15 +60,19 @@ public class UsersController {
          */
         // declaring object of Locale
         Locale locale;
+        //Locale locale2;
 
         // calling the getDefault method
         locale = Locale.getDefault();
+        //locale.setDefault(new Locale("fr"));
+        //locale2 = Locale.getDefault();
         String localeString = locale.toString();
+        System.out.println(localeString);
 
         ResultSet myResultSet = myConnection();
         String username = user.getText();
         myNewUser=user.getText();
-        //System.out.println("In Action: " + myNewUser);
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String formatLocalDateTime = dtf.format(now);
@@ -134,8 +137,15 @@ public class UsersController {
          * Initialize method that starts when this controller is used
          */
         //Set language resource bundle
-        Locale.setDefault(new Locale("en"));
-        Locale locale = new Locale("en");
+        // declaring object of Locale
+        Locale locale;
+        Locale locale2;
+
+        // calling the getDefault method
+        locale = Locale.getDefault();
+        //locale.setDefault(new Locale("fr"));
+        locale2 = Locale.getDefault();
+        String localeString = locale2.toString();
 
         myTimeZone.setText(myTimeZoneString);
     }
@@ -178,7 +188,8 @@ public class UsersController {
         /**
          * Method used to connect to the database and select the appointment records by user_id
          */
-        System.out.println("My prep statement method user: " + user);
+        Boolean scheduleConflict = false;
+        //System.out.println("My prep statement method user: " + user);
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Select all records from countries table
@@ -198,7 +209,6 @@ public class UsersController {
 
         statement.execute(); //Execute statement (returns true)
         ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
-        System.out.println("Result SETTTTTTTTTTTTTTTT");
         //System.out.println(myResultSet.getTimestamp("Start"));
         //Get local date time
         LocalDateTime myLocalDateTime = LocalDateTime.now();
@@ -213,16 +223,17 @@ public class UsersController {
         String formFullHour = myLocalDateTime.format(myFormatterHour);
         String formFullMin = myLocalDateTime.format(myFormatterMin);
         //System.out.println("Local " + formDT);
-
-
+        String myApptTime = null;
+        int myApptId = 0;
         //return myResultSet;
         while(myResultSet.next()){
             Timestamp time =myResultSet.getTimestamp("Start");
+            int apptID = myResultSet.getInt("Appointment_ID");
             String formatMonth = new SimpleDateFormat("MM/dd/yyyy HH:mm").format(time);
             String formatFull = new SimpleDateFormat("MM/dd/yyyy").format(time);
             System.out.println("Appt time: " + formatMonth);
             String formatHour = new SimpleDateFormat("HH").format(time);
-            String formatMin = new SimpleDateFormat("HH").format(time);
+            String formatMin = new SimpleDateFormat("mm").format(time);
             //System.out.println(formatHour);
             //Build formatter
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -233,18 +244,25 @@ public class UsersController {
             int compareDate = dateTimeAppt.compareTo(myLocalDateTime);
             //System.out.println(compareDate);
             if(formatFull.equals(formFullDT)){
+                //JOptionPane.showMessageDialog(frame,"Upcoming appointments date!");
                 //System.out.println("Same day");
                 if(formFullHour.equals(formatHour)){
+                    //JOptionPane.showMessageDialog(frame,"Upcoming appointments hour!");
                     //System.out.println("Same hour");
-                    if((Integer.parseInt(formFullMin) + 15) <= Integer.parseInt(formatMin)){
+                    if(Math.abs((Integer.parseInt(formFullMin)) - (Integer.parseInt(formatMin))) <= 15){
                         //System.out.println("15 minute appt");
-                        JOptionPane.showMessageDialog(frame,"Upcoming appointments!");
-
+                        //JOptionPane.showMessageDialog(frame,"Upcoming appointments minutes!");
+                        scheduleConflict = true;
+                        myApptTime = formatMonth;
+                        myApptId = apptID;
                     }
                 }
-            } else{
-                JOptionPane.showMessageDialog(frame,"No appointments upcoming appointments within the next 15 minutes. ");
             }
+        }
+        if(!scheduleConflict) {
+            JOptionPane.showMessageDialog(frame, "No appointments upcoming appointments within the next 15 minutes. ");
+        } else {
+            JOptionPane.showMessageDialog(frame, "Upcoming appointment! " + "\n" + "Appointment ID: " + myApptId + "\n" + "Appointment Date and Time: " + myApptTime);
         }
     }
 

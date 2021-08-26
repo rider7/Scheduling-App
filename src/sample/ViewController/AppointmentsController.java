@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Model.Appointments;
@@ -73,6 +74,8 @@ public class AppointmentsController {
     private Button backToReality, updateAppt, createNewAppt;
     @FXML
     private ComboBox contactComboBox;
+    @FXML
+    Label apptLabel;
 
     JFrame frame;
     JFrame frames;
@@ -113,6 +116,9 @@ public class AppointmentsController {
             customerIDField.setText(String.valueOf(customerID));
             userIDField.setText(String.valueOf(userID));
             contactComboBox.getItems().addAll(comboBoxContactName.values());
+            apptLabel.setText("Update Existing Appointment");
+            createNewAppt.setVisible(false);
+            createNewAppt.setDisable(true);
             if(contactID==1){
                 contactComboBox.setValue("Anika Costa");
             }else if(contactID==2){
@@ -123,6 +129,9 @@ public class AppointmentsController {
         }else{
             contactComboBox.getItems().clear();
             contactComboBox.getItems().addAll(comboBoxContactName.values());
+            apptLabel.setText("Create New Appointment");
+            updateAppt.setVisible(false);
+            updateAppt.setDisable(true);
         }
 
         ArrayList<String> numbers = new ArrayList<String>();
@@ -216,8 +225,8 @@ public class AppointmentsController {
         String newCustomerIDString= customerIDField.getText();
         String newUserIDString= userIDField.getText();
         //String newContactString=contact.getText();
-        String newUser = UsersController.getMyNewUser();
-        String newAppt = AppointmentsList.getMyNewAppointments();
+        //String newUser = UsersController.getMyNewUser();
+        //String newAppt = AppointmentsList.getMyNewAppointments();
         //System.out.println(newAppointmentID + newTitleString + newDescriptionString + newDescriptionString + newLocationString + newTypeString + newStartString + newEndString + newAppt);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm", Locale.US);
@@ -407,7 +416,7 @@ public class AppointmentsController {
          */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
-                        "MainController.fxml"),bundle);
+                        "AppointmentsList.fxml"),bundle);
         Stage stage = (Stage) backToReality.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

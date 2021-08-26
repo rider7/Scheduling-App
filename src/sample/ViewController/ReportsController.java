@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,8 @@ import javafx.scene.control.*;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 
@@ -145,12 +148,14 @@ public class ReportsController implements Initializable {
     private TableColumn<Customers, String> lastUpdate;
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
+    Frame frame;
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         /**
          * Method used to intialize the scene when the controller is used
          */
+
         // remove tableviews except for tableview1
         usCustomers.setText(String.valueOf(1));
         ukCustomers.setText(String.valueOf(1));
@@ -171,6 +176,7 @@ public class ReportsController implements Initializable {
         end.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("End"));
         customerID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("Customer_ID"));
         myWrapper.setItems(getAllWrappers());
+        JOptionPane.showMessageDialog(frame,"Choose a report by clicking a button below.");
     }
 
     public static ObservableList<Wrapper>getAllWrappers(){
@@ -424,57 +430,6 @@ public class ReportsController implements Initializable {
         }
     };
 
-    //***************ORIGINAL
-//    public void reportTwoAction() throws SQLException {
-//        reportNumber=2;
-//        System.out.println(reportNumber);
-//        //add tableview
-//        reportVBox.getChildren().add(1,myAppointments);
-//        //tableview visibility
-//        //myTableView2.setVisible(true);
-//        // remove tableviews
-//        reportVBox.getChildren().remove(report1VBox);
-//
-//        //Establish connection before launch and assign it to the Connection reference variable named conn
-//        Connection conn = DBConnection.startConnection();
-//
-//        //Select Statement
-//        String selectApptStatement = "SELECT * FROM  appointments";
-//
-//        //Create prepared statement object for insertStatement
-//        Query.setPreparedStatement(conn, selectApptStatement);
-//
-//        //Get the prepared statement reference
-//        PreparedStatement preparedStatement = Query.getPreparedStatement();
-//        try {
-//            preparedStatement.execute(selectApptStatement);
-//            //Create ResultSet object and assign the preparedStatement results
-//            ResultSet myResultSet = preparedStatement.getResultSet();
-//            System.out.println("Appt table for Report 2");
-//            //Forward scroll ResultSet
-//            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
-//                int appt_ID = myResultSet.getInt("Appointment_ID");
-//                //System.out.println(appt_ID);
-//                String title = myResultSet.getString("Title");
-//                String description = myResultSet.getString("Description");
-//                String type = myResultSet.getString("Type");
-//                int customer_id = myResultSet.getInt("Customer_ID");
-//                int user_id = myResultSet.getInt("User_ID");
-//                int contact_id = myResultSet.getInt("Contact_ID");
-//                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
-//                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
-//                //Create new instance of Appontments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
-//                Appointments newAppointment = new Appointments(appt_ID, customer_id, user_id, contact_id, title, description, null, type, start, end, null,null,null, null);
-//                //Call addCustomer method with newCustomer instance passed to add to the observableList
-//                Appointments.addAppointments(newAppointment);
-//                Appointments.updateAppointments(newAppointment);
-//                System.out.println(appt_ID);
-//            }
-//        }catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//    };
-
     public void reportThreeAction() throws SQLException {
         /**
          * Method used to query the database and evaluate the information for the third report
@@ -528,8 +483,7 @@ public class ReportsController implements Initializable {
         usCustomers.setText(String.valueOf(usCount));
         ukCustomers.setText(String.valueOf(ukCount));
         canadaCustomers.setText(String.valueOf(canadaCount));
-
-    };
+    }
 
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
@@ -544,5 +498,4 @@ public class ReportsController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 }

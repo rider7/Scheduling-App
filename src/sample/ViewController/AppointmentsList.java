@@ -87,9 +87,7 @@ public class AppointmentsList implements Initializable {
     @FXML
     public ToggleGroup myToggleGroup;
     public String toggleFilter;
-
     public static String myNewAppt;
-
 
     @FXML
     public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
@@ -127,6 +125,7 @@ public class AppointmentsList implements Initializable {
         /**
          * Method used to go to appointments controller
          */
+        AppointmentsController.appointmentID =0;
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "AppointmentsController.fxml"),bundle);
