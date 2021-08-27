@@ -1,7 +1,7 @@
 package sample.Model;
 
 import java.util.Date;
-
+/**Class to handle the countries object*/
 public class Countries {
     //Attributes
     int Country_ID; //PK

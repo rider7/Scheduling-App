@@ -22,11 +22,10 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Class used to manipulate data for appointment records
+ */
 public class AppointmentsList implements Initializable {
-    /**
-     * Class used to manipulate data for appointment records
-     */
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -38,25 +37,35 @@ public class AppointmentsList implements Initializable {
 
     //FXML attributes
     //TableView field
+    /**TablewView used to display the appointments list*/
     @FXML
     public TableView<Appointments> myAppointmentsList;
     //Table Columns
+    /**Table Column used to display the appointment ID*/
     @FXML
     private TableColumn<Appointments, Integer> appointmentID;
+    /**Table Column used to display the title*/
     @FXML
     private TableColumn<Appointments, String> title;
+    /**Table Column used to display the description*/
     @FXML
     private TableColumn<Appointments, String> description;
+    /**Table Column used to display the location*/
     @FXML
     private TableColumn<Appointments, String> myLocation;
+    /**Table Column used to display the type*/
     @FXML
     private TableColumn<Appointments, String> type;
+    /**Table Column used to display the start*/
     @FXML
     private TableColumn<Appointments, String> start;
+    /**Table Column used to display the end*/
     @FXML
     private TableColumn<Appointments, String> end;
+    /**Table Column used to display the customer ID*/
     @FXML
     private TableColumn<Appointments, Integer> customerID;
+    /**Table Column used to display the contact ID*/
     @FXML
     private TableColumn<Appointments, Integer> contactID;
 //    @FXML
@@ -73,27 +82,35 @@ public class AppointmentsList implements Initializable {
 //    private TableColumn<Appointments, String> contactName;
 
     //FXML Buttons
+    /**Button used to navigate back to the main page*/
     @FXML
     private Button backToReality;
+    /**Button used to go to the appointment page*/
     @FXML
     private Button goToAppointmentButton;
+    /**Button used to delete appointments by selection*/
     @FXML
     private Button onActionDeleteAppointmentButton;
+    /**Button used to navigate to the reports page*/
     @FXML Button toReports;
+    /**RadioButton used to sort the appointments by month*/
     @FXML
     private  RadioButton myAppointmentSort1;
+    /**RadioButton used to sort the appointments by week*/
     @FXML
     private  RadioButton myAppointmentSort2;
+    /**ToggleGroup used for the week/month display options*/
     @FXML
     public ToggleGroup myToggleGroup;
+    /**String used to hold data for toggle filter*/
     public String toggleFilter;
+    /**String used to keep track of new appointment*/
     public static String myNewAppt;
-
+    /**
+     * Method used to connect to the database and delete appointments by appointment_id
+     */
     @FXML
     public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
-        /**
-         * Method used to connect to the database and delete appointments by appointment_id
-         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
 
@@ -119,12 +136,11 @@ public class AppointmentsList implements Initializable {
         JOptionPane.showMessageDialog(frame,"You have deleted the appointment with the following details " +"\n" + "Appointment ID: " + Appointment_ID + "\n" + "Appointment Type: " + type);
         //System.out.println("Appointment Deleted!" + " Appointment ID: " + Appointment_ID + "Appointment Type: " + type);
     }
-
+    /**
+     * Method used to go to appointments controller
+     */
     @FXML
     private void goToAppointmentsController(ActionEvent event) throws IOException {
-        /**
-         * Method used to go to appointments controller
-         */
         AppointmentsController.appointmentID =0;
         Parent root = FXMLLoader.load(getClass().
                 getResource(
@@ -134,12 +150,11 @@ public class AppointmentsList implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to back to the main controller
+     */
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
-        /**
-         * Method used to back to the main controller
-         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
@@ -148,13 +163,11 @@ public class AppointmentsList implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to initialize the scene with appointment lists
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-        /**
-         * Method used to initialize the scene with appointment lists
-         */
-
         try {
             myConnection();
         }
@@ -185,21 +198,17 @@ public class AppointmentsList implements Initializable {
         myAppointmentsList.setItems(getAllAppointments());
         myAppointmentsList.getSortOrder().add(start);
         myAppointmentsList.sort();
-
     }
-
+    /**
+     * Method used to return ObservableList of appointments
+     */
     public static ObservableList<Appointments> getAllAppointments(){
-        /**
-         * Method used to return ObservableList of appointments
-         */
-
         return Appointments.myAppointments;
     }
-
+    /**
+     * Method used to connect to the database and to select appointments
+     */
     public static void myConnection() throws SQLException {
-        /**
-         * Method used to connect to the database and to select appointments
-         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -243,31 +252,30 @@ public class AppointmentsList implements Initializable {
         }
     }
 
-
+    /**
+     * Method used to get new appointments
+     */
     public static String getMyNewAppointments(){
-        /**
-         * Method used to get new appointments
-         */
         System.out.println("In getMyNewApptMethod: " + myNewAppt);
         return myNewAppt;
     }
-
+    /**Method used to get the toggle filter*/
     public void getToggleFilter(){
         toggleFilter = "month";
         //System.out.println(myToggleGroup.getSelectedToggle());
         System.out.println(toggleFilter);
     }
+    /**Method used to see which option was toggled*/
     public void getToggleFilter2(){
         //System.out.println(myToggleGroup.getSelectedToggle());
         toggleFilter = "week";
         System.out.println(toggleFilter);
     }
-
+    /**
+     * Method used to go to the appointment list page with updated appointment
+     */
     @FXML
     private void goToAppointmentUpdate(ActionEvent event) throws IOException {
-        /**
-         * Method used to go to the appointment list page with updated appointment
-         */
         //Create instance of Appointments that is selected from tableview myAppointmentList
         Appointments updateSelectedAppointment = myAppointmentsList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedAppointment object to AppointmentsController for use in populating data fields
@@ -281,12 +289,11 @@ public class AppointmentsList implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to navigate to the report interface screen
+     */
     @FXML
     private void goToReports(ActionEvent event) throws IOException {
-        /**
-         * Method used to navigate to the report interface screen
-         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "ReportsController.fxml"),bundle);

@@ -1,7 +1,7 @@
 package sample.Model;
 
 import java.util.Date;
-
+/**Class used to handle Users objects*/
 public class Users {
     //Attributes
     int User_ID; //PK

@@ -28,6 +28,9 @@ import java.util.TimeZone;
 
 import static sample.Utilities.TextFileOutput.myFileOutput;
 
+/**Class used to handle the user data including login
+ *
+ */
 public class UsersController {
     //Set language resource bundle
     Locale locale = Locale.getDefault();
@@ -40,24 +43,31 @@ public class UsersController {
     Parent scene;
     //Object instance created for dialog box
     JFrame frame;
+    /**String used to hold the new user*/
     public static String myNewUser;
+    /**String used to hold the String value of the first user*/
     private final String user_one = "test";
+    /**String used to hold the String value of the second user*/
     private final String user_two = "admin";
-
+    /**Boolean used to hold the true or false value to show if user was found in the database*/
     boolean userMatched = false;
+    /**String used to track attempt options*/
     String attempt = "Fail";
-
+    /**Textfield used to show the user*/
     @FXML
     private TextField user;
+    /**Textfield used to show the password*/
     @FXML
     private TextField password;
+    /**Button used to navigate back to the main page*/
     @FXML
     private Button backToReality;
-    @FXML
+
+    /**
+     * Method used to verify if the user credentials are in the system
+     */@FXML
     public void onActionVerifyUser(javafx.event.ActionEvent event) throws SQLException, IOException {
-        /**
-         * Method used to verify if the user credentials are in the system
-         */
+
         // declaring object of Locale
         Locale locale;
         //Locale locale2;
@@ -124,18 +134,19 @@ public class UsersController {
         DBConnection.closeConnection();
 
     }
-
+    /**Label used to show the time zone*/
     @FXML
     public Label myTimeZone;
+    /**Label used to show the time zone in text*/
     @FXML
     public Label textTimeZone;
-
+    /**String used to get the current time zone*/
     String myTimeZoneString = getTimeZone();
-
+    /**
+     * Initialize method that starts when this controller is used
+     */
     @FXML private void initialize(){
-        /**
-         * Initialize method that starts when this controller is used
-         */
+
         //Set language resource bundle
         // declaring object of Locale
         Locale locale;
@@ -149,11 +160,11 @@ public class UsersController {
 
         myTimeZone.setText(myTimeZoneString);
     }
-
+    /**
+     * Method used to get the current timezone and display the name
+     */
     public static String getTimeZone(){
-        /**
-         * Method used to get the current timezone and display the name
-         */
+
         //Get Calendar instance
         Calendar now = Calendar.getInstance();
 
@@ -165,11 +176,11 @@ public class UsersController {
     }
 
 
-
+    /**
+     * Method used to create a connection with the database and select the users
+     */
     public ResultSet myConnection() throws SQLException {
-        /**
-         * Method used to create a connection with the database and select the users
-         */
+
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -183,11 +194,11 @@ public class UsersController {
 
         return myResultSet;
     }
-
+    /**
+     * Method used to connect to the database and select the appointment records by user_id
+     */
     public void myPreparedStatement(String user) throws SQLException{
-        /**
-         * Method used to connect to the database and select the appointment records by user_id
-         */
+
         Boolean scheduleConflict = false;
         //System.out.println("My prep statement method user: " + user);
         //Establish connection before launch and assign it to the Connection reference variable named conn
@@ -265,11 +276,11 @@ public class UsersController {
             JOptionPane.showMessageDialog(frame, "Upcoming appointment! " + "\n" + "Appointment ID: " + myApptId + "\n" + "Appointment Date and Time: " + myApptTime);
         }
     }
-
+    /**
+     * Method used to go back to the main controller
+     */
     public void backToMainController(ActionEvent event) throws IOException {
-        /**
-         * Method used to go back to the main controller
-         */
+
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);
@@ -278,11 +289,11 @@ public class UsersController {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to get the new user information
+     */
     public static String getMyNewUser(){
-        /**
-         * Method used to get the new user information
-         */
+
         System.out.println("In getMyNewUserMethod: " + myNewUser);
         return myNewUser;
     }

@@ -37,11 +37,11 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * This class is used to populate all the report information
+ */
 public class ReportsController implements Initializable {
-    /**
-     * This class is used to populate all the report information
-     */
+
     Locale locale = new Locale("en");
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
@@ -50,36 +50,49 @@ public class ReportsController implements Initializable {
     int reportNumber;
     Parent scene;
     Stage stage;
-
+    /** Button used to navigate back to the page*/
     @FXML
     Button backToReality;
+    /** Button used to navigate to the report one page*/
     @FXML
     Button reportOne;
+    /** Button used to navigate to the report two page*/
     @FXML
     Button reportTwo;
+    /** Button used to navigate to the report three page*/
     @FXML
     Button reportThree;
+    /**VBOX for the report container*/
     @FXML
     VBox reportVBox;
+    /**VBOX for the report 1 container*/
     @FXML
     VBox report1VBox;
+    /**VBOX for the report 2 container*/
     @FXML
     VBox report3VBox;
+    /**VBOX for the report 3 container*/
     @FXML
     HBox report2HBox;
+    /**TextField for the planning sessions total*/
     @FXML
     TextField planningSessionsTotal;
+    /**TextField for the debriefing total*/
     @FXML
     TextField deBriefingTotal;
 
     //Report 3 textfields
+    /**Textfield to keep track of the us customers*/
     @FXML
     TextField usCustomers;
+    /**Textfield to keep track of the uk customers*/
     @FXML
     TextField ukCustomers;
+    /**Textfield to keep track of the canada customers*/
     @FXML
     TextField canadaCustomers;
     //Month textfields
+    /**Textfield to keep track of the months*/
     @FXML
     TextField janTextField, febTextField, marchTextField, aprilTextField, mayTextField, juneTextField, julyTextField,
     augustTextField, septTextField, octTextField, novTextField, decTextField;
@@ -107,55 +120,72 @@ public class ReportsController implements Initializable {
 //    public TableColumn<Appointments, Integer> customerID;
 
     //TablewView Fields
+    /**Table View to display the wrapper objects*/
     @FXML TableView<Wrapper> myWrapper;
     //@FXML TableView<Customers> myTableView3;
     //Table Columns
+    /**Table Column to display the wrapper contact*/
     @FXML
     public TableColumn<Wrapper, String> contact;
+    /**Table Column to display the wrapper appointment ID*/
     @FXML
     public TableColumn<Wrapper, Integer> apptID;
+    /**Table Column to display the wrapper title*/
     @FXML
     public TableColumn<Wrapper, String> title;
+    /**Table Column to display the wrapper description*/
     @FXML
     public TableColumn<Wrapper, String> description;
+    /**Table Column to display the wrapper type*/
     @FXML
     public TableColumn<Wrapper, String> type;
+    /**Table Column to display the wrapper start*/
     @FXML
     public TableColumn<Wrapper, String> start;
+    /**Table Column to display the wrapper end*/
     @FXML
     public TableColumn<Wrapper, String> end;
+    /**Table Column to display the wrapper customer ID*/
     @FXML
     public TableColumn<Wrapper, Integer> customerID;
+
 
     //Table Columns
     //@FXML
    // private TableColumn<Customers, Integer> customerID;
+    /**Table Column to hold the division ID data*/
     @FXML
     private TableColumn<Customers, Integer> divisionID;
+    /**Table Column to hold the customer name data*/
     @FXML
     private TableColumn<Customers, String> customerName;
+    /**Table Column to hold the address data*/
     @FXML
     private TableColumn<Customers, String> address;
+    /**Table Column to hold the postal code data*/
     @FXML
     private TableColumn<Customers, String> postalCode;
+    /**Table Column to hold the phone data*/
     @FXML
     private TableColumn<Customers, String> phone;
+    /**Table Column to hold the create date data*/
     @FXML
     private TableColumn<Customers, String> createDate;
+    /**Table Column to hold the created by data*/
     @FXML
     private TableColumn<Customers, String> createdBy;
+    /**Table Column to hold the last update data*/
     @FXML
     private TableColumn<Customers, String> lastUpdate;
+    /**Table Column to hold the last updated by data*/
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
     Frame frame;
-
+    /**
+     * Method used to intialize the scene when the controller is used
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-        /**
-         * Method used to intialize the scene when the controller is used
-         */
-
         // remove tableviews except for tableview1
         usCustomers.setText(String.valueOf(1));
         ukCustomers.setText(String.valueOf(1));
@@ -178,11 +208,11 @@ public class ReportsController implements Initializable {
         myWrapper.setItems(getAllWrappers());
         JOptionPane.showMessageDialog(frame,"Choose a report by clicking a button below.");
     }
-
+    /**
+     * Method used to wrap the observableList and create a super()
+     */
     public static ObservableList<Wrapper>getAllWrappers(){
-        /**
-         * Method used to wrap the observableList and create a super()
-         */
+
         return Wrapper.myWrapper;
     }
 
@@ -211,11 +241,11 @@ public class ReportsController implements Initializable {
 //    public static ObservableList<Appointments>getAllAppointments(){
 //        return Appointments.myAppointments;
 //    }
-
+    /**
+     * Method used to query the database and evaluate the information for the first report
+     */
     public void reportOneAction(ActionEvent event) throws SQLException {
-        /**
-         * Method used to query the database and evaluate the information for the first report
-         */
+
         //add report 1 VBox if it is not set already in the scene
         if(reportNumber!=1) {
             reportVBox.getChildren().add(1, report1VBox);
@@ -277,11 +307,11 @@ public class ReportsController implements Initializable {
         //call method monthInteger which finds and totals the month for each appointment
         monthInteger(conn);
     };
-
+    /**
+     * Method used to query the database and evaluate the information for the first report
+     */
     public void monthInteger(Connection conn) throws SQLException {
-        /**
-         * Method used to query the database and evaluate the information for the first report
-         */
+
         int janCount =0;
         int febCount =0;
         int marCount =0;
@@ -367,10 +397,12 @@ public class ReportsController implements Initializable {
         decTextField.setText(String.valueOf(decCount));
     };
 
+    /**
+     *Method used for the second report
+     * @throws SQLException
+     */
     public void reportTwoAction() throws SQLException {
-        /**
-         * Method used to query the database and evaluate the information for the second report
-         */
+
         if(reportNumber!=2) {
             reportVBox.getChildren().add(1, myWrapper);
         }
@@ -429,11 +461,11 @@ public class ReportsController implements Initializable {
             System.out.println(e.getMessage());
         }
     };
-
+    /**
+     * Method used to query the database and evaluate the information for the third report
+     */
     public void reportThreeAction() throws SQLException {
-        /**
-         * Method used to query the database and evaluate the information for the third report
-         */
+
         int usCount = 0;
         int ukCount = 0;
         int canadaCount = 0;
@@ -484,12 +516,12 @@ public class ReportsController implements Initializable {
         ukCustomers.setText(String.valueOf(ukCount));
         canadaCustomers.setText(String.valueOf(canadaCount));
     }
-
+    /**
+     * Method used navigate back to the main controller
+     */
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
-        /**
-         * Method used navigate back to the main controller
-         */
+
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "MainController.fxml"),bundle);

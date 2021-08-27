@@ -20,11 +20,11 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Class used for the customer list functionality
+ */
 public class CustomersList implements Initializable {
-    /**
-     * Class used for the customer list functionality
-     */
+
     Stage stage;
     Parent root;
 
@@ -35,48 +35,63 @@ public class CustomersList implements Initializable {
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
     //TableView field
+    /**TableView used to display the Customers List*/
     @FXML
     public TableView<Customers> myCustomerList;
     //Table Columns
+    /**Table Column used to display the customer ID*/
     @FXML
     private TableColumn<Customers, Integer> customerID;
+    /**Table Column used to display the division ID*/
     @FXML
     private TableColumn<Customers, Integer> divisionID;
+    /**Table Column used to display the customer name*/
     @FXML
     private TableColumn<Customers, String> customerName;
+    /**Table Column used to display the address*/
     @FXML
     private TableColumn<Customers, String> address;
+    /**Table Column used to display the postal code*/
     @FXML
     private TableColumn<Customers, String> postalCode;
+    /**Table Column used to display the phone data*/
     @FXML
     private TableColumn<Customers, String> phone;
+    /**Table Column used to display the create date data*/
     @FXML
     private TableColumn<Customers, String> createDate;
+    /**Table Column used to display the created by data*/
     @FXML
     private TableColumn<Customers, String> createdBy;
+    /**Table Column used to display the last updated by data*/
     @FXML
     private TableColumn<Customers, String> lastUpdate;
+    /**Table Column used to display the last udpate data*/
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
 
     //FXML Buttons
+    /**Button to navigate back to the main page*/
     @FXML
     private Button backToReality;
+    /**Button used to navigate back to the customer page*/
     @FXML
     private Button goToCustomerButton;
+    /**Button used to delete the selected customers record*/
     @FXML
     private Button deleteCustomersButton;
+    /**Button used to navigate to the reports page*/
     @FXML
     private Button toReports;
+    /**Button used to navigate to the appointment list*/
     @FXML
     private Button toApptList;
 
-
+    /**
+     * Method used to initialize the scene
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-        /**
-         * Method used to initialize the scene
-         */
 //        System.out.println(myCustomerList.getItems());
 //        myCustomerList.getItems().clear();
         try {
@@ -101,11 +116,10 @@ public class CustomersList implements Initializable {
         //Sets the items on the myCustomerList table from the Observable list for customers via the getAllCustomers() method call
         myCustomerList.setItems(getAllCustomers());
     }
-
+    /**
+     * Method used to connect to the database and query with a select statement
+     */
     public static void myConnection() throws SQLException {
-        /**
-         * Method used to connect to the database and query with a select statement
-         */
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -144,21 +158,18 @@ public class CustomersList implements Initializable {
             System.out.println(e.getMessage());
         }
      }
-
+    /**
+     * Method used to return the observableList
+     */
     public static ObservableList<Customers> getAllCustomers(){
-        /**
-         * Method used to return the observableList
-         */
         return Customers.myCustomers;
     }
 
-
+    /**
+     * Method used to go to the customer Update controller page
+     */
     @FXML
     private void goToCustomerUpdate(ActionEvent event) throws IOException, SQLException {
-        /**
-         * Method used to go to the customer Update controller page
-         */
-
         //Create instance of Customers that is selected from tableview myCustomerList
         Customers updateSelectedCustomer = myCustomerList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedCustomer object to CustomersController for use in populating data fields
@@ -176,6 +187,7 @@ public class CustomersList implements Initializable {
         stage.show();
         //CustomersController.changeCustomerLabel("Update");
     }
+    /**Method used to navigate to the customer controller*/
     @FXML
     public void goToCustomerController(ActionEvent event) throws IOException {
         //CustomersController.changeCustomerLabel("Create New Customer");
@@ -192,7 +204,7 @@ public class CustomersList implements Initializable {
         stage.show();
         //CustomersController.changeCustomerLabel("New");
     }
-
+    /**Method used to navigate back to the main controller*/
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
         /**
@@ -206,12 +218,12 @@ public class CustomersList implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Method used to go to the appointment list controller page
+     */
     @FXML
     private void toAppointmentsList(ActionEvent event) throws IOException {
-        /**
-         * Method used to go to the appointment list controller page
-         */
+
 
         Parent root = FXMLLoader.load(getClass().
                 getResource(
@@ -221,7 +233,7 @@ public class CustomersList implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**Method used to delete customer records on selection*/
     @FXML
     public void onActionDeleteCustomer(ActionEvent event) throws SQLException{
         /**
@@ -280,7 +292,7 @@ public class CustomersList implements Initializable {
         System.out.println("Customer Deleted!");
     }
 
-
+    /**Method used to get the country data*/
     public void getCountry() throws SQLException {
         /**
          * Method used to connect to the database and query with select where the division_id is the parameter
@@ -319,7 +331,7 @@ public class CustomersList implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
+    /**Method used to navigate to the report page*/
     @FXML
     private void goToReports(ActionEvent event) throws IOException {
         /**

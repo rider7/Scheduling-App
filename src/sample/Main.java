@@ -19,20 +19,20 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
+/**
+ * This is the main class
+ */
 public class Main extends Application{
-    /**
-     * This is the main class
-     */
     Locale locale;
     Scene reportScene;
     Stage primaryStage;
     //Starting or primary fxml view when the application first runs
+    /**
+     * Starts the application at the UsersControllers.txt stage and sets the language
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        /**
-         * Starts the application at the UsersControllers.txt stage and sets the language
-         */
+
         //Set language
         locale = Locale.getDefault();
 
@@ -45,12 +45,12 @@ public class Main extends Application{
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
-
+    /**
+     * The entry point into the application which includes the login_activity.txt file
+     */
     //Main entry into the application
     public static void main(String[] args) throws SQLException, IOException {
-        /**
-         * The entry point into the application which includes the login_activity.txt file
-         */
+
         //Filename and user variable
         String filename = "login_activity.txt";
 

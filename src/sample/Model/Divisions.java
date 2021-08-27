@@ -1,7 +1,7 @@
 package sample.Model;
 
 import java.util.Date;
-
+/**Class used to handle the division objects*/
 public class Divisions {
     //Attributes
     int Division_ID; //PK

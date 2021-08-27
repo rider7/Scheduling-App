@@ -24,11 +24,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.*;
-
+/**
+ * Class used for data manipulation of appointment records
+ */
 public class AppointmentsController {
-    /**
-     * Class used for data manipulation of appointment records
-     */
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
     Locale locale = new Locale("en");
@@ -36,50 +35,76 @@ public class AppointmentsController {
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
     //Attributes
+    /**Integer used to hold the appointment ID value*/
     public static int appointmentID;
+    /**Integer used to hold the contact ID value*/
     public static int contactID;
+    /**Integer used to hold the customer ID value*/
     public static int customerID;
+    /**Integer used to hold the user ID value*/
     public static int userID;
+    /**String used to hold the title string value*/
     public static String titleString;
+    /**String used to hold the description string value*/
     public static String descriptionString;
+    /**String used to hold the location string value*/
     public static String locationString;
+    /**String used to hold the type string value*/
     public static String typeString;
+    /**LocalDateTime used to hold the start value*/
     public static LocalDateTime startString;
+    /**LocalDateTime used to hold the end value*/
     public static LocalDateTime endString;
+    /**String used to hold the contact value*/
     public static String contactString;
 
+    /**TextField used to hold the appointment id form*/
     @FXML
     private TextField appointment_id;
+    /**TextField used to hold the title form*/
     @FXML
     private TextField title;
+    /**TextField used to hold the description form*/
     @FXML
     private TextField description;
+    /**TextField used to hold the location form*/
     @FXML
     private TextField myLocation;
+    /**TextField used to hold the type form*/
     @FXML
     private TextField type;
+    /**TextField used to hold the contact form*/
     @FXML
     private TextField contact;
+    /**TextField used to hold the start form*/
     @FXML
     private TextField start;
+    /**TextField used to hold the end form*/
     @FXML
     private TextField end;
+    /**TextField used to hold the contact ID form*/
     @FXML
     private TextField contactIDField;
+    /**TextField used to hold the customer ID form*/
     @FXML
     private TextField customerIDField;
+    /**TextField used to hold the user ID form*/
     @FXML
     private TextField userIDField;
+    /**Button used to navigate back to the main page, update page and create appt page*/
     @FXML
     private Button backToReality, updateAppt, createNewAppt;
+    /**ComboBox used to display the contacts*/
     @FXML
     private ComboBox contactComboBox;
+    /**Label used to hold the appointment data*/
     @FXML
     Label apptLabel;
 
     JFrame frame;
     JFrame frames;
     //Enums
+    /**Enum used to hold the contact names*/
     public enum comboBoxContactName{
         AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
         //Contact_ID 1, 2, 3;
@@ -88,6 +113,7 @@ public class AppointmentsController {
             this.contacts = s;
         }
     };
+    /**Enum used to hold the contact ID names*/
     public enum comboBoxContactID{
         AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
         public final String contacts;
@@ -97,12 +123,11 @@ public class AppointmentsController {
     };
 
 
-
+    /**
+     * Method used to initialize the scene with the appointments controller fxml
+     */
     @FXML
     public void initialize() {
-        /**
-         * Method used to initialize the scene with the appointments controller fxml
-         */
         //convertTimeZone();
         if (appointmentID > 0) {
             appointment_id.setText(String.valueOf(appointmentID));
@@ -142,12 +167,11 @@ public class AppointmentsController {
         numbers.forEach((n) -> {System.out.println(n);});
 
     }
-
+    /**
+     * Method used to connect to the database and insert appointment record data
+     */
     @FXML
     public void onActionInsertAppointment(ActionEvent event) throws SQLException, IOException {
-        /**
-         * Method used to connect to the database and insert appointment record data
-         */
         System.out.println("Save Appointment Button Works!");
 
         String newAppointmentID = appointment_id.getText();
@@ -206,12 +230,11 @@ public class AppointmentsController {
             stage.show();
         }
     }
-
+    /**
+     * Method used to connect to the database and update the appointment record
+     */
     @FXML
     public void onActionUpdateAppointment(ActionEvent event) throws SQLException, IOException {
-        /**
-         * Method used to connect to the database and update the appointment record
-         */
         System.out.println("Update Appointment Button Works!");
 
         String newAppointmentID = appointment_id.getText();
@@ -285,11 +308,10 @@ public class AppointmentsController {
             }
         }
     }
-
+    /**
+     * Method used to get the appointment object data
+     */
     public static void getAppointmentData(Appointments appointment){
-        /**
-         * Method used to get the appointment object data
-         */
         appointmentID = appointment.getAppointment_ID();
         titleString = appointment.getTitle();
         descriptionString = appointment.getDescription();
@@ -301,12 +323,10 @@ public class AppointmentsController {
         customerID = appointment.getCustomer_ID();
         userID = appointment.getUser_ID();
     };
-
+    /**
+     * Method used to get the timezone
+     */
     public static String getTimeZone(){
-        /**
-         * Method used to get the timezone
-         */
-
         //Get Calendar instance
         Calendar now = Calendar.getInstance();
 
@@ -316,11 +336,10 @@ public class AppointmentsController {
         //System.out.print(timezone.getDisplayName());
         return timezone.getDisplayName();
     }
-
+    /**
+     * Method used to convert the time zone
+     */
     public static boolean convertTimeZone(String start, String end) {
-        /**
-         * Method used to convert the time zone
-         */
         Boolean myBoolean;
         //Convert string to LocalDateTime format
         //String myStart = start;
@@ -367,7 +386,9 @@ public class AppointmentsController {
         //return startHour;
         return myBoolean;
     }
-
+    /**
+     * Method used to check if there is a scheduling conflict
+     */
     public boolean apptConflictCheck(String customerID, String start, String end) throws SQLException {
         boolean isConflict = true;
         //connect to database and select all appts based on user_id passed through method
@@ -408,12 +429,11 @@ public class AppointmentsController {
     return isConflict;
     }
 
-
+    /**
+     * Method used to navigate back to the main controller
+     */
     @FXML
     private void backToMainController(ActionEvent event) throws IOException {
-        /**
-         * Method used to navigate back to the main controller
-         */
         Parent root = FXMLLoader.load(getClass().
                 getResource(
                         "AppointmentsList.fxml"),bundle);

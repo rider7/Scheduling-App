@@ -45,40 +45,63 @@ public class CustomersController {
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
     //FXML Buttons and Labels
+    /**TextField used to hold the customer ID in the customer form*/
     @FXML
     TextField customerID;
+    /**TextField used to hold the customer name in the customer form*/
     @FXML
     TextField customerName;
+    /**TextField used to hold the address in the customer form*/
     @FXML
     TextField address;
+    /**TextField used to hold the phone number in the customer form*/
     @FXML
     TextField phoneNumber;
+    /**TextField used to hold the postal code in the customer form*/
     @FXML
     TextField postalCode;
+    /**Label used to state customer data in the customer form*/
     @FXML
     Label customerLabel;
+    /**Button used to save the customer in the customer form*/
     @FXML
     Button saveCustomerButton;
+    /**Button used to navigate back to the CustomerList page*/
     @FXML
     Button backToReality;
+    /**Button used to update the customer data*/
     @FXML
     Button updateCustomerButton;
+    /**ComboBox used to hold the country enum values*/
     @FXML
     ComboBox cBoxCountries;
+    /**ComboBox used to hold the division enum values*/
     @FXML
     ComboBox cBoxDivisions;
 
 //Attributes
+    /**Integer used to hold the customerID that will be converted to a string*/
     public static int customerIDString;
+    /**String used to hold the customerName that will be saved as a string*/
     public static String customersNameString;
+    /**String used to hold the address that will be saved as a string*/
     public static String addressString;
+    /**String used to hold the phone that will be saved as a string*/
     public static String phoneString;
+    /**String used to hold the postal code that will be saved as a string*/
     public static String postalCodeString;
+    /**Integer used to hold the Division ID that will be saved as a string*/
     public static int divisionIDString;
+    /**String used to hold the country that will be saved as a string*/
     public static String countryString;
+    /**String used to hold the division name that will be saved as a string*/
     public static String divisionNameString;
 
     //Enums
+
+    /**
+     * Enum to fill the Combobox with the countries
+     */
     public enum comboBoxCountries{
         US("U.S"), UK("UK"), Canada("Canada");
     public final String country;
@@ -86,7 +109,9 @@ public class CustomersController {
             this.country = s;
         }
     };
-
+    /**
+     * Enum to fill the Combobox with the divisions from the US
+     */
     public enum comboBoxDivision1{
         Alabama("Alabama"),Arizona("Arizona"),Arkansas("Arkansas"),California("California"),Colorado("Colorado"),Connecticut("Connecticut"),Delaware("Delaware"),
         DistrictofColumbia("District of Columbia"),Florida("Florida"),Georgia("Georgia"),Idaho("Idaho"),Illinois("Illinois"),Indiana("Indiana"),Iowa("Iowa"),Kansas("Kansas"),
@@ -101,7 +126,9 @@ public class CustomersController {
             this.division = s;
         }
     };
-
+    /**
+            * Enum to fill the Combobox with the divisions from the UK
+     */
     public enum comboBoxDivision2{
         England("England"),Wales("Wales"),Scotland("Scotland"),NorthernIreland("Northern Ireland");
 
@@ -329,6 +356,9 @@ public class CustomersController {
             System.out.println(e.getMessage());
         }
     }
+    /**
+     * Method used to connect to the database and query with select where the division is the parameter and return the division name as a String
+     */
     public String getDivisionName(int division_ID) throws SQLException {
 
         //Establish connection before launch and assign it to the Connection reference variable named conn

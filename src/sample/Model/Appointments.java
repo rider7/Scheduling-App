@@ -5,27 +5,42 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-
+/**Class to handle the appointments object*/
 public class Appointments {
     //Attributes
+    /**Integer to hold the appointment ID*/
     int Appointment_ID; //PK
+    /**Integer to hold the customer ID*/
     int Customer_ID; //FK
+    /**Integer to hold the contact ID*/
     int Contact_ID; //FK
+    /**Integer to hold the user ID*/
     int User_ID; //FK
+    /**String used to hold the title*/
     String Title;
+    /**String used to hold the description*/
     String Description;
+    /**String used to hold the location*/
     String Location;
+    /**String used to hold the type*/
     String Type;
+    /**LocalDateTime used to hold the start data*/
     LocalDateTime Start;
+    /**LocalDateTime used to hold the end data*/
     LocalDateTime End;
+    /**LocalDateTime used to hold the create date data*/
     LocalDateTime Create_Date;
+    /**LocalDateTime used to hold the start data*/
     String Created_By;
+    /**LocalDateTime used to hold the last update data*/
     LocalDateTime Last_Update;
+    /**String used to hold the last updated by data*/
     String Last_Updated_By;
 
     //ObservableList used to display appt data on tableview
+    /**Observable List to hold the appointments collection of the array list*/
     public static ObservableList<Appointments> myAppointments = FXCollections.observableArrayList();
-
+    /**Constructor for the appointments object*/
     public Appointments(int appointment_ID, int customer_ID, int contact_ID, int user_ID, String title, String description,
                         String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
         Appointment_ID = appointment_ID;
@@ -174,6 +189,5 @@ public class Appointments {
     public static void updateAppointment(Appointments selectedAppointments){
         myAppointments.set(0,selectedAppointments); //BUG: index of 0 used each time customer updated. possible issue.
     }
-
 
 }
