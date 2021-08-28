@@ -140,7 +140,7 @@ public class CustomersController {
 
     public enum comboBoxDivision3{
         NorthwestTerritories("Northwest Territories"),Alberta("Alberta"),BritishColumbia("British Columbia"),Manitoba("Manitoba"),NewBrunswick("New Brunswick"),NovaScotia("Nova Scotia"),PrinceEdwardIsland("Prince Edward Island"),
-        Ontario("Ontario"),Québec("Québec"),Saskatchewan("Saskatchewan"),Nunavut("Nunavut"),Yukon("Yukon"),NewfoundlandandLabrador("Newfoundland and Labrador");
+        Ontario("Ontario"),Quebec("Quebec"),Saskatchewan("Saskatchewan"),Nunavut("Nunavut"),Yukon("Yukon"),NewfoundlandandLabrador("Newfoundland and Labrador");
 
         public final String division;
         comboBoxDivision3(String s) {
