@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.sql.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -159,6 +161,7 @@ public class UsersController {
         String localeString = locale2.toString();
 
         myTimeZone.setText(myTimeZoneString);
+
     }
     /**
      * Method used to get the current timezone and display the name

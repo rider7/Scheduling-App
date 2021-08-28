@@ -29,15 +29,12 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <RadioButton fx:id="myAppointmentSort21" layoutX="116.0" layoutY="20.0" mnemonicParsing="false" onAction="#getToggleFilter2" selected="true" text="All Appointments Filter">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="myToggleGroup1" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton id="appt_filter" fx:id="myAppointmentSort1" mnemonicParsing="false" onAction="#getToggleFilter" text="Month Filter">
+                  <RadioButton fx:id="myAppointmentSort21" layoutX="116.0" layoutY="20.0" mnemonicParsing="false" onAction="#getToggleFilter3" selected="true" text="All Appointments Filter">
                      <toggleGroup>
                         <ToggleGroup fx:id="myToggleGroup" />
-                     </toggleGroup></RadioButton>
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton id="appt_filter" fx:id="myAppointmentSort1" mnemonicParsing="false" onAction="#getToggleFilter" text="Month Filter" toggleGroup="$myToggleGroup" />
                   <RadioButton fx:id="myAppointmentSort2" mnemonicParsing="false" onAction="#getToggleFilter2" text="Week Filter" toggleGroup="$myToggleGroup" />
                </children>
                <padding>

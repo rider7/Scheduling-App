@@ -29,15 +29,13 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <RadioButton id="appt_filter" fx:id="myAppointmentSort1" mnemonicParsing="false" onAction="#getToggleFilter" selected="true" text="Month Filter">
+                  <RadioButton fx:id="myAppointmentSort21" layoutX="116.0" layoutY="20.0" mnemonicParsing="false" onAction="#getToggleFilter3" selected="true" text="All Appointments Filter">
                      <toggleGroup>
                         <ToggleGroup fx:id="myToggleGroup" />
-                     </toggleGroup></RadioButton>
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton id="appt_filter" fx:id="myAppointmentSort1" mnemonicParsing="false" onAction="#getToggleFilter" text="Month Filter" toggleGroup="$myToggleGroup" />
                   <RadioButton fx:id="myAppointmentSort2" mnemonicParsing="false" onAction="#getToggleFilter2" text="Week Filter" toggleGroup="$myToggleGroup" />
-                  <Button id="edit_button" fx:id="goToAppointmentUpdate" mnemonicParsing="false" onAction="#goToAppointmentUpdate" text="Update" />
-                  <Button id="new_button" fx:id="goToAppointmentButton" mnemonicParsing="false" onAction="#goToAppointmentsController" text="New" />
-                  <Button id="delete_button" fx:id="onActionDeleteAppointmentButton" mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete" />
-                  <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" top="10.0" />
@@ -48,6 +46,14 @@
             </HBox>
          </children>
       </VBox>
+      <HBox layoutX="10.0" layoutY="338.0" prefHeight="38.0" prefWidth="589.0" spacing="10.0">
+         <children>
+            <Button id="edit_button" fx:id="goToAppointmentUpdate" mnemonicParsing="false" onAction="#goToAppointmentUpdate" text="Update Existing" />
+            <Button id="new_button" fx:id="goToAppointmentButton" mnemonicParsing="false" onAction="#goToAppointmentsController" text="Create New" />
+            <Button id="delete_button" fx:id="onActionDeleteAppointmentButton" mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete Selected" />
+            <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets right="10.0" top="10.0" />

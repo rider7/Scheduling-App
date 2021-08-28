@@ -19,7 +19,12 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 /**
@@ -37,35 +42,55 @@ public class AppointmentsList implements Initializable {
 
     //FXML attributes
     //TableView field
-    /**TablewView used to display the appointments list*/
+    /**
+     * TablewView used to display the appointments list
+     */
     @FXML
     public TableView<Appointments> myAppointmentsList;
     //Table Columns
-    /**Table Column used to display the appointment ID*/
+    /**
+     * Table Column used to display the appointment ID
+     */
     @FXML
     private TableColumn<Appointments, Integer> appointmentID;
-    /**Table Column used to display the title*/
+    /**
+     * Table Column used to display the title
+     */
     @FXML
     private TableColumn<Appointments, String> title;
-    /**Table Column used to display the description*/
+    /**
+     * Table Column used to display the description
+     */
     @FXML
     private TableColumn<Appointments, String> description;
-    /**Table Column used to display the location*/
+    /**
+     * Table Column used to display the location
+     */
     @FXML
     private TableColumn<Appointments, String> myLocation;
-    /**Table Column used to display the type*/
+    /**
+     * Table Column used to display the type
+     */
     @FXML
     private TableColumn<Appointments, String> type;
-    /**Table Column used to display the start*/
+    /**
+     * Table Column used to display the start
+     */
     @FXML
     private TableColumn<Appointments, String> start;
-    /**Table Column used to display the end*/
+    /**
+     * Table Column used to display the end
+     */
     @FXML
     private TableColumn<Appointments, String> end;
-    /**Table Column used to display the customer ID*/
+    /**
+     * Table Column used to display the customer ID
+     */
     @FXML
     private TableColumn<Appointments, Integer> customerID;
-    /**Table Column used to display the contact ID*/
+    /**
+     * Table Column used to display the contact ID
+     */
     @FXML
     private TableColumn<Appointments, Integer> contactID;
 //    @FXML
@@ -82,35 +107,63 @@ public class AppointmentsList implements Initializable {
 //    private TableColumn<Appointments, String> contactName;
 
     //FXML Buttons
-    /**Button used to navigate back to the main page*/
+    /**
+     * Button used to navigate back to the main page
+     */
     @FXML
     private Button backToReality;
-    /**Button used to go to the appointment page*/
+    /**
+     * Button used to go to the appointment page
+     */
     @FXML
     private Button goToAppointmentButton;
-    /**Button used to delete appointments by selection*/
+    /**
+     * Button used to delete appointments by selection
+     */
     @FXML
     private Button onActionDeleteAppointmentButton;
-    /**Button used to navigate to the reports page*/
-    @FXML Button toReports;
-    /**RadioButton used to sort the appointments by month*/
+    /**
+     * Button used to navigate to the reports page
+     */
     @FXML
-    private  RadioButton myAppointmentSort1;
-    /**RadioButton used to sort the appointments by week*/
+    Button toReports;
+    /**
+     * RadioButton used to sort the appointments by month
+     */
     @FXML
-    private  RadioButton myAppointmentSort2;
-    /**ToggleGroup used for the week/month display options*/
+    private RadioButton myAppointmentSort1;
+    /**
+     * RadioButton used to sort the appointments by week
+     */
+    @FXML
+    private RadioButton myAppointmentSort2;
+    /**
+     * ToggleGroup used for the week/month display options
+     */
     @FXML
     public ToggleGroup myToggleGroup;
-    /**String used to hold data for toggle filter*/
+    /**
+     * String used to hold data for toggle filter
+     */
     public String toggleFilter;
-    /**String used to keep track of new appointment*/
+    /**
+     * String used to keep track of new appointment
+     */
     public static String myNewAppt;
+    /**
+     * String used to keep track of current week
+     */
+    public String currentWeek;
+    /**
+     * String used to keep track of current month
+     */
+    public String currentMonth;
+
     /**
      * Method used to connect to the database and delete appointments by appointment_id
      */
     @FXML
-    public void onActionDeleteAppointment(ActionEvent event) throws SQLException{
+    public void onActionDeleteAppointment(ActionEvent event) throws SQLException {
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
 
@@ -128,28 +181,30 @@ public class AppointmentsList implements Initializable {
         String type = deleteSelectedAppointment.getType();
         System.out.println(Appointment_ID);
         //Key-value mapping to set the prepared statement
-        preparedStatement.setInt(1,Appointment_ID);
+        preparedStatement.setInt(1, Appointment_ID);
 
         preparedStatement.execute(); //Execute prepared statement
         //Delete the appointment from tableview as well
         Appointments.deleteAppointment(deleteSelectedAppointment);
-        JOptionPane.showMessageDialog(frame,"You have deleted the appointment with the following details " +"\n" + "Appointment ID: " + Appointment_ID + "\n" + "Appointment Type: " + type);
+        JOptionPane.showMessageDialog(frame, "You have deleted the appointment with the following details " + "\n" + "Appointment ID: " + Appointment_ID + "\n" + "Appointment Type: " + type);
         //System.out.println("Appointment Deleted!" + " Appointment ID: " + Appointment_ID + "Appointment Type: " + type);
     }
+
     /**
      * Method used to go to appointments controller
      */
     @FXML
     private void goToAppointmentsController(ActionEvent event) throws IOException {
-        AppointmentsController.appointmentID =0;
+        AppointmentsController.appointmentID = 0;
         Parent root = FXMLLoader.load(getClass().
                 getResource(
-                        "AppointmentsController.fxml"),bundle);
+                        "AppointmentsController.fxml"), bundle);
         Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
     /**
      * Method used to back to the main controller
      */
@@ -157,21 +212,22 @@ public class AppointmentsList implements Initializable {
     private void backToMainController(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().
                 getResource(
-                        "MainController.fxml"),bundle);
+                        "MainController.fxml"), bundle);
         Stage stage = (Stage) backToReality.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
     /**
      * Method used to initialize the scene with appointment lists
      */
     @Override
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             myConnection();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -199,12 +255,14 @@ public class AppointmentsList implements Initializable {
         myAppointmentsList.getSortOrder().add(start);
         myAppointmentsList.sort();
     }
+
     /**
      * Method used to return ObservableList of appointments
      */
-    public static ObservableList<Appointments> getAllAppointments(){
+    public static ObservableList<Appointments> getAllAppointments() {
         return Appointments.myAppointments;
     }
+
     /**
      * Method used to connect to the database and to select appointments
      */
@@ -213,7 +271,7 @@ public class AppointmentsList implements Initializable {
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
         Query.setStatement(conn); //Create statement object
-        Statement statement =  Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE); //Get Statement reference
+        Statement statement = Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE); //Get Statement reference
 
         //Select all records from countries table
         String selectStatement = "SELECT * FROM appointments"; //SQL statement
@@ -241,36 +299,55 @@ public class AppointmentsList implements Initializable {
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
                 //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
-                Appointments newAppointments = new Appointments(appointmentID,customerID,userID,contactID,title,description,location,type,start,end,createDate,createdBy,updateDate,updatedBy);
+                Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
                 //Call addAppointments method with newAppointment instance passed to add to the observableList
                 Appointments.addAppointments(newAppointments);
                 Appointments.updateAppointments(newAppointments);
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        Appointments.myAppointments.removeAll();
     }
 
     /**
      * Method used to get new appointments
      */
-    public static String getMyNewAppointments(){
+    public static String getMyNewAppointments() {
         System.out.println("In getMyNewApptMethod: " + myNewAppt);
         return myNewAppt;
     }
-    /**Method used to get the toggle filter*/
-    public void getToggleFilter(){
-        toggleFilter = "month";
+
+    /**
+     * Method used to get the toggle filter
+     */
+    public void getToggleFilter() throws SQLException {
+        toggleFilter = "Month Filter";
         //System.out.println(myToggleGroup.getSelectedToggle());
         System.out.println(toggleFilter);
+        apptMonthWeekFilter();
     }
-    /**Method used to see which option was toggled*/
-    public void getToggleFilter2(){
+
+    /**
+     * Method used to see which option was toggled
+     */
+    public void getToggleFilter2() throws SQLException {
         //System.out.println(myToggleGroup.getSelectedToggle());
-        toggleFilter = "week";
+        toggleFilter = "Week Filter";
         System.out.println(toggleFilter);
+        apptWeekFilter();
     }
+
+    /**
+     * Method used to see which option was toggled
+     */
+    public void getToggleFilter3() throws SQLException {
+        //System.out.println(myToggleGroup.getSelectedToggle());
+        toggleFilter = "All Appointments Filter";
+        System.out.println(toggleFilter);
+        myConnection();
+    }
+
     /**
      * Method used to go to the appointment list page with updated appointment
      */
@@ -283,23 +360,196 @@ public class AppointmentsList implements Initializable {
 
         Parent root = FXMLLoader.load(getClass().
                 getResource(
-                        "AppointmentsController.fxml"),bundle);
+                        "AppointmentsController.fxml"), bundle);
         Stage stage = (Stage) goToAppointmentButton.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
     /**
-     * Method used to navigate to the report interface screen
+     * Method to find the appointment start date month and week
      */
-    @FXML
-    private void goToReports(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().
-                getResource(
-                        "ReportsController.fxml"),bundle);
-        Stage stage = (Stage) toReports.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    public void apptMonthWeekFilter() throws SQLException {
+
+        Appointments.myAppointments.removeAll(Appointments.myAppointments);
+        //Get local date time
+        LocalDateTime myLocalDateTime = LocalDateTime.now();
+        //Custom format pattern
+        DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        DateTimeFormatter myFormatterFull = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter myMonthFull = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter myFormatterHour = DateTimeFormatter.ofPattern("HH");
+        DateTimeFormatter myFormatterMin = DateTimeFormatter.ofPattern("mm");
+        //Format to a string
+        String currentDT = myLocalDateTime.format(myFormatter);
+        String currentFullDT = myLocalDateTime.format(myFormatterFull);
+        String currentMonthDT = myLocalDateTime.format(myMonthFull);
+        String currentFullHour = myLocalDateTime.format(myFormatterHour);
+        String currentFullMin = myLocalDateTime.format(myFormatterMin);
+        //Appt dates and time strings
+        String apptDT = myLocalDateTime.format(myFormatter);
+        String apptFullDT = myLocalDateTime.format(myFormatterFull);
+        String apptFullHour = myLocalDateTime.format(myFormatterHour);
+        String apptFullMin = myLocalDateTime.format(myFormatterMin);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Pass conn object to statement
+        Query.setStatement(conn); //Create statement object
+        Statement statement = Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE); //Get Statement reference
+
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM appointments"; //SQL statement
+
+        try {
+            statement.execute(selectStatement); //Execute statement (returns true)
+            ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            System.out.println("Got appointments table!");
+
+            //Forward scroll ResultSet
+            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+                int customerID = myResultSet.getInt("Customer_ID");
+                int userID = myResultSet.getInt("User_ID");
+                int contactID = myResultSet.getInt("Contact_ID");
+                String title = myResultSet.getString("Title");
+                String description = myResultSet.getString("Description");
+                String location = myResultSet.getString("Location");
+                String type = myResultSet.getString("Type");
+                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                String createdBy = myResultSet.getString("Created_By");
+                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+                String updatedBy = myResultSet.getString("Last_Updated_By");
+                //String apptDT = myLocalDateTime.format(myFormatter);
+                String apptMonth = start.format(myMonthFull);
+//                String apptFullHour = myLocalDateTime.format(myFormatterHour);
+//                String apptFullMin = myLocalDateTime.format(myFormatterMin);
+                //If the resultset meets the the requirements of the filter variable then add it to the observableList
+                System.out.println("Current Month: " + currentMonthDT + " Appt Date: " + apptMonth);
+
+                if(currentMonthDT.equals(apptMonth)) {
+                    System.out.println("Month True Filter");
+                    //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
+                    Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
+                    //Call addAppointments method with newAppointment instance passed to add to the observableList
+                    Appointments.addAppointments(newAppointments);
+                    Appointments.updateAppointments(newAppointments);
+                }
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
-}
+
+    /**
+     * Method to find the appointment start date month and week
+     */
+    public void apptWeekFilter() throws SQLException {
+
+        Appointments.myAppointments.removeAll(Appointments.myAppointments);
+        //Get local date time
+        LocalDateTime myLocalDateTime = LocalDateTime.now();
+        //Custom format pattern
+//        DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+//        DateTimeFormatter myFormatterFull = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter myFormatterYear = DateTimeFormatter.ofPattern("yyyy");
+        DateTimeFormatter myMonthFull = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter myFormatterDay = DateTimeFormatter.ofPattern("dd");
+//        DateTimeFormatter myFormatterHour = DateTimeFormatter.ofPattern("HH");
+//        DateTimeFormatter myFormatterMin = DateTimeFormatter.ofPattern("mm");
+        //Format to a string
+//        String currentDT = myLocalDateTime.format(myFormatter);
+//        String currentFullDT = myLocalDateTime.format(myFormatterFull);
+        String currentMonthDT = myLocalDateTime.format(myMonthFull);
+        String currentFullDay = myLocalDateTime.format(myFormatterDay);
+        String currentFullYear = myLocalDateTime.format(myFormatterYear);
+        //Appt dates and time strings
+//        String apptDT = myLocalDateTime.format(myFormatter);
+//        String apptFullDT = myLocalDateTime.format(myFormatterFull);
+//        String apptFullHour = myLocalDateTime.format(myFormatterHour);
+//        String apptFullMin = myLocalDateTime.format(myFormatterMin);
+
+        LocalDate date = LocalDate.of(Integer.parseInt(currentFullYear), Integer.parseInt(currentMonthDT), Integer.parseInt(currentFullDay));
+        int currentWeekOfYear = date.get(ChronoField.ALIGNED_WEEK_OF_YEAR) - 1;
+        System.out.println(currentWeekOfYear);
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Pass conn object to statement
+        Query.setStatement(conn); //Create statement object
+        Statement statement = Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE); //Get Statement reference
+
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM appointments"; //SQL statement
+
+        try {
+            statement.execute(selectStatement); //Execute statement (returns true)
+            ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            System.out.println("Got appointments table!");
+
+            //Forward scroll ResultSet
+            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+                int customerID = myResultSet.getInt("Customer_ID");
+                int userID = myResultSet.getInt("User_ID");
+                int contactID = myResultSet.getInt("Contact_ID");
+                String title = myResultSet.getString("Title");
+                String description = myResultSet.getString("Description");
+                String location = myResultSet.getString("Location");
+                String type = myResultSet.getString("Type");
+                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                String createdBy = myResultSet.getString("Created_By");
+                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+                String updatedBy = myResultSet.getString("Last_Updated_By");
+                //String apptDT = myLocalDateTime.format(myFormatter);
+                String apptMonthDT = start.format(myMonthFull);
+                String apptFullDay = start.format(myFormatterDay);
+                String apptFullYear = start.format(myFormatterYear);
+                LocalDate date2 = LocalDate.of(Integer.parseInt(apptFullYear), Integer.parseInt(apptMonthDT), Integer.parseInt(apptFullDay));
+                int apptWeekOfYear = date2.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+                System.out.println(apptWeekOfYear);
+//                String apptFullHour = myLocalDateTime.format(myFormatterHour);
+//                String apptFullMin = myLocalDateTime.format(myFormatterMin);
+                //If the resultset meets the the requirements of the filter variable then add it to the observableList
+                System.out.println("Current week: " + currentWeekOfYear + " Appt Date: " + apptWeekOfYear);
+
+                if(currentWeekOfYear == apptWeekOfYear) {
+                    System.out.println("Month True Filter");
+                    //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
+                    Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
+                    //Call addAppointments method with newAppointment instance passed to add to the observableList
+                    Appointments.addAppointments(newAppointments);
+                    Appointments.updateAppointments(newAppointments);
+                }
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+        /**
+         * Method used to navigate to the report interface screen
+         */
+        @FXML
+        private void goToReports (ActionEvent event) throws IOException {
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            "ReportsController.fxml"), bundle);
+            Stage stage = (Stage) toReports.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+

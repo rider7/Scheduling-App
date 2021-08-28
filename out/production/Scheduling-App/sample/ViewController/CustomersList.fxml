@@ -12,7 +12,7 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <VBox layoutX="75.0" layoutY="100.0" prefHeight="200.0" prefWidth="448.0">
+      <VBox layoutX="33.0" layoutY="100.0" prefHeight="200.0" prefWidth="541.0">
          <children>
             <TableView id="customer_list" fx:id="myCustomerList" prefHeight="200.0" prefWidth="283.0">
               <columns>
@@ -32,7 +32,7 @@
                 <children>
                     <Button id="update_button" fx:id="goToCustomerUpdate" mnemonicParsing="false" onAction="#goToCustomerUpdate" text="Update Existing" />
                     <Button id="new_button" fx:id="goToCustomerButton" mnemonicParsing="false" onAction="#goToCustomerController" text="Create New" />
-                    <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete" />
+                    <Button id="delete_button" fx:id="deleteCustomersButton" mnemonicParsing="false" onAction="#onActionDeleteCustomer" text="Delete Selected" />
                   <Button fx:id="toReports" mnemonicParsing="false" onAction="#goToReports" text="Reports" />
                   <Button fx:id="toApptList" mnemonicParsing="false" onAction="#toAppointmentsList" text="Appointments" />
                 </children>
