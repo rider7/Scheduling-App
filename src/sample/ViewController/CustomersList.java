@@ -151,7 +151,7 @@ public class CustomersList implements Initializable {
                 Customers newCustomer = new Customers(customerID,divisionID,customerName,address,postalCode,phone,createDate,createdBy,updateDate,updatedBy);
                 //Call addCustomer method with newCustomer instance passed to add to the observableList
                 Customers.addCustomer(newCustomer);
-                Customers.updateCustomer(newCustomer);
+                //Customers.updateCustomer(newCustomer);
             }
         }
         catch(Exception e){

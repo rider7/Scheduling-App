@@ -224,9 +224,11 @@ public class AppointmentsList implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Appointments.myAppointments.removeAll(Appointments.myAppointments);
 
         try {
             myConnection();
+            Appointments.myAppointments.remove(Appointments.myAppointments.size()-1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -260,6 +262,7 @@ public class AppointmentsList implements Initializable {
      * Method used to return ObservableList of appointments
      */
     public static ObservableList<Appointments> getAllAppointments() {
+        System.out.println("Appointment List Size: " + Appointments.myAppointments.size());
         return Appointments.myAppointments;
     }
 
@@ -267,6 +270,7 @@ public class AppointmentsList implements Initializable {
      * Method used to connect to the database and to select appointments
      */
     public static void myConnection() throws SQLException {
+        Appointments.myAppointments.removeAll(Appointments.myAppointments);
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -284,6 +288,7 @@ public class AppointmentsList implements Initializable {
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
                 int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+                System.out.println("My appointment ID for myConnectin: " + appointmentID);
                 int customerID = myResultSet.getInt("Customer_ID");
                 int userID = myResultSet.getInt("User_ID");
                 int contactID = myResultSet.getInt("Contact_ID");
@@ -302,12 +307,13 @@ public class AppointmentsList implements Initializable {
                 Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
                 //Call addAppointments method with newAppointment instance passed to add to the observableList
                 Appointments.addAppointments(newAppointments);
-                Appointments.updateAppointments(newAppointments);
+                //Appointments.updateAppointments(newAppointments);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        Appointments.myAppointments.removeAll();
+
+        //Appointments.myAppointments.removeAll();
     }
 
     /**
@@ -371,7 +377,6 @@ public class AppointmentsList implements Initializable {
      * Method to find the appointment start date month and week
      */
     public void apptMonthWeekFilter() throws SQLException {
-
         Appointments.myAppointments.removeAll(Appointments.myAppointments);
         //Get local date time
         LocalDateTime myLocalDateTime = LocalDateTime.now();
@@ -437,7 +442,8 @@ public class AppointmentsList implements Initializable {
                     Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
                     //Call addAppointments method with newAppointment instance passed to add to the observableList
                     Appointments.addAppointments(newAppointments);
-                    Appointments.updateAppointments(newAppointments);
+                    //Appointments.updateAppointments(newAppointments);
+
                 }
             }
 
@@ -528,7 +534,7 @@ public class AppointmentsList implements Initializable {
                     Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
                     //Call addAppointments method with newAppointment instance passed to add to the observableList
                     Appointments.addAppointments(newAppointments);
-                    Appointments.updateAppointments(newAppointments);
+                    //Appointments.updateAppointments(newAppointments);
                 }
             }
 
@@ -543,6 +549,7 @@ public class AppointmentsList implements Initializable {
          */
         @FXML
         private void goToReports (ActionEvent event) throws IOException {
+
             Parent root = FXMLLoader.load(getClass().
                     getResource(
                             "ReportsController.fxml"), bundle);

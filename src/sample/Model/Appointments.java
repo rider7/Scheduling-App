@@ -60,10 +60,12 @@ public class Appointments {
     }
 
     public static void addAppointments(Appointments newAppointments) {
+        System.out.println("Add Method:" + newAppointments.Appointment_ID);
         myAppointments.add(newAppointments);
     }
 
     public static void updateAppointments(Appointments selectedAppointments) {
+        System.out.println("Update Method: " + selectedAppointments.Appointment_ID);
         myAppointments.set(0,selectedAppointments);
     }
 
@@ -186,8 +188,8 @@ public class Appointments {
         Last_Updated_By = last_Updated_By;
     }
 
-    public static void updateAppointment(Appointments selectedAppointments){
-        myAppointments.set(0,selectedAppointments); //BUG: index of 0 used each time customer updated. possible issue.
-    }
+//    public static void updateAppointment(Appointments selectedAppointments){
+//        myAppointments.set(0,selectedAppointments); //BUG: index of 0 used each time customer updated. possible issue.
+//    }
 
 }

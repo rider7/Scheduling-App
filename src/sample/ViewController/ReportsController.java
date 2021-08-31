@@ -1,5 +1,6 @@
 package sample.ViewController;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.Model.Appointments;
-import sample.Model.Contacts;
-import sample.Model.Customers;
-import sample.Model.Wrapper;
+import sample.Model.*;
 import javafx.scene.control.*;
+import sample.Model.Wrapper;
+import sample.Model.Reports;
 import sample.Utilities.DBConnection;
 import sample.Utilities.Query;
 
@@ -73,7 +73,7 @@ public class ReportsController implements Initializable {
     VBox report3VBox;
     /**VBOX for the report 3 container*/
     @FXML
-    HBox report2HBox;
+    HBox report1HBox, report2HBox;
     /**TextField for the planning sessions total*/
     @FXML
     TextField planningSessionsTotal;
@@ -96,28 +96,6 @@ public class ReportsController implements Initializable {
     @FXML
     TextField janTextField, febTextField, marchTextField, aprilTextField, mayTextField, juneTextField, julyTextField,
     augustTextField, septTextField, octTextField, novTextField, decTextField;
-
-    //**********Original
-//    //TablewView Fields
-//    @FXML TableView<Appointments> myAppointments;
-//    @FXML TableView<Customers> myTableView3;
-//    //Table Columns
-//    @FXML
-//    public TableColumn<String, String> contact;
-//    @FXML
-//    public TableColumn<Appointments, Integer> apptID;
-//    @FXML
-//    public TableColumn<Appointments, String> title;
-//    @FXML
-//    public TableColumn<Appointments, String> description;
-//    @FXML
-//    public TableColumn<Appointments, String> type;
-//    @FXML
-//    public TableColumn<Appointments, String> start;
-//    @FXML
-//    public TableColumn<Appointments, String> end;
-//    @FXML
-//    public TableColumn<Appointments, Integer> customerID;
 
     //TablewView Fields
     /**Table View to display the wrapper objects*/
@@ -181,11 +159,27 @@ public class ReportsController implements Initializable {
     @FXML
     private TableColumn<Customers, String> lastUpdatedBy;
     Frame frame;
+
+    //TablewView Fields
+    /**Table View to display the Reports objects*/
+    @FXML
+    public TableView<Reports> reportTableView;
+    /**Table Column to display the wrapper contact*/
+    @FXML
+    public TableColumn<Reports, String> monthTableColumn;
+    /**Table Column to display the wrapper appointment ID*/
+    @FXML
+    public TableColumn<Reports, String> typeTableColumn;
+    /**Table Column to display the wrapper title*/
+    @FXML
+    public TableColumn<Reports, String> countTableColumn;
+
     /**
      * Method used to intialize the scene when the controller is used
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
+
         // remove tableviews except for tableview1
         usCustomers.setText(String.valueOf(1));
         ukCustomers.setText(String.valueOf(1));
@@ -206,45 +200,75 @@ public class ReportsController implements Initializable {
         end.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("End"));
         customerID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("Customer_ID"));
         myWrapper.setItems(getAllWrappers());
+        System.out.println("Get All Wrappers: " + getAllWrappers());
         JOptionPane.showMessageDialog(frame,"Choose a report by clicking a button below.");
     }
     /**
      * Method used to wrap the observableList and create a super()
      */
     public static ObservableList<Wrapper>getAllWrappers(){
-
         return Wrapper.myWrapper;
     }
 
-    //******************Original
-//    @Override
-//    public void initialize (URL url, ResourceBundle resourceBundle){
-//        // remove tableviews except for tableview1
-//        reportVBox.getChildren().remove(report2HBox);
-//        reportVBox.getChildren().remove(myTableView3);
-//
-//        //set report number to 1 when initializing so system does not need to get the report 1 vbox if it is already set in the scene
-//        reportNumber =1;
-//
-//        //Sets the column for Appointments
-//        contact.setCellValueFactory(new PropertyValueFactory<String, String>("contact"));
-//        apptID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Appointment_ID"));
-//        title.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Title"));
-//        description.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Description"));
-//        type.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Type"));
-//        start.setCellValueFactory(new PropertyValueFactory<Appointments, String>("Start"));
-//        end.setCellValueFactory(new PropertyValueFactory<Appointments, String>("End"));
-//        customerID.setCellValueFactory(new PropertyValueFactory<Appointments, Integer>("Customer_ID"));
-//        myAppointments.setItems(getAllAppointments());
-//    }
-//
-//    public static ObservableList<Appointments>getAllAppointments(){
-//        return Appointments.myAppointments;
-//    }
+    public static ObservableList<Reports>getAllReports(){
+        return Reports.myReports;
+    }
+
+    /**
+     * Method used to query the database and evaluate the information for the first report
+     */
+    @FXML
+    public void reportOne(ActionEvent event) throws SQLException{
+
+        //Establish connection before launch and assign it to the Connection reference variable named conn
+        Connection conn = DBConnection.startConnection();
+        //Pass conn object to statement
+        Query.setStatement(conn); //Create statement object
+        Statement statement = Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE); //Get Statement reference
+
+        //Select all records from countries table
+        String selectStatement = "SELECT * FROM appointments"; //SQL statement
+
+        try {
+            statement.execute(selectStatement); //Execute statement (returns true)
+            ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+            System.out.println("Got appointments table!");
+
+            //Forward scroll ResultSet
+            while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                String location = myResultSet.getString("Location");
+                String type = myResultSet.getString("Type");
+                System.out.println(type);
+                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                String createdBy = myResultSet.getString("Created_By");
+                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
+                String updatedBy = myResultSet.getString("Last_Updated_By");
+                //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
+                Reports newReports = new Reports("month", "type", "count");
+                System.out.println("New Reports: " + newReports.getMonth());
+                //Call addAppointments method with newAppointment instance passed to add to the observableList
+                Reports.addReports(newReports);
+                //Reports.updateReports(newReports);
+                System.out.println("My Reports: " + Reports.myReports.get(0).getMonth());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        //Set columns for reportOne
+        monthTableColumn.setCellValueFactory(new PropertyValueFactory<>("Month"));
+        typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        countTableColumn.setCellValueFactory(new PropertyValueFactory<>("Count"));
+        reportTableView.setItems(getAllReports());
+        System.out.println("Get All Reports: " + getAllReports());
+    }
     /**
      * Method used to query the database and evaluate the information for the first report
      */
     public void reportOneAction(ActionEvent event) throws SQLException {
+
 
         //add report 1 VBox if it is not set already in the scene
         if(reportNumber!=1) {
@@ -303,9 +327,10 @@ public class ReportsController implements Initializable {
         }
         deBriefingTotal.setText(String.valueOf(count2));
 
-
         //call method monthInteger which finds and totals the month for each appointment
         monthInteger(conn);
+
+
     };
     /**
      * Method used to query the database and evaluate the information for the first report
@@ -475,7 +500,7 @@ public class ReportsController implements Initializable {
         reportVBox.getChildren().add(1,report3VBox);
         //tableview visibility
         report3VBox.setVisible(true);
-        report1VBox.setVisible(false);
+        //report1VBox.setVisible(false);
         myWrapper.setVisible(false);
         // remove tableviews
         //reportVBox.getChildren().remove(myAppointments);

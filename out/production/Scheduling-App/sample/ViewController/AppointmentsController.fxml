@@ -77,6 +77,7 @@
                         <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Customer ID" />
+                              <ComboBox prefWidth="150.0" />
                               <TextField fx:id="customerIDField" />
                            </children>
                         </HBox>
@@ -84,6 +85,7 @@
                            <children>
                               <Label minWidth="-Infinity" text="User ID" />
                               <TextField fx:id="userIDField" />
+                              <ComboBox prefWidth="150.0" />
                            </children>
                         </HBox>
 

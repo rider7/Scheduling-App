@@ -29,100 +29,6 @@
                   </TableView>
                </children>
             </HBox>
-            <VBox fx:id="report1VBox" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox prefHeight="31.0" prefWidth="600.0" spacing="10.0">
-                     <children>
-                        <Label text="Total Planning Sessions">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="planningSessionsTotal" editable="false">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="84.0" prefWidth="600.0" spacing="10.0">
-                     <children>
-                        <Label prefHeight="17.0" prefWidth="123.0" text="Total De-Briefings">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="deBriefingTotal" editable="false" prefHeight="25.0" prefWidth="149.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="41.0" prefHeight="180.0" prefWidth="600.0" spacing="10.0">
-                     <children>
-                        <VBox prefHeight="84.0" prefWidth="106.0">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="123.0" text="January Appts">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></Label>
-                              <TextField fx:id="janTextField" editable="false" prefHeight="25.0" prefWidth="149.0">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></TextField>
-                              <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="123.0" text="February Appts">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></Label>
-                              <TextField fx:id="febTextField" editable="false" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="149.0">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></TextField>
-                              <Label layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="123.0" text="March Appts">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></Label>
-                              <TextField fx:id="marchTextField" editable="false" layoutX="10.0" layoutY="69.0" prefHeight="25.0" prefWidth="149.0">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin></TextField>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="84.0" prefWidth="106.0">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="123.0" text="April Appts" />
-                              <TextField fx:id="aprilTextField" editable="false" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="123.0" text="May Appts" />
-                              <TextField fx:id="mayTextField" editable="false" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="123.0" text="June Appts" />
-                              <TextField fx:id="juneTextField" editable="false" layoutX="10.0" layoutY="69.0" prefHeight="25.0" prefWidth="149.0" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="84.0" prefWidth="106.0">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="123.0" text="July Appts" />
-                              <TextField fx:id="julyTextField" editable="false" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="123.0" text="August Appts" />
-                              <TextField fx:id="augustTextField" editable="false" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="123.0" text="September Appts" />
-                              <TextField fx:id="septTextField" editable="false" layoutX="10.0" layoutY="69.0" prefHeight="25.0" prefWidth="149.0" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="84.0" prefWidth="106.0">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="123.0" text="October Appts" />
-                              <TextField fx:id="octTextField" editable="false" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="123.0" text="November Appts" />
-                              <TextField fx:id="novTextField" editable="false" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="149.0" />
-                              <Label layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="123.0" text="December Appts" />
-                              <TextField fx:id="decTextField" editable="false" layoutX="10.0" layoutY="69.0" prefHeight="25.0" prefWidth="149.0" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
             <VBox fx:id="report3VBox" layoutX="10.0" layoutY="140.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox prefHeight="31.0" prefWidth="600.0" spacing="10.0">
@@ -171,7 +77,7 @@
             </VBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="reportOne" mnemonicParsing="false" onAction="#reportOneAction" text="Report: Total Appointments">
+                  <Button fx:id="reportOne" mnemonicParsing="false" onAction="#reportOne" text="Report: Total Appointments">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -185,6 +91,17 @@
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin></Button>
+               </children>
+            </HBox>
+            <HBox fx:id="report1HBox" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="reportTableView" prefHeight="64.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="monthTableColumn" prefWidth="109.0" text="Month" />
+                      <TableColumn fx:id="typeTableColumn" prefWidth="72.0" text="Type" />
+                        <TableColumn fx:id="countTableColumn" prefWidth="144.0" text="Count" />
+                    </columns>
+                  </TableView>
                </children>
             </HBox>
          </children>
