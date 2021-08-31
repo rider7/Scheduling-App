@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -227,7 +228,7 @@ public class ReportsController implements Initializable {
         Statement statement = Query.getTestStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE); //Get Statement reference
 
         //Select all records from countries table
-        String selectStatement = "SELECT * FROM appointments"; //SQL statement
+        String selectStatement = "SELECT DISTINCT Type, EXTRACT(MONTH From Start) FROM  appointments ORDER BY EXTRACT(MONTH From Start)"; //SQL statement
 
         try {
             statement.execute(selectStatement); //Execute statement (returns true)
@@ -236,23 +237,31 @@ public class ReportsController implements Initializable {
 
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
-                String location = myResultSet.getString("Location");
-                String type = myResultSet.getString("Type");
-                System.out.println(type);
-                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
-                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
-                String createdBy = myResultSet.getString("Created_By");
-                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
-                //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
-                String updatedBy = myResultSet.getString("Last_Updated_By");
+                //String location = myResultSet.getString("Location");
+                String myType = myResultSet.getString("Type");
+                System.out.println(myType);
+                //LocalDateTime start = myResultSet.getTimestamp("EXTRACT(MONTH From Start)").toLocalDateTime();
+                Long start = myResultSet.getLong("EXTRACT(MONTH From Start)");
+                String startMonth = Month.of(start.intValue()).name();;
+
+                //Select all records from countries table
+                String selectStatement2 = "SELECT DISTINCT count(*) FROM appointments WHERE Type = ? AND (EXTRACT(MONTH From Start)= ?)"; //SQL statement
+                Query.setPreparedStatement(conn,selectStatement2); //Create statement object
+                PreparedStatement statement2 = Query.getPreparedStatement(); //Get Statement reference
+                //Key-value mapping to set the prepared statement based on customer id
+                statement2.setString(1, myType);
+                statement2.setLong(2, start);
+                statement2.execute(); //Execute statement (returns true)
+                ResultSet myResultSet2 = statement2.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
+                myResultSet2.next();
+                Long myCount = myResultSet2.getLong("count(*)");
                 //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
-                Reports newReports = new Reports("month", "type", "count");
+                Reports newReports = new Reports(startMonth, myType, myCount);
                 System.out.println("New Reports: " + newReports.getMonth());
                 //Call addAppointments method with newAppointment instance passed to add to the observableList
                 Reports.addReports(newReports);
                 //Reports.updateReports(newReports);
-                System.out.println("My Reports: " + Reports.myReports.get(0).getMonth());
+                //System.out.println("My Reports: " + Reports.myReports.get(0).getMonth());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -437,6 +446,7 @@ public class ReportsController implements Initializable {
         //reportVBox.getChildren().add(1,myWrapper);
         //tableview visibility
         myWrapper.setVisible(true);
+        report1HBox.setVisible(false);
         // remove tableviews
         reportVBox.getChildren().remove(report1VBox);
 
@@ -500,7 +510,7 @@ public class ReportsController implements Initializable {
         reportVBox.getChildren().add(1,report3VBox);
         //tableview visibility
         report3VBox.setVisible(true);
-        //report1VBox.setVisible(false);
+        report1HBox.setVisible(false);
         myWrapper.setVisible(false);
         // remove tableviews
         //reportVBox.getChildren().remove(myAppointments);

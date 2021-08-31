@@ -13,7 +13,7 @@ public class Reports {
 
     public String month;
     public String type;
-    public String count;
+    public Long count;
     /**
      * The ObservableList used for the reports class
      */
@@ -31,7 +31,7 @@ public class Reports {
 //            myReports.add(new Reports("Month", "Type", "Count"));
 //    };
 
-    public Reports(String Month, String Type, String Count) {
+    public Reports(String Month, String Type, Long Count) {
         this.month = Month;
         this.type = Type;
         this.count = Count;
@@ -61,11 +61,11 @@ public class Reports {
         this.type = type;
     }
 
-    public String getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(long count) {
         this.count = count;
     }
 }

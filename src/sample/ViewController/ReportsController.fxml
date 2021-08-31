@@ -75,6 +75,17 @@
                   </HBox>
                </children>
             </VBox>
+            <HBox fx:id="report1HBox" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="reportTableView" prefHeight="64.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="monthTableColumn" prefWidth="109.0" text="Month" />
+                      <TableColumn fx:id="typeTableColumn" prefWidth="72.0" text="Type" />
+                        <TableColumn fx:id="countTableColumn" prefWidth="144.0" text="Count" />
+                    </columns>
+                  </TableView>
+               </children>
+            </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="reportOne" mnemonicParsing="false" onAction="#reportOne" text="Report: Total Appointments">
@@ -91,17 +102,6 @@
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin></Button>
-               </children>
-            </HBox>
-            <HBox fx:id="report1HBox" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <TableView fx:id="reportTableView" prefHeight="64.0" prefWidth="600.0">
-                    <columns>
-                      <TableColumn fx:id="monthTableColumn" prefWidth="109.0" text="Month" />
-                      <TableColumn fx:id="typeTableColumn" prefWidth="72.0" text="Type" />
-                        <TableColumn fx:id="countTableColumn" prefWidth="144.0" text="Count" />
-                    </columns>
-                  </TableView>
                </children>
             </HBox>
          </children>
