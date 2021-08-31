@@ -86,17 +86,17 @@ public class AppointmentsController {
     @FXML
     private TextField contactIDField;
     /**TextField used to hold the customer ID form*/
-    @FXML
-    private TextField customerIDField;
+//    @FXML
+//    private TextField customerIDField;
     /**TextField used to hold the user ID form*/
-    @FXML
-    private TextField userIDField;
+//    @FXML
+//    private TextField userIDField;
     /**Button used to navigate back to the main page, update page and create appt page*/
     @FXML
     private Button backToReality, updateAppt, createNewAppt;
     /**ComboBox used to display the contacts*/
     @FXML
-    private ComboBox contactComboBox;
+    private ComboBox contactComboBox, userComboBox, customerComboBox,contactIDComboBox;
     /**Label used to hold the appointment data*/
     @FXML
     Label apptLabel;
@@ -115,10 +115,26 @@ public class AppointmentsController {
     };
     /**Enum used to hold the contact ID names*/
     public enum comboBoxContactID{
-        AnikaCosta("Anika Costa"), DanielGarcia("Daniel Garcia"), LiLee("Li Lee");
-        public final String contacts;
+        One("1"), Two("2"), Three("3");
+        public final String contacts2;
         comboBoxContactID(String s) {
-            this.contacts = s;
+            this.contacts2 = s;
+        }
+    };
+    /**Enum used to hold the user ID names*/
+    public enum comboBoxUserID{
+        One("1"), Two("2");
+        public final String users;
+        comboBoxUserID(String s) {
+            this.users = s;
+        }
+    };
+    /**Enum used to hold the customer ID names*/
+    public enum comboBoxCustomerID{
+        One("1"), Two("2");
+        public final String customers;
+        comboBoxCustomerID(String s) {
+            this.customers = s;
         }
     };
 
@@ -138,9 +154,11 @@ public class AppointmentsController {
             start.setText(startString.toString());
             end.setText(endString.toString());
             contactIDField.setText(String.valueOf(contactID));
-            customerIDField.setText(String.valueOf(customerID));
-            userIDField.setText(String.valueOf(userID));
+            //customerIDField.setText(String.valueOf(customerID));
+            //userIDField.setText(String.valueOf(userID));
+            userComboBox.getItems().addAll(comboBoxUserID.values());
             contactComboBox.getItems().addAll(comboBoxContactName.values());
+            customerComboBox.getItems().addAll(comboBoxCustomerID.values());
             apptLabel.setText("Update Existing Appointment");
             createNewAppt.setVisible(false);
             createNewAppt.setDisable(true);
@@ -153,7 +171,9 @@ public class AppointmentsController {
             }
         }else{
             contactComboBox.getItems().clear();
+            userComboBox.getItems().addAll(comboBoxUserID.values());
             contactComboBox.getItems().addAll(comboBoxContactName.values());
+            customerComboBox.getItems().addAll(comboBoxCustomerID.values());
             apptLabel.setText("Create New Appointment");
             updateAppt.setVisible(false);
             updateAppt.setDisable(true);
@@ -178,14 +198,29 @@ public class AppointmentsController {
         String newTitleString = title.getText();
         String newDescriptionString = description.getText();
         String newLocationString = myLocation.getText();
-        String newTypeString= type.getText();
-        String newStartString= start.getText();
-        String newEndString= end.getText();
-        //String newContactString=contact.getText();
+        String newTypeString = type.getText();
+        String newStartString = start.getText();
+        String newEndString = end.getText();
+        //String newContactString = contact.getText();
         String newUser = UsersController.getMyNewUser();
-        String newContactIDString= contactIDField.getText();
+        //String newContactIDString = contactIDField.getText();
         String newAppt = AppointmentsList.getMyNewAppointments();
-        String newCustomerIDString = customerIDField.getText();
+        //String newCustomerIDString = String.valueOf(customerID);
+        String newContactIDString = String.valueOf(contactID);
+        String newCustomerIDString = customerComboBox.getValue().toString();
+        String newUserIDString = userComboBox.getValue().toString();
+        if(newCustomerIDString.equals("One")){
+            newCustomerIDString="1";
+        } else if(newCustomerIDString.equals("Two")){
+            newCustomerIDString="2";
+        }else{
+            newCustomerIDString="3";
+        }
+        if(newUserIDString.equals("One")){
+            newUserIDString="1";
+        } else if(newUserIDString.equals("Two")){
+            newUserIDString="2";
+        }
 
         //Schedule conflict check
         Boolean myBool = apptConflictCheck(newCustomerIDString, newStartString, newEndString);
@@ -195,7 +230,7 @@ public class AppointmentsController {
             Connection conn = DBConnection.startConnection();
 
             //Insert Statement
-            String insertStatement = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Created_By, Last_Updated_By, Customer_ID) VALUES(?,?,?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
+            String insertStatement = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Created_By, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?)"; //Question marks are placeholders to be mapped with key values in one-based index
 
             //Create prepared statement object for insertStatement
             Query.setPreparedStatement(conn, insertStatement);
@@ -214,6 +249,8 @@ public class AppointmentsController {
             preparedStatement.setString(7, newUser);
             preparedStatement.setString(8, newUser);
             preparedStatement.setString(9, newCustomerIDString);
+            preparedStatement.setString(10, newUserIDString);
+            preparedStatement.setString(11, newContactIDString);
 
             preparedStatement.execute(); //Execute prepared statement
 
@@ -241,12 +278,25 @@ public class AppointmentsController {
         String newTitleString = title.getText();
         String newDescriptionString = description.getText();
         String newLocationString = myLocation.getText();
-        String newTypeString= type.getText();
-        String newStartString= start.getText();
-        String newEndString= end.getText();
-        String newContactIDString= contactIDField.getText();
-        String newCustomerIDString= customerIDField.getText();
-        String newUserIDString= userIDField.getText();
+        String newTypeString = type.getText();
+        String newStartString = start.getText();
+        String newEndString = end.getText();
+        String newContactIDString = String.valueOf(contactID);
+        String newCustomerIDString = customerComboBox.getValue().toString();
+        String newUserIDString = userComboBox.getValue().toString();
+        if(newCustomerIDString.equals("One")){
+            newCustomerIDString="1";
+        } else if(newCustomerIDString.equals("Two")){
+            newCustomerIDString="2";
+        }else{
+            newCustomerIDString="3";
+        }
+        if(newUserIDString.equals("One")){
+            newUserIDString="1";
+        } else if(newUserIDString.equals("Two")){
+            newUserIDString="2";
+        }
+
         //String newContactString=contact.getText();
         //String newUser = UsersController.getMyNewUser();
         //String newAppt = AppointmentsList.getMyNewAppointments();
@@ -260,7 +310,7 @@ public class AppointmentsController {
         String myStringEnd = (DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(localDate2)) + ":00";
 
         if(convertTimeZone(newStartString,newEndString)){
-            System.out.println("OUTSIDE OF BUSINESS HOURS TRY AGAIN");
+            //System.out.println("OUTSIDE OF BUSINESS HOURS TRY AGAIN");
             JOptionPane.showMessageDialog(frame,"Sorry, you are trying to schedule an appointment outside of normal business hours defined as 8:00 a.m. to 10:00 p.m. EST. Please try again.");
 
     } else {
@@ -286,9 +336,9 @@ public class AppointmentsController {
                 preparedStatement.setString(4, newTypeString);
                 preparedStatement.setString(5, myStringStart);
                 preparedStatement.setString(6, myStringEnd);
-                preparedStatement.setString(7, newContactIDString);
-                preparedStatement.setString(8, newCustomerIDString);
-                preparedStatement.setString(9, newUserIDString);
+                preparedStatement.setString(7, newCustomerIDString);
+                preparedStatement.setString(8, newUserIDString);
+                preparedStatement.setString(9, newContactIDString);
                 preparedStatement.setString(10, newAppointmentID);
 
                 preparedStatement.execute(); //Execute prepared statement
@@ -345,13 +395,13 @@ public class AppointmentsController {
         //String myStart = start;
         //String myEnd = end;
         //2007-12-03T10:15:30
-        System.out.println(start);
-        System.out.println(end);
+        //System.out.println(start);
+        //System.out.println(end);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime dateTimeStart = LocalDateTime.parse(start, formatter);
         LocalDateTime dateTimeEnd = LocalDateTime.parse(end, formatter);
-        System.out.println("The start: " + dateTimeStart);
-        System.out.println("The end: " + dateTimeEnd);
+        //System.out.println("The start: " + dateTimeStart);
+        //System.out.println("The end: " + dateTimeEnd);
 
 
         final String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a z";
@@ -380,7 +430,7 @@ public class AppointmentsController {
             myBoolean = false;
         }
 
-        System.out.println("End hour: " + endHour);
+        //System.out.println("End hour: " + endHour);
 //        System.out.println(currentETime);
         //System.out.println(currentISTime);
         //return startHour;
@@ -429,6 +479,23 @@ public class AppointmentsController {
     return isConflict;
     }
 
+    /**
+     * Method used to get contact ID
+     */
+    public void contactID(){
+        String contactIDTest = contactComboBox.getValue().toString();
+        //System.out.println(contactIDTest);
+        if(contactIDTest.equals("AnikaCosta")){
+            contactID=1;
+            contactIDField.setText("1");
+        }else if(contactIDTest.equals("DanielGarcia")){
+            contactID=2;
+            contactIDField.setText("2");
+        }else{
+            contactID=3;
+            contactIDField.setText("3");
+        }
+    };
     /**
      * Method used to navigate back to the main controller
      */

@@ -15,7 +15,7 @@
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Customer ID:" />
-                              <TextField fx:id="customerID" editable="false" />
+                              <TextField fx:id="customerID" editable="false" text="System Edit Only" />
                            </children>
                            <padding>
                               <Insets right="100.0" />

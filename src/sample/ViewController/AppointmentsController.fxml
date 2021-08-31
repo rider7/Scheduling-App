@@ -25,7 +25,7 @@
                         <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="Appointment ID:" />
-                              <TextField fx:id="appointment_id" editable="false" />
+                              <TextField fx:id="appointment_id" editable="false" text="System Edit Only" />
                            </children>
                            <padding>
                               <Insets right="100.0" />
@@ -70,22 +70,14 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
-                              <Label minWidth="-Infinity" text="Contact ID" />
-                              <TextField fx:id="contactIDField" editable="false" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="185.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                           <children>
                               <Label minWidth="-Infinity" text="Customer ID" />
-                              <ComboBox prefWidth="150.0" />
-                              <TextField fx:id="customerIDField" />
+                              <ComboBox fx:id="customerComboBox" prefWidth="150.0" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label minWidth="-Infinity" text="User ID" />
-                              <TextField fx:id="userIDField" />
-                              <ComboBox prefWidth="150.0" />
+                              <ComboBox fx:id="userComboBox" prefWidth="150.0" />
                            </children>
                         </HBox>
 
@@ -103,7 +95,9 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="contactComboBox" prefWidth="150.0" />
+                  <ComboBox fx:id="contactComboBox" onAction="#contactID" prefWidth="150.0" />
+                  <Label minWidth="-Infinity" text="Contact ID" />
+                  <TextField fx:id="contactIDField" editable="false" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
