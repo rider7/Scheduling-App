@@ -141,6 +141,7 @@ public class AppointmentsController {
 
     /**
      * Method used to initialize the scene with the appointments controller fxml
+     * Lambda Expression used to loop through and print the items in the ArrayList for the Appointments records
      */
     @FXML
     public void initialize() {

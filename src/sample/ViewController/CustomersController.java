@@ -149,6 +149,7 @@ public class CustomersController {
     };
     /**
      * Method used to initialize the scene and set the combobox data
+     * Lambda Expression used to help loop through and print data that was stored in an arrayList for Customer records
      */
     @FXML
     public void initialize() throws SQLException {
@@ -198,6 +199,7 @@ public class CustomersController {
         numbers.add(phoneString);
         numbers.add(postalCodeString);
         numbers.add(countryString);
+
         numbers.forEach((n) -> {System.out.println(n);});
     }
     /**
