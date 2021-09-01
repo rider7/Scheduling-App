@@ -8,11 +8,15 @@
    <children>
       <VBox fx:id="reportVBox" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" top="10.0" />
-               </VBox.margin>
-            </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox fx:id="report2HBox" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="myWrapper" minWidth="-Infinity" prefHeight="267.0" prefWidth="596.0">
@@ -31,7 +35,7 @@
             </HBox>
             <VBox fx:id="report3VBox" layoutX="10.0" layoutY="140.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <HBox prefHeight="31.0" prefWidth="600.0" spacing="10.0">
+                  <HBox prefHeight="23.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Label prefHeight="17.0" prefWidth="138.0" text="Total US Customers">
                            <HBox.margin>
@@ -45,7 +49,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox fx:id="HBoxReport3" layoutX="10.0" layoutY="10.0" prefHeight="84.0" prefWidth="600.0" spacing="10.0">
+                  <HBox fx:id="HBoxReport3" layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Label prefHeight="17.0" prefWidth="139.0" text="Total UK Customers">
                            <HBox.margin>
@@ -59,7 +63,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="35.0" prefHeight="84.0" prefWidth="600.0" spacing="10.0">
+                  <HBox layoutX="10.0" layoutY="35.0" prefHeight="25.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Label prefHeight="17.0" prefWidth="139.0" text="Total Canada Customers">
                            <HBox.margin>

@@ -185,6 +185,7 @@ public class ReportsController implements Initializable {
         usCustomers.setText(String.valueOf(1));
         ukCustomers.setText(String.valueOf(1));
         canadaCustomers.setText(String.valueOf(1));
+        reportVBox.getChildren().remove(report1HBox);
         reportVBox.getChildren().remove(report2HBox);
         reportVBox.getChildren().remove(report3VBox);
 
@@ -220,7 +221,17 @@ public class ReportsController implements Initializable {
      */
     @FXML
     public void reportOne(ActionEvent event) throws SQLException{
+        //add report 1 VBox if it is not set already in the scene
 
+            reportVBox.getChildren().remove(report2HBox);
+            reportVBox.getChildren().remove(report3VBox);
+            reportVBox.getChildren().add(report1HBox);
+
+        // remove tableviews
+        //myWrapper.setVisible(false);
+        //report1HBox.setVisible(true);
+        String planningString = "Planning Session";
+        reportNumber =1;
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
         //Pass conn object to statement
@@ -437,18 +448,19 @@ public class ReportsController implements Initializable {
      */
     public void reportTwoAction() throws SQLException {
 
-        if(reportNumber!=2) {
-            reportVBox.getChildren().add(1, myWrapper);
-        }
+
+            reportVBox.getChildren().remove(report1HBox);
+            reportVBox.getChildren().remove(report3VBox);
+            reportVBox.getChildren().add(report2HBox);
+
         reportNumber=2;
         System.out.println(reportNumber);
         //add tableview
         //reportVBox.getChildren().add(1,myWrapper);
         //tableview visibility
-        myWrapper.setVisible(true);
-        report1HBox.setVisible(false);
-        // remove tableviews
-        reportVBox.getChildren().remove(report1VBox);
+        //myWrapper.setVisible(true);
+        //report1HBox.setVisible(false);
+        //report3VBox.setVisible(false);
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();
@@ -501,19 +513,21 @@ public class ReportsController implements Initializable {
      */
     public void reportThreeAction() throws SQLException {
 
+            reportVBox.getChildren().remove(report2HBox);
+            reportVBox.getChildren().remove(report1HBox);
+            reportVBox.getChildren().add(report3VBox);
+
+
         int usCount = 0;
         int ukCount = 0;
         int canadaCount = 0;
         reportNumber=3;
         System.out.println(reportNumber);
-        //add tableview
-        reportVBox.getChildren().add(1,report3VBox);
+
         //tableview visibility
-        report3VBox.setVisible(true);
-        report1HBox.setVisible(false);
-        myWrapper.setVisible(false);
-        // remove tableviews
-        //reportVBox.getChildren().remove(myAppointments);
+        //report3VBox.setVisible(true);
+        //report1HBox.setVisible(false);
+        //myWrapper.setVisible(false);
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
         Connection conn = DBConnection.startConnection();

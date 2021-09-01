@@ -8,11 +8,15 @@
    <children>
       <VBox fx:id="reportVBox" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" top="10.0" />
-               </VBox.margin>
-            </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox fx:id="report2HBox" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="myWrapper" minWidth="-Infinity" prefHeight="267.0" prefWidth="596.0">
