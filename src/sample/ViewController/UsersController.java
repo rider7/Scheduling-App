@@ -65,6 +65,35 @@ public class UsersController {
     @FXML
     private Button backToReality;
 
+
+    /**Label used to show the time zone*/
+    @FXML
+    public Label myTimeZone;
+    /**Label used to show the time zone in text*/
+    @FXML
+    public Label textTimeZone;
+    /**String used to get the current time zone*/
+    String myTimeZoneString = getTimeZone();
+    String localeString;
+    /**
+     * Initialize method that starts when this controller is used
+     */
+    @FXML private void initialize(){
+
+        //Set language resource bundle
+        // declaring object of Locale
+        Locale locale;
+        Locale locale2;
+
+        // calling the getDefault method
+        locale = Locale.getDefault();
+        //locale.setDefault(new Locale("fr"));
+        locale2 = Locale.getDefault();
+        String localeString = locale2.toString();
+
+        myTimeZone.setText(myTimeZoneString);
+
+    }
     /**
      * Method used to verify if the user credentials are in the system
      */@FXML
@@ -97,7 +126,7 @@ public class UsersController {
                 System.out.println("User beginning");
                 myPreparedStatement(myNewUser);
                 System.out.println("User end");
-                if(localeString.equals("fr")){ //Logic used if user is a match to display a dialog box either in English or French based on the default locale
+                if(localeString.equals("fr_FR")){ //Logic used if user is a match to display a dialog box either in English or French based on the default locale
                     //System.out.println("FRENCHIE");
                     JOptionPane.showMessageDialog(frame, "Connexion réussie!");}
                 else{
@@ -110,7 +139,7 @@ public class UsersController {
             }
         }
         if (!userMatched){ //Logic used if user is not a match to display a dialog box either in English or French based on the default locale
-            if(localeString.equals("fr")){
+            if(localeString.equals("fr_FR")){
                 //System.out.println("FRENCHIE");
                 JOptionPane.showMessageDialog(frame, "Désolé, votre identifiant et votre mot de passe ne correspondent pas. Veuillez réessayer.");}
             else{
@@ -134,33 +163,6 @@ public class UsersController {
         //System.out.println("Login button clicked!");
         myResultSet.close();
         DBConnection.closeConnection();
-
-    }
-    /**Label used to show the time zone*/
-    @FXML
-    public Label myTimeZone;
-    /**Label used to show the time zone in text*/
-    @FXML
-    public Label textTimeZone;
-    /**String used to get the current time zone*/
-    String myTimeZoneString = getTimeZone();
-    /**
-     * Initialize method that starts when this controller is used
-     */
-    @FXML private void initialize(){
-
-        //Set language resource bundle
-        // declaring object of Locale
-        Locale locale;
-        Locale locale2;
-
-        // calling the getDefault method
-        locale = Locale.getDefault();
-        //locale.setDefault(new Locale("fr"));
-        locale2 = Locale.getDefault();
-        String localeString = locale2.toString();
-
-        myTimeZone.setText(myTimeZoneString);
 
     }
     /**
@@ -201,6 +203,18 @@ public class UsersController {
      * Method used to connect to the database and select the appointment records by user_id
      */
     public void myPreparedStatement(String user) throws SQLException{
+
+        // declaring object of Locale
+        Locale locale;
+        //Locale locale2;
+
+        // calling the getDefault method
+        locale = Locale.getDefault();
+        //locale.setDefault(new Locale("fr"));
+        //locale2 = Locale.getDefault();
+        String localeString = locale.toString();
+
+
 
         Boolean scheduleConflict = false;
         //System.out.println("My prep statement method user: " + user);
@@ -273,10 +287,17 @@ public class UsersController {
                 }
             }
         }
-        if(!scheduleConflict) {
+        if(!scheduleConflict && !localeString.equals("fr_FR")) {
             JOptionPane.showMessageDialog(frame, "No appointments upcoming appointments within the next 15 minutes. ");
-        } else {
+        }
+        else if(!scheduleConflict && localeString.equals("fr_FR")) {
+            JOptionPane.showMessageDialog(frame, "\n" +
+                    "Pas de rendez-vous rendez-vous à venir dans les 15 prochaines minutes. ");
+        }else if(scheduleConflict && !localeString.equals("fr_FR")){
             JOptionPane.showMessageDialog(frame, "Upcoming appointment! " + "\n" + "Appointment ID: " + myApptId + "\n" + "Appointment Date and Time: " + myApptTime);
+        }else if(scheduleConflict && localeString.equals("fr_FR")){
+            JOptionPane.showMessageDialog(frame, "\n" +
+                    "Rendez-vous à venir! " + "\n" + "Identifiant de rendez-vous: " + myApptId + "\n" + "Date et heure du rendez-vous: " + myApptTime);
         }
     }
     /**
