@@ -191,6 +191,7 @@ public class CustomersController {
             updateCustomerButton.setVisible(false);
             updateCustomerButton.setDisable(true);
         }
+        //Lambda Expression used to help loop through and print data that was stored in an arrayList for Customer records
         ArrayList<String> numbers = new ArrayList<String>();
         numbers.add(customersNameString);
         numbers.add(addressString);

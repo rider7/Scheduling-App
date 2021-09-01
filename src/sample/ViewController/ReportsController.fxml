@@ -8,7 +8,7 @@
    <children>
       <VBox fx:id="reportVBox" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="43.0" prefWidth="600.0">
                <children>
                   <Button fx:id="backToReality" mnemonicParsing="false" onAction="#backToMainController" text="Back">
                      <HBox.margin>
@@ -90,7 +90,7 @@
                   </TableView>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="68.0" prefWidth="600.0">
                <children>
                   <Button fx:id="reportOne" mnemonicParsing="false" onAction="#reportOne" text="Report: Total Appointments">
                      <HBox.margin>

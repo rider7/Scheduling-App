@@ -178,7 +178,7 @@ public class AppointmentsController {
             updateAppt.setVisible(false);
             updateAppt.setDisable(true);
         }
-
+        //Lambda Expression used to loop through and print the items in the ArrayList for the Appointments records
         ArrayList<String> numbers = new ArrayList<String>();
         numbers.add(titleString);
         numbers.add(descriptionString);

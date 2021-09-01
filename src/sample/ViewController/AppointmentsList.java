@@ -482,7 +482,7 @@ public class AppointmentsList implements Initializable {
 //        String apptFullMin = myLocalDateTime.format(myFormatterMin);
 
         LocalDate date = LocalDate.of(Integer.parseInt(currentFullYear), Integer.parseInt(currentMonthDT), Integer.parseInt(currentFullDay));
-        int currentWeekOfYear = date.get(ChronoField.ALIGNED_WEEK_OF_YEAR) - 1;
+        int currentWeekOfYear = date.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
         System.out.println(currentWeekOfYear);
 
         //Establish connection before launch and assign it to the Connection reference variable named conn
