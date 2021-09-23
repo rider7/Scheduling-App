@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import sample.ViewController.CustomersList;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 /**Class used to handle the Customer objects*/
 public class Customers {
@@ -23,11 +24,11 @@ public class Customers {
     /**String to hold the Phone*/
     String Phone;
     /**LocalDateTime to hold the Create Date*/
-    LocalDateTime Create_Date;
+    ZonedDateTime Create_Date;
     /**String to hold the Created By data*/
     String Created_By;
     /**LocalDateTime to hold the Last Update*/
-    LocalDateTime Last_Update;
+    ZonedDateTime Last_Update;
     /**String to hold the last updated by data*/
     String Last_Updated_By;
 
@@ -47,7 +48,7 @@ public class Customers {
         this.Customer_Name = customer_Name;
     }
     /**Method used for the Customer class constructor*/
-    public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
+    public Customers(int customer_ID, int division_ID, String customer_Name, String address, String postal_Code, String phone, ZonedDateTime create_Date, String created_By, ZonedDateTime last_Update, String last_Updated_By) {
         Customer_ID = customer_ID;
         Division_ID = division_ID;
         Customer_Name = customer_Name;
@@ -108,11 +109,11 @@ public class Customers {
         Phone = phone;
     }
     /**LocalDateTime used to get create date*/
-    public LocalDateTime getCreate_Date() {
+    public ZonedDateTime getCreate_Date() {
         return Create_Date;
     }
     /**LocalDateTime used to set create date*/
-    public void setCreate_Date(LocalDateTime create_Date) {
+    public void setCreate_Date(ZonedDateTime create_Date) {
         Create_Date = create_Date;
     }
     /**LocalDateTime used to get create by*/
@@ -124,11 +125,11 @@ public class Customers {
         Created_By = created_By;
     }
     /**LocalDateTime used to get the last update*/
-    public LocalDateTime getLast_Update() {
+    public ZonedDateTime getLast_Update() {
         return Last_Update;
     }
     /**LocalDateTime used to set the last update*/
-    public void setLast_Update(LocalDateTime last_Update) {
+    public void setLast_Update(ZonedDateTime last_Update) {
         Last_Update = last_Update;
     }
     /**LocalDateTime used to get the last update by*/

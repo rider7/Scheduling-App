@@ -148,7 +148,7 @@ public class CustomersController {
         }
     };
     /**
-     * Method used to initialize the scene and set the combobox data
+     * Method used to initialize the scene and set the combobox data.
      * Lambda Expression used to help loop through and print data that was stored in an arrayList for Customer records
      */
     @FXML
@@ -192,6 +192,7 @@ public class CustomersController {
             updateCustomerButton.setVisible(false);
             updateCustomerButton.setDisable(true);
         }
+        /**Lambda Expression used to loop through and print the items in the ArrayList for the customers records*/
         //Lambda Expression used to help loop through and print data that was stored in an arrayList for Customer records
         ArrayList<String> numbers = new ArrayList<String>();
         numbers.add(customersNameString);

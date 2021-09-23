@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 /**Class used to extent appointments and allow use of contact name in wrapper object*/
 public class Wrapper extends Appointments{
     /**Appointment object used to keep track of appointment*/
@@ -25,7 +27,7 @@ public class Wrapper extends Appointments{
                     null, null, null, null, null, null, null)
     );
     /**The wrapper constructor for the wrapper class*/
-    public Wrapper(String Contact_Name, int appointment_ID, int customer_ID, int contact_ID, int user_ID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
+    public Wrapper(String Contact_Name, int appointment_ID, int customer_ID, int contact_ID, int user_ID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, ZonedDateTime create_Date, String created_By, ZonedDateTime last_Update, String last_Updated_By) {
         super(appointment_ID, customer_ID, contact_ID, user_ID, title, description, location, type, start, end, create_Date, created_By, last_Update, last_Updated_By);
         contact_name = Contact_Name;
         Appointment_ID = appointment_ID;

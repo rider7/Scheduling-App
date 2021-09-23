@@ -21,6 +21,8 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
@@ -159,6 +161,7 @@ public class AppointmentsList implements Initializable {
      */
     public String currentMonth;
 
+
     /**
      * Method used to connect to the database and delete appointments by appointment_id
      */
@@ -195,6 +198,9 @@ public class AppointmentsList implements Initializable {
      */
     @FXML
     private void goToAppointmentsController(ActionEvent event) throws IOException {
+        AppointmentsController.arl.clear();
+        AppointmentsController.userArrayList.clear();
+        AppointmentsController.contactArrayList.clear();
         AppointmentsController.appointmentID = 0;
         Parent root = FXMLLoader.load(getClass().
                 getResource(
@@ -228,7 +234,7 @@ public class AppointmentsList implements Initializable {
 
         try {
             myConnection();
-            Appointments.myAppointments.remove(Appointments.myAppointments.size()-1);
+            Appointments.myAppointments.remove(Appointments.myAppointments);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -287,8 +293,23 @@ public class AppointmentsList implements Initializable {
 
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                //Code to format UTC time to local timezone for user interface
+                Timestamp tsStart = myResultSet.getTimestamp("Create_Date");
+                Timestamp tsStart2 = myResultSet.getTimestamp("Last_Update");
+                Timestamp tsStart3 = myResultSet.getTimestamp("Start");
+                Timestamp tsStart4 = myResultSet.getTimestamp("End");
+                ZoneId newzid = ZoneId.systemDefault();
+
+                ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart2 = tsStart2.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart3 = tsStart3.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart4 = tsStart4.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
+
+                System.out.println("From db in UTC: " + newzdtStart);
+                System.out.println("From db in local time: " + newLocalStart);
                 int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
-                System.out.println("My appointment ID for myConnectin: " + appointmentID);
+                System.out.println("My appointment ID for myConnection: " + appointmentID);
                 int customerID = myResultSet.getInt("Customer_ID");
                 int userID = myResultSet.getInt("User_ID");
                 int contactID = myResultSet.getInt("Contact_ID");
@@ -296,15 +317,19 @@ public class AppointmentsList implements Initializable {
                 String description = myResultSet.getString("Description");
                 String location = myResultSet.getString("Location");
                 String type = myResultSet.getString("Type");
-                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
-                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                ZonedDateTime start = newzdtStart3.withZoneSameInstant(newzid);
+                //LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                ZonedDateTime end = newzdtStart4.withZoneSameInstant(newzid);
+                //LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime createDate = newzdtStart.withZoneSameInstant(newzid);
                 String createdBy = myResultSet.getString("Created_By");
-                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                ZonedDateTime updateDate = newzdtStart2.withZoneSameInstant(newzid);
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
                 //Create new instance of Appointments called newAppointment with the local variables that have been assigned the values found in the ResultSet from the SQL database
-                Appointments newAppointments = new Appointments(appointmentID, customerID, userID, contactID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
+                Appointments newAppointments = new Appointments(appointmentID, customerID, contactID, userID, title, description, location, type, start, end, createDate, createdBy, updateDate, updatedBy);
                 //Call addAppointments method with newAppointment instance passed to add to the observableList
                 Appointments.addAppointments(newAppointments);
                 //Appointments.updateAppointments(newAppointments);
@@ -359,6 +384,9 @@ public class AppointmentsList implements Initializable {
      */
     @FXML
     private void goToAppointmentUpdate(ActionEvent event) throws IOException {
+        AppointmentsController.arl.clear();
+        AppointmentsController.userArrayList.clear();
+        AppointmentsController.contactArrayList.clear();
         //Create instance of Appointments that is selected from tableview myAppointmentList
         Appointments updateSelectedAppointment = myAppointmentsList.getSelectionModel().getSelectedItem();
         //Call method to pass updatedSelectedAppointment object to AppointmentsController for use in populating data fields
@@ -414,6 +442,19 @@ public class AppointmentsList implements Initializable {
 
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                //Code to format UTC time to local timezone for user interface
+                Timestamp tsStart = myResultSet.getTimestamp("Create_Date");
+                Timestamp tsStart2 = myResultSet.getTimestamp("Last_Update");
+                Timestamp tsStart3 = myResultSet.getTimestamp("Start");
+                Timestamp tsStart4 = myResultSet.getTimestamp("End");
+                ZoneId newzid = ZoneId.systemDefault();
+
+                ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart2 = tsStart2.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart3 = tsStart3.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart4 = tsStart4.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
+
                 int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
                 int customerID = myResultSet.getInt("Customer_ID");
                 int userID = myResultSet.getInt("User_ID");
@@ -422,11 +463,15 @@ public class AppointmentsList implements Initializable {
                 String description = myResultSet.getString("Description");
                 String location = myResultSet.getString("Location");
                 String type = myResultSet.getString("Type");
-                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
-                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                ZonedDateTime start = newzdtStart3.withZoneSameInstant(newzid);
+                //LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                ZonedDateTime end = newzdtStart4.withZoneSameInstant(newzid);
+                //LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime createDate = newzdtStart.withZoneSameInstant(newzid);
                 String createdBy = myResultSet.getString("Created_By");
-                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                ZonedDateTime updateDate = newzdtStart2.withZoneSameInstant(newzid);
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
                 //String apptDT = myLocalDateTime.format(myFormatter);
@@ -502,6 +547,18 @@ public class AppointmentsList implements Initializable {
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
                 int appointmentID = myResultSet.getInt("Appointment_ID"); //Local variable appointmentID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
+                //Code to format UTC time to local timezone for user interface
+                Timestamp tsStart = myResultSet.getTimestamp("Create_Date");
+                Timestamp tsStart2 = myResultSet.getTimestamp("Last_Update");
+                Timestamp tsStart3 = myResultSet.getTimestamp("Start");
+                Timestamp tsStart4 = myResultSet.getTimestamp("End");
+                ZoneId newzid = ZoneId.systemDefault();
+
+                ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart2 = tsStart2.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart3 = tsStart3.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart4 = tsStart4.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
                 int customerID = myResultSet.getInt("Customer_ID");
                 int userID = myResultSet.getInt("User_ID");
                 int contactID = myResultSet.getInt("Contact_ID");
@@ -509,11 +566,15 @@ public class AppointmentsList implements Initializable {
                 String description = myResultSet.getString("Description");
                 String location = myResultSet.getString("Location");
                 String type = myResultSet.getString("Type");
-                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
-                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime();
+                ZonedDateTime start = newzdtStart3.withZoneSameInstant(newzid);
+                //LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime();
+                ZonedDateTime end = newzdtStart4.withZoneSameInstant(newzid);
+                //LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime createDate = newzdtStart.withZoneSameInstant(newzid);
                 String createdBy = myResultSet.getString("Created_By");
-                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                ZonedDateTime updateDate = newzdtStart2.withZoneSameInstant(newzid);
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
                 //String apptDT = myLocalDateTime.format(myFormatter);
@@ -543,6 +604,7 @@ public class AppointmentsList implements Initializable {
             throwables.printStackTrace();
         }
     }
+
 
         /**
          * Method used to navigate to the report interface screen

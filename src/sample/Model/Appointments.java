@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 /**Class to handle the appointments object*/
 public class Appointments {
@@ -25,15 +26,15 @@ public class Appointments {
     /**String used to hold the type*/
     String Type;
     /**LocalDateTime used to hold the start data*/
-    LocalDateTime Start;
+    ZonedDateTime Start;
     /**LocalDateTime used to hold the end data*/
-    LocalDateTime End;
+    ZonedDateTime End;
     /**LocalDateTime used to hold the create date data*/
-    LocalDateTime Create_Date;
+    ZonedDateTime Create_Date;
     /**LocalDateTime used to hold the start data*/
     String Created_By;
     /**LocalDateTime used to hold the last update data*/
-    LocalDateTime Last_Update;
+    ZonedDateTime Last_Update;
     /**String used to hold the last updated by data*/
     String Last_Updated_By;
 
@@ -42,7 +43,7 @@ public class Appointments {
     public static ObservableList<Appointments> myAppointments = FXCollections.observableArrayList();
     /**Constructor for the appointments object*/
     public Appointments(int appointment_ID, int customer_ID, int contact_ID, int user_ID, String title, String description,
-                        String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime create_Date, String created_By, LocalDateTime last_Update, String last_Updated_By) {
+                        String location, String type, ZonedDateTime start, ZonedDateTime end, ZonedDateTime create_Date, String created_By, ZonedDateTime last_Update, String last_Updated_By) {
         Appointment_ID = appointment_ID;
         Customer_ID = customer_ID;
         Contact_ID = contact_ID;
@@ -140,27 +141,27 @@ public class Appointments {
         Type = type;
     }
 
-    public LocalDateTime getStart() {
+    public ZonedDateTime getStart() {
         return Start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(ZonedDateTime start) {
         Start = start;
     }
 
-    public LocalDateTime getEnd() {
+    public ZonedDateTime getEnd() {
         return End;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(ZonedDateTime end) {
         End = end;
     }
 
-    public LocalDateTime getCreate_Date() {
+    public ZonedDateTime getCreate_Date() {
         return Create_Date;
     }
 
-    public void setCreate_Date(LocalDateTime create_Date) {
+    public void setCreate_Date(ZonedDateTime create_Date) {
         Create_Date = create_Date;
     }
 
@@ -172,11 +173,11 @@ public class Appointments {
         Created_By = created_By;
     }
 
-    public LocalDateTime getLast_Update() {
+    public ZonedDateTime getLast_Update() {
         return Last_Update;
     }
 
-    public void setLast_Update(LocalDateTime last_Update) {
+    public void setLast_Update(ZonedDateTime last_Update) {
         Last_Update = last_Update;
     }
 

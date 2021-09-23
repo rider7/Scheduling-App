@@ -35,6 +35,8 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -288,8 +290,6 @@ public class ReportsController implements Initializable {
      * Method used to query the database and evaluate the information for the first report
      */
     public void reportOneAction(ActionEvent event) throws SQLException {
-
-
         //add report 1 VBox if it is not set already in the scene
         if(reportNumber!=1) {
             reportVBox.getChildren().add(1, report1VBox);
@@ -484,6 +484,18 @@ public class ReportsController implements Initializable {
             System.out.println("Appt table for Report 2");
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                //Code to format UTC time to local timezone for user interface
+                Timestamp tsStart = myResultSet.getTimestamp("Create_Date");
+                Timestamp tsStart2 = myResultSet.getTimestamp("Last_Update");
+                Timestamp tsStart3 = myResultSet.getTimestamp("Start");
+                Timestamp tsStart4 = myResultSet.getTimestamp("End");
+                ZoneId newzid = ZoneId.systemDefault();
+
+                ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart2 = tsStart2.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart3 = tsStart3.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart4 = tsStart4.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
                 String contact_name = myResultSet.getString("Contact_Name");
                 int appt_ID = myResultSet.getInt("Appointment_ID");
                 //System.out.println(appt_ID);
@@ -493,8 +505,10 @@ public class ReportsController implements Initializable {
                 int customer_id = myResultSet.getInt("Customer_ID");
                 int user_id = myResultSet.getInt("User_ID");
                 int contact_id = myResultSet.getInt("Contact_ID");
-                LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
-                LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //LocalDateTime start = myResultSet.getTimestamp("Start").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime start = newzdtStart3.withZoneSameInstant(newzid);
+                //LocalDateTime end = myResultSet.getTimestamp("End").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime end = newzdtStart4.withZoneSameInstant(newzid);
                 //Create new instance of Appointments called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database
                 Wrapper newWrapper = new Wrapper(contact_name,appt_ID, customer_id, user_id, contact_id, title, description, null, type, start, end, null,null,null, null);
                 //Call addCustomer method with newCustomer instance passed to add to the observableList

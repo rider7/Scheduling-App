@@ -17,5 +17,8 @@ Reports:
 Access to reports can be obtained by clicking the 'Reports' button on either the Customer List page or the Appointment List page.
 The third custom report calculates and provides the total number of customers per each country available. (e.g., US, UK or Canada)
 
+Language:
+English or French
+
 MySQL Connector Driver: 
 mysql-connector-java-8.0.26jar

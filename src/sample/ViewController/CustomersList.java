@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import sample.Model.Appointments;
 import sample.Model.Customers;
 import javafx.scene.control.cell.PropertyValueFactory;
 import sample.Utilities.DBConnection;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 /**
@@ -30,7 +33,8 @@ public class CustomersList implements Initializable {
 
     //Set language resource bundle
     //Locale.setDefault(new Locale("fr"));
-    Locale locale = new Locale("en");
+    Locale locale = Locale.getDefault();
+
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
 
@@ -94,6 +98,7 @@ public class CustomersList implements Initializable {
     public void initialize (URL url, ResourceBundle resourceBundle){
 //        System.out.println(myCustomerList.getItems());
 //        myCustomerList.getItems().clear();
+        Customers.myCustomers.removeAll(Customers.myCustomers);
         try {
             myConnection(); //Bug getting last customer record twice
         }
@@ -136,15 +141,29 @@ public class CustomersList implements Initializable {
 
             //Forward scroll ResultSet
             while (myResultSet.next()) { //next() method returns true so while it equals true the loop will be active, looping through all records ***also closes the resultSet
+                //Code to format UTC time to local timezone for user interface
+                Timestamp tsStart = myResultSet.getTimestamp("Create_Date");
+                Timestamp tsStart2 = myResultSet.getTimestamp("Last_Update");
+                ZoneId newzid = ZoneId.systemDefault();
+
+                ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newzdtStart2 = tsStart2.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
+
+                System.out.println("From db in UTC: " + newzdtStart);
+                System.out.println("From db in local time: " + newLocalStart);
+
                 int customerID = myResultSet.getInt("Customer_ID"); //Local variable countryID is assigned the value of getInt() method on myResultSet with the column name as a parameter.
                 int divisionID = myResultSet.getInt("Division_ID");
                 String customerName = myResultSet.getString("Customer_Name");
                 String address = myResultSet.getString("Address");
                 String postalCode = myResultSet.getString("Postal_Code");
                 String phone = myResultSet.getString("Phone");
-                LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                //LocalDateTime createDate = myResultSet.getTimestamp("Create_Date").toLocalDateTime(); //Need toLocalDate() method to convert Date to LocalDate
+                ZonedDateTime createDate = newzdtStart.withZoneSameInstant(newzid);
                 String createdBy = myResultSet.getString("Created_By");
-                LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                //LocalDateTime updateDate = myResultSet.getTimestamp("Last_Update").toLocalDateTime(); //Need toLocalDateTime() method to convert. Using timestamp type
+                ZonedDateTime updateDate = newzdtStart2.withZoneSameInstant(newzid);
                 //LocalTime updateTime = myResultSet.getTime("Last_Update").toLocalTime();
                 String updatedBy = myResultSet.getString("Last_Updated_By");
                 //Create new instance of Customers called newCustomer with the local variables that have been assigned the values found in the ResultSet from the SQL database

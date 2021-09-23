@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.sql.*;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Calendar;
@@ -127,7 +126,7 @@ public class UsersController {
                 myPreparedStatement(myNewUser);
                 System.out.println("User end");
                 if(localeString.equals("fr_FR")){ //Logic used if user is a match to display a dialog box either in English or French based on the default locale
-                    //System.out.println("FRENCHIE");
+                    //System.out.println("FRENCH");
                     JOptionPane.showMessageDialog(frame, "Connexion réussie!");}
                 else{
                     //System.out.println("ENGLISH");
@@ -239,7 +238,7 @@ public class UsersController {
         ResultSet myResultSet = statement.getResultSet(); //Get the result sets and assigns to reference variable myResultSet
         //System.out.println(myResultSet.getTimestamp("Start"));
         //Get local date time
-        LocalDateTime myLocalDateTime = LocalDateTime.now();
+        LocalDateTime myLocalDateTime = LocalDateTime.now(ZoneOffset.UTC);
         //Custom format pattern
         DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
         DateTimeFormatter myFormatterFull = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -250,11 +249,19 @@ public class UsersController {
         String formFullDT = myLocalDateTime.format(myFormatterFull);
         String formFullHour = myLocalDateTime.format(myFormatterHour);
         String formFullMin = myLocalDateTime.format(myFormatterMin);
-        //System.out.println("Local " + formDT);
-        String myApptTime = null;
+        System.out.println("Local " + formDT);
+        ZonedDateTime myApptTime = null;
         int myApptId = 0;
         //return myResultSet;
         while(myResultSet.next()){
+            //Code to format UTC time to local timezone for user interface
+            Timestamp tsStart = myResultSet.getTimestamp("Start");
+
+            ZoneId newzid = ZoneId.systemDefault();
+
+            ZonedDateTime newzdtStart = tsStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+            ZonedDateTime newLocalStart = newzdtStart.withZoneSameInstant(newzid);
+
             Timestamp time =myResultSet.getTimestamp("Start");
             int apptID = myResultSet.getInt("Appointment_ID");
             String formatMonth = new SimpleDateFormat("MM/dd/yyyy HH:mm").format(time);
@@ -281,7 +288,7 @@ public class UsersController {
                         //System.out.println("15 minute appt");
                         //JOptionPane.showMessageDialog(frame,"Upcoming appointments minutes!");
                         scheduleConflict = true;
-                        myApptTime = formatMonth;
+                        myApptTime = newLocalStart;
                         myApptId = apptID;
                     }
                 }
@@ -290,12 +297,15 @@ public class UsersController {
         if(!scheduleConflict && !localeString.equals("fr_FR")) {
             JOptionPane.showMessageDialog(frame, "No appointments upcoming appointments within the next 15 minutes. ");
         }
-        else if(!scheduleConflict && localeString.equals("fr_FR")) {
+        //else if(!scheduleConflict && localeString.equals("fr_FR"))
+        else if(!scheduleConflict) {
             JOptionPane.showMessageDialog(frame, "\n" +
                     "Pas de rendez-vous rendez-vous à venir dans les 15 prochaines minutes. ");
-        }else if(scheduleConflict && !localeString.equals("fr_FR")){
+        }if(scheduleConflict && !localeString.equals("fr_FR")){
             JOptionPane.showMessageDialog(frame, "Upcoming appointment! " + "\n" + "Appointment ID: " + myApptId + "\n" + "Appointment Date and Time: " + myApptTime);
-        }else if(scheduleConflict && localeString.equals("fr_FR")){
+        }
+        //else if(scheduleConflict && localeString.equals("fr_FR"))
+        else if(scheduleConflict){
             JOptionPane.showMessageDialog(frame, "\n" +
                     "Rendez-vous à venir! " + "\n" + "Identifiant de rendez-vous: " + myApptId + "\n" + "Date et heure du rendez-vous: " + myApptTime);
         }

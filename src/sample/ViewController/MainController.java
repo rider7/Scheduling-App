@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
 public class MainController{
     //Set language
     //Locale.setDefault(new Locale("fr"));
-    Locale locale = new Locale("en");
+    Locale locale = Locale.getDefault();
+
     //System.out.println(Locale.getDefault());
     ResourceBundle bundle = ResourceBundle.getBundle("sample.Utilities.ResourceBundles.text", locale);
     Stage stage;
