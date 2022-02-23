@@ -107,7 +107,7 @@ public class UsersController {
         //locale.setDefault(new Locale("fr"));
         //locale2 = Locale.getDefault();
         String localeString = locale.toString();
-        System.out.println(localeString);
+        //System.out.println(localeString);
 
         ResultSet myResultSet = myConnection();
         String username = user.getText();

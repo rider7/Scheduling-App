@@ -320,7 +320,7 @@ public class AppointmentsController {
             preparedStatement.setString(2, newDescriptionString);
             preparedStatement.setString(3, newLocationString);
             preparedStatement.setString(4, newTypeString);
-            preparedStatement.setTimestamp(5, timestampStart);
+
             preparedStatement.setTimestamp(6, timestampEnd);
             preparedStatement.setString(7, newUser);
             preparedStatement.setString(8, newUser);
